@@ -1,0 +1,4 @@
+baseURL = 'https://garlic-signage.com/'
+languageCode = 'en-us'
+title = 'GarlicSignage - Open Source Software for Digital Signage '
+theme = 'garlic-signage'

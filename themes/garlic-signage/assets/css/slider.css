@@ -1,0 +1,92 @@
+.css_gallery {position: relative;overflow: hidden;height: 100%;}
+
+.css_gallery .slider {
+	height: 100%;
+	white-space: nowrap;
+	font-size: 0;
+	transition: .8s;
+}
+
+.css_gallery .slider>* {
+	font-size: 1rem;
+	display: inline-block;
+	white-space: normal;
+	vertical-align: top;
+	height: 100%;
+	width: 100%;
+	background: none 50% no-repeat;
+	background-size: cover;
+}
+
+.css_gallery .prevNext {
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	width: 100%;
+	height: 0;
+}
+
+.css_gallery .prevNext>div+div {visibility: hidden;}
+
+.css_gallery .prevNext a {
+	background: #fff;
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	opacity: .7;
+	-webkit-transition: .3s;
+	transition: .3s;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	left: 0;
+}
+
+.css_gallery .prevNext a:hover {opacity: 1;}
+.css_gallery .prevNext a+a {left: auto;right: 0;}
+
+.css_gallery .bullets {
+	position: absolute;
+	z-index: 2;
+	bottom: 0;
+	padding: 10px 0;
+	width: 100%;
+	text-align: center;
+}
+
+.css_gallery .bullets>a {
+	display: inline-block;
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	text-decoration: none;
+	text-align: center;
+	background: #fff;
+	-webkit-transition: .3s;
+	transition: .3s;
+}
+
+.css_gallery .bullets>a+a {background: rgba(255,255,255,.5);}
+.css_gallery .bullets>a:hover {background: rgba(255,255,255,.7)!important;}
+.css_gallery>s:target~.bullets>* {background: rgba(255,255,255,.5);}
+#s1:target~.bullets>:nth-child(1) {background: #fff;}
+#s2:target~.bullets>:nth-child(2) {	background: #fff;}
+#s3:target~.bullets>:nth-child(3) {	background: #fff;}
+#s4:target~.bullets>:nth-child(4) {	background: #fff;}
+#s5:target~.bullets>:nth-child(5) {	background: #fff;}
+.css_gallery>s:target~.prevNext>* {visibility: hidden;}
+#s1:target~.prevNext>:nth-child(1) {visibility: visible;}
+#s2:target~.prevNext>:nth-child(2) {visibility: visible;}
+#s3:target~.prevNext>:nth-child(3) {visibility: visible;}
+#s4:target~.prevNext>:nth-child(4) {visibility: visible;}
+#s5:target~.prevNext>:nth-child(5) {visibility: visible;}
+#s1:target~.slider {transform: translateX(0);-webkit-transform: translateX(0);}
+#s2:target~.slider {transform: translateX(-100%); -webkit-transform: translateX(-100%);}
+#s3:target~.slider {transform: translateX(-200%);-webkit-transform: translateX(-200%);}
+#s4:target~.slider {transform: translateX(-300%);-webkit-transform: translateX(-300%);}
+#s5:target~.slider {transform: translateX(-400%);-webkit-transform: translateX(-400%);}
+.css_gallery {color: #fff;text-align: center;}
+.css_gallery img {width: 100%;}
+.css_gallery .slider h2 {margin-top: 40vh;font-weight: 200;letter-spacing: -.06em;word-spacing: .2em;font-size: 3em;}
+.css_gallery a {border-radius: 50%;margin: 0 3px;color: rgba(0,0,0,.8);text-decoration: none;}

@@ -1,0 +1,39 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-US'
+title = 'My New Hugo Site'
+
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Player'
+    pageRef = '/garlic-player'
+    weight = 20
+
+  [[menus.main]]
+    name = 'Management'
+    pageRef = '/garlic-hub'
+    weight = 30
+
+  [[menus.main]]
+    name = 'Launcher'
+    pageRef = '/garlic-launcher'
+    weight = 40
+
+  [[menus.main]]
+    name = 'Proxy'
+    pageRef = '/garlic-proxy'
+    weight = 50
+
+  [[menus.main]]
+    name = 'Resources'
+    pageRef = '/resources'
+    weight = 60
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = '0.146.0'
