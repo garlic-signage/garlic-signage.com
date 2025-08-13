@@ -11,7 +11,6 @@ Renders a menu for the given menu ID.
 {{- $menuID := .menuID }}
 
 {{- with index site.Menus $menuID }}
-<header>
 	<nav class="global_navigation">
 		<input id="menu_toggle" type="checkbox" />
 		<label class="menu_button" for="menu_toggle"><span></span></label>
@@ -22,7 +21,6 @@ Renders a menu for the given menu ID.
 			<a href="https://github.com/sponsors/sagiadinos/" title="Sponsor sagiadinos" class="external_link" target="_blank">Sponsor me</a>
 		</div>
 	</nav>
-</header>
 {{- end }}
 
 {{- define "_partials/inline/menu/walk.html" }}

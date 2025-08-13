@@ -1,6 +1,36 @@
 <meta name="robots" content="follow, index"/>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
-<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+<title>{{ .Title }}</title>
 {{ partial "head/css.html" . }}
 {{ partialCached "head/js.html" . }}
+
+{{ if not .IsHome }}
+      <script type='application/ld+json'>
+      {
+		  "@context": "https://schema.org",
+		  "@type": "BreadcrumbList",
+		  "itemListElement":
+		  [
+			  {{- $i := 1 }}
+			  {{- range .Ancestors.Reverse }}
+			  {
+				  "@type": "ListItem",
+				  "position": {{ $i }},
+			  "name": "{{ .Title | safeJS }}",
+			  "url": {{ .Permalink }},
+			  "item": {{ .Permalink }}
+		  },
+			  {{- $i = add $i 1 -}}
+			  {{ end }}
+			  {
+				  "@type": "ListItem",
+				  "position": {{ $i }},
+			  "name": "{{ .Title | safeJS }}",
+			  "url": {{ .Permalink }},
+			  "item": {{ .Permalink }}
+		  }
+		  ]
+	  }
+      </script>
+{{ end }}

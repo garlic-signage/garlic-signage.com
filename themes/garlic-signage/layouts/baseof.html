@@ -6,10 +6,29 @@
 <body>
   <header>
     {{ partial "header.html" . }}
+
+    {{- if eq .Section "garlic-player" -}}
+      {{- partial "subnav-garlic-player.html" . -}}
+     {{- end -}}
+
   </header>
   <div id="content_section">
+
     <main>
-	<h1>{{ site.Title }}</h1>
+		<nav class="" aria-label="breadcrumbs">
+    <ol class="breadcrumb">
+      {{- range .Ancestors.Reverse }}
+      <li class="">
+        <a href="{{ .RelPermalink }}">{{ if .IsHome }}{{ "HOME" }}{{ else }}{{ .Title }}{{ end }}</a>
+      </li>
+      {{- end }}
+      <li class="active">
+        <a href="{{ .RelPermalink }}" aria-current="location">{{ .Title }}</a>
+      </li>
+    </ol>
+  </nav>
+
+	<h1>{{ .Title }}</h1>
     {{ block "main" . }}{{ end }}
     </main>
   </div>
