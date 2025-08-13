@@ -7,3 +7,15 @@
     {{- end }}
   {{- end }}
 {{- end }}
+{{- if eq .Section "garlic-player" }}
+  {{- with resources.Get "css/player.css" }}
+    {{- if hugo.IsDevelopment }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- else }}
+      {{- with . | minify | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+
