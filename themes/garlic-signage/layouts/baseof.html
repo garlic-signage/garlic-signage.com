@@ -15,19 +15,7 @@
   <div id="content_section">
 
     <main>
-		<nav class="" aria-label="breadcrumbs">
-    <ol class="breadcrumb">
-      {{- range .Ancestors.Reverse }}
-      <li class="">
-        <a href="{{ .RelPermalink }}">{{ if .IsHome }}{{ "HOME" }}{{ else }}{{ .Title }}{{ end }}</a>
-      </li>
-      {{- end }}
-      <li class="active">
-        <a href="{{ .RelPermalink }}" aria-current="location">{{ .Title }}</a>
-      </li>
-    </ol>
-  </nav>
-
+		{{- partial "breadcrumb.html" . -}}
 	<h1>{{ .Title }}</h1>
     {{ block "main" . }}{{ end }}
     </main>

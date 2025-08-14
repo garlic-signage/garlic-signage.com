@@ -1,7 +1,39 @@
 <meta name="robots" content="follow, index"/>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1.0">
 <title>{{ .Title }}</title>
+<meta name="description" content="{{ .Description | default .Summary }}">
+
+{{ $ogImage := "" }}
+{{ $images := findRE `<img[^>]+src="([^"]+)"` .Content }}
+{{ if $images }}
+  {{ $firstImage := index $images 0 }}
+  {{ $ogImage = replaceRE `<img[^>]+src="([^"]+)".*` "$1" $firstImage }}
+{{ else }}
+  {{ $ogImage = printf "/images/logos/%s.png" .Section }}
+{{ end }}
+
+<meta property="og:image" content="{{ $ogImage | absURL }}">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ .Description }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:image" content="https://garlic-player.com">
+<meta property="og:site_name" content="GarlicSignage ">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ .Title }}">
+<meta name="twitter:description" content="{{ .Description }}">
+<meta name="twitter:image" content="https://garlic-player.com">
+<meta name="twitter:site" content="@GarlicSignage">
+<meta name="twitter:creator" content="@GarlicSignage">
+
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<link rel="apple-touch-icon" type="image/png" href="/images/favicon.png">
+
+<meta name="google-site-verification" content="lyclhZUyOZFXR2wL9dhPKGkg9UXSkB1uAFV3CLkSNJ0">
+
 {{ partial "head/css.html" . }}
 {{ partialCached "head/js.html" . }}
 
