@@ -1,0 +1,555 @@
+---
+title: "REST-API » References"
+date: 2025-08-14T22:37:23+02:00
+description: "Here you find every possible REST-API command"
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+
+		<style>
+			#mn_caching:before
+			{content: '\1F83A';}
+		</style>
+				<p>
+					This REST-API reference focuses on garlic-player, but it is compatible with the Android-based media player from <a href="https://support.iadea.com/hc/en-us/articles/216221563-REST-API-tutorial" class="external_link">IAdea</a>. Some results may vary.
+				</p>
+				<section>
+					<h2 id="authentication">Authentication</h2>
+					<p>
+						Every API call requires a token to be passed as a GET parameter. This section of the authentication explains how to obtain the token.
+					</p>
+					<table>
+						<caption>Input parameter description for /v2/oauth2/token</caption>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Function</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>grant_type</td>
+								<td>Must be the string “password”, currently</td>
+							</tr>
+							<tr>
+								<td>username</td>
+								<td>Username requesting access, admin by default</td>
+							</tr>
+							<tr>
+								<td>password</td>
+								<td>Password is currently not supported</td>
+							</tr>
+						</tbody>
+					</table>
+					<table>
+						<caption>Output parameter description for /v2/oauth2/token</caption>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Function</th>
+							</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>access_token</td>
+							<td>
+								This is the authorization token you need to use for every other API call. You must send it as a GET parameter.
+							</td>
+						</tr>
+						<tr>
+							<td>expires_in</td>
+							<td>An ISO date of the time, when the token expires.</td>
+						</tr>
+						<tr>
+							<td>token_type</td>
+							<td>Bearer is default</td>
+						</tr>
+						</tbody>
+					</table>
+					<p>
+						You will find an example how to use the authentication in the <a href="../introduction/">Introduction Tutorial</a>.
+					</p>
+				</section>
+				<section>
+					<h2 id="media_files">Handling of Media Files</h2>
+					<p>
+						For working with media files, we have the typical <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" class="external_link">CRUD (creation, read, update, and delete)</a> functions. In our cases, the “C” for <strong>c</strong>reate is equal to upload.
+					</p>
+					<article>
+						<h3 id="upload_media">Create: Upload a Media via files/new</h3>
+						<p>
+							JSON and multipart form are supported
+						</p>
+						<table>
+							<caption>Input parameter description for /v2/files/new</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>downloadPath</td>
+								<td>
+									Path of media file. In IAdea player, it must start with prefix /user-data/. Garlic-player put the files in the cache directory.
+								</td>
+							</tr>
+							<tr>
+								<td>data</td>
+								<td>File encoded in multipart/form-data</td>
+							</tr>
+							<tr>
+								<td>fileSize</td>
+								<td>Size of file</td>
+							</tr>
+							</tbody>
+						</table>
+						<table>
+							<caption>Out parameter in JSON </caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>completed</td>
+									<td>
+										Boolean (true or false) describes if the file upload is complete. If it is not completed, look at the transferredSize parameter.
+									</td>
+								</tr>
+								<tr>
+									<td>id</td>
+									<td>The unique identification for the file</td>
+								</tr>
+								<tr>
+									<td>downloadPath</td>
+									<td>Path of file. In garlic-player, this is the cache directory.</td>
+								</tr>
+								<tr>
+									<td>fileSize</td>
+									<td>Size of file</td>
+								</tr>
+								<tr>
+									<td> modifiedDate
+									</td>
+									<td>ISO8601-encoded date time string indicating modified date time; default is an empty string.
+									</td>
+								</tr>
+								<tr>
+									<td>transferredSize</td>
+									<td>Size uploaded</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+					<article>
+						<h3 id="find">Read: Find Files</h3>
+						<p>
+							The 'find' API command lists the media files paginated as JSON.
+						</p>
+						<table>
+							<caption>Input (JSON or multipart form) for files/find</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>maxResults</td>
+									<td>(Optional) Max number of file records to return</td>
+								</tr>
+								<tr>
+									<td>pageToken</td>
+									<td>(Optional) Continuation record</td>
+								</tr>
+							</tbody>
+						</table>
+						<p>
+							If you do not enter an input parameter, all files in the cache directory will be shown.
+						</p>
+						<table>
+							<caption>Output as JSON</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>nextPageToken</td>
+									<td>null of an identifier for report continuation</td>
+								</tr>
+								<tr>
+									<td>items</td>
+									<td>Array of a so-called FileResource structure described in <a href="#FileResource">ID</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+					<article>
+						<h3 id="get_media">Get ID to read</h3>
+						<p>
+							This is a GET request. It requires the ID as directory and the token in this URI form: <em>http://your_device_ip:8080/v2/files/ID?access_token=YOUR_ACCESS_TOKEN</em>
+						</p>
+						<table>
+							<caption id="FileResource">Output of the as JSON as FileResource structure</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>id</td>
+									<td>String for identifying the file in subsequent operations</td>
+								</tr>
+								<tr>
+									<td>downloadPath</td>
+									<td>Path of file. This is normally the cache directory of the player.</td>
+								</tr>
+								<tr>
+									<td>fileSize</td>
+									<td>Size of file in byte</td>
+								</tr>
+								<tr>
+									<td>etag</td>
+									<td>Unique string for version identification. This is identically with the ID.</td>
+								</tr>
+								<tr>
+									<td>mimeType</td>
+									<td>MIME type of the file</td>
+								</tr>
+								<tr>
+									<td>modifiedDate</td>
+									<td>ISO8601-encoded date time string indicating modified date time; default empty string<td>
+								</tr>
+								<tr>
+									<td>transferredSize</td>
+									<td>Size uploaded into the player</td>
+								</tr>
+								<tr>
+									<td>completed</td>
+									<td> Boolean (true or false) indicating whether file upload has completed.</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+					<article>
+						<h3 id="edit_media">Update: Edit a media file record</h3>
+						<p>
+							These are the same parameters as in <a href="#upload_media">upload media</a>.
+						</p>
+						<table>
+							<caption>Input parameter description for /v2/files/ID</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>downloadPath</td>
+								<td>
+									Path of media file. In IAdea player, it must start with prefix /user-data/. Garlic-player put the files in the cache directory.
+								</td>
+							</tr>
+							<tr>
+								<td>data</td>
+								<td>File encoded in multipart/form-data</td>
+							</tr>
+							<tr>
+								<td>fileSize</td>
+								<td>Size of file</td>
+							</tr>
+							</tbody>
+						</table>
+						<p>
+							The output is the <a href="#FileResource">FileResource</a> structure.
+						</p>
+					</article>
+					<article>
+						<h3 id="delete_media">Delete Media File</h3>
+						<p>
+							To delete a media, you need the parameter in body as JSON or multipart form.
+						</p>
+						<table>
+							<caption>Input parameter for /v2/files/delete</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>id</td>
+									<td>String for identifying the file in subsequent operations</td>
+								</tr>
+							</tbody>
+						</table>
+						<p>
+							The response is an HTTP 200 OK if succeeded.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="playback">Playback functions</h2>
+					<p>
+						The playback function handles the set and switch to a specific  <a href="/garlic-player/docs/essentials/index-file/">SMIL-Index</a> as Content-URL. Furthermore, you can <a href="/garlic-player/docs/essentials/triggers/">trigger</a> an instant display of a media via REST-API.
+					</p>
+					<article>
+						<h3 id="default_Content-URL">Set Default Content-URL</h3>
+						<p>
+							Setting a new SMIL-index as Content-URL. The current displayed index will not be interrupted. On a reboot or restart, the new set Content-URL will be used.
+						</p>
+						<table>
+							<caption>Input parameter description for /v2/app/start</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>uri</td>
+									<td>Location of content. URI can be: https://domain.tld/index.smil</td>
+								</tr>
+								<tr>
+									<td>packageName</td>
+									<td>Optional and currently not used with garlic-player. For IAdea: On Android, it can be package to launch.</td>
+								</tr>
+								<tr>
+									<td>className</td>
+									<td>Optional and currently not used with garlic-player. For IAdea: On Android, it can be a class-name to launch.</td>
+								</tr>
+								<tr>
+									<td>action</td>
+									<td>Optional and currently not used with garlic-player. For IAdea: On Android, it can be an action.</td>
+								</tr>
+								<tr>
+									<td>type</td>
+									<td>Optional and currently not used with garlic-player. For IAdea: On Android, it can be a type.</td>
+								</tr>
+								<tr>
+									<td>extras</td>
+									<td>
+										Optional and currently not used with garlic-player. For IAdea: On Android, it can be extra parameters for intents.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table id="playback_output">
+							<caption>Out parameter as JSON</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>uri</td>
+									<td>Location of content. URI can be: https://domain.tld/index.smil</td>
+								</tr>
+								<tr>
+									<td>packageName</td>
+									<td>Optional and currently not used with garlic-player. For IAdea: On Android, it can be package to launch.</td>
+								</tr>
+								<tr>
+									<td>className</td>
+									<td>Optional and currently not used with garlic-player. For IAdea: On Android, it can be a class-name to launch.</td>
+								</tr>
+								<tr>
+									<td>action</td>
+									<td>Optional and currently not used with garlic-player. For IAdea: On Android, it can be an action.</td>
+								</tr>
+								<tr>
+									<td>type</td>
+									<td>Optional and currently not used with garlic-player. For IAdea: On Android, it can be a type.</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+					<article>
+						<h3 id="exec">Execute a SMIL-Index once</h3>
+						<p>
+						<p>
+							Setting a new SMIL-index as Content-URL and play it once. Then jump back to the default Content-URL.
+						</p>
+						<p>
+							The input and output parameter for /v2/app/exec are the same as /v2/app/start.
+						</p>
+					</article>
+					<article>
+						<h3 id="switch_Content-URL">Switch to set Content-URL</h3>
+						<p>
+							This command causes the player switching to the <a href="#default_content">default Content-URL</a>.
+						</p>
+						<table>
+							<caption>Input parameter description for /v2/app/switch</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>mode</td>
+									<td>Currently, the only supported value is “start”</td>
+								</tr>
+							</tbody>
+						</table>
+						<p>
+							The output parameter for /v2/app/switch are the same as <a href="#playback_output">/v2/app/start</a>
+						</p>
+					</article>
+					<article>
+						<h3 id="trigger">Network Trigger via notify</h3>
+						<p>
+							This is a trigger event for jumping to a previous set <a href="/garlic-player/docs/essentials/triggers/#network_triggers">network trigger</a> via notify in begin or end attribute.
+						</p>
+						<table>
+							<caption>Input parameter description for /v2/task/notify</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>smilEvent</td>
+									<td>
+										The name of the trigger point set in notify(). In our tutorial, it is play0001 or play0001.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<p>
+							The response is an HTTP 200 OK if succeeded.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="system_management">System Management</h2>
+					<article>
+						<h3 id="reboot">Reboot</h3>
+						<p>
+							This reboots the operating system immediately. For garlic-player, this works already only on Android. OS related functions require a small helper app. In this case, the <a href="/garlic-launcher/">garlic-launcher</a>. For Linux, <a href="https://github.com/garlic-signage/garlic-daemon" class="external_link">garlic-daemon</a> with similar functions is currently under development.
+						</p>
+						<p>
+							For /v2/task/reboot, no special input parameter is required. The play reboots instantly, so expect no response.
+						</p>
+					</article>
+					<article>
+						<h3 id="screenshot">Screenshot</h3>
+						<p>
+							A secure digital signage player should avoid complex managing apps like team viewer. But in some cases it is necessary to see what is displayed on screen. This is possible with the screenshot API call.
+						</p>
+						<p>
+							For /v2/task/screenshot, no special input parameter is required. The response is a JPEG image like described in the <a href="/garlic-player/docs/rest-api/introduction/#screenshot">REST-API introduction</a>.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="system_information">System Information</h2>
+					<p>
+						This REST-API calls are based on GET and give you some detailed information.
+					</p>
+					<article>
+						<h3 id="modelinfo">Get Information about the Model</h3>
+						<p>
+							The call is GET so: http://your_device_ip:8080/v2/system/modelInfo?access_token=YOUR_ACCESS_TOKEN
+						</p>
+						<table>
+							<caption>Out parameter as JSON can be empty</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>PCB</td>
+									<td>Name of the Printed Circuit Board or player app</td>
+								</tr>
+								<tr>
+									<td>PCBRevision</td>
+									<td>Revision of the Printed Circuit Board</td>
+								</tr>
+								<tr>
+									<td>licenseModel</td>
+									<td>Specified license or name of the operating system</td>
+								</tr>
+								<tr>
+									<td>manufacturer</td>
+									<td>Manufacturer name or software author</td>
+								</tr>
+								<tr>
+									<td>manufacturerURL</td>
+									<td>The URL to the manufacturer or the player software</td>
+								</tr>
+								<tr>
+									<td>modelDescription</td>
+									<td>Additional descriptions of the board model</td>
+								</tr>
+								<tr>
+									<td>modelName</td>
+									<td>Additional descriptions of the board model</td>
+								</tr>
+								<tr>
+									<td>modelDescription</td>
+									<td>Additional descriptions of the board model</td>
+								</tr>
+								<tr>
+									<td>modelName</td>
+									<td>Name of the device model</td>
+								</tr>
+								<tr>
+									<td>modelURL</td>
+									<td>URL of the device manufacturer</td>
+								</tr>
+								<tr>
+									<td>options</td>
+									<td>Additional options of the model, e.g. sensors</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+					<article>
+						<h3 id="firmwareinfo">Get Information about the Firmware</h3>
+						<p>
+							The call is GET so: http://your_device_ip:8080/v2/system/firmwareInfo?access_token=YOUR_ACCESS_TOKEN
+						</p>
+						<table>
+							<caption>Out parameter as JSON</caption>
+							<thead>
+								<tr>
+									<th>Parameter</th>
+									<th>Function</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>family</td>
+									<td>Product model family, like “garlic-player-android”</td>
+								</tr>
+								<tr>
+									<td>firmwareVersion</td>
+									<td>Firmware version of the device and player software version</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+				</section>

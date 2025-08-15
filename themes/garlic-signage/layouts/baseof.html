@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
-<head>
-  {{ partial "head.html" . }}
-</head>
-<body>
-  <header>
-    {{ partial "header.html" . }}
+	<head>
+		{{ partial "head.html" . }}
+	</head>
+	<body>
+		<header>
+			{{ partial "header.html" . }}
+			{{- if eq .Section "garlic-player" -}}
+			{{- partial "subnav-garlic-player.html" . -}}
+			{{- end -}}
+		</header>
+		<div id="content_section">
+			<main>
+				{{- partial "breadcrumb.html" . -}}
+				<h1>{{ .Title }}</h1>
+				{{ block "main" . }}{{ end }}
+			</main>
+			{{- if (fileExists (printf "assets/js/%s.js" "toc")) }}
+			<aside>
+			  <div id="toc"><strong>Table of Contents</strong></div>
+			</aside>
+			{{- end }}
 
-    {{- if eq .Section "garlic-player" -}}
-      {{- partial "subnav-garlic-player.html" . -}}
-     {{- end -}}
-
-  </header>
-  <div id="content_section">
-
-    <main>
-		{{- partial "breadcrumb.html" . -}}
-	<h1>{{ .Title }}</h1>
-    {{ block "main" . }}{{ end }}
-    </main>
-  </div>
-  <footer>
-    {{ partial "footer.html" . }}
-  </footer>
-</body>
+		</div>
+	<footer>
+		{{ partial "footer.html" . }}
+	</footer>
+	{{ partial "head/js.html" . }}
+	</body>
 </html>

@@ -1,0 +1,148 @@
+---
+title: "REST-API » Introduction"
+date: 2025-08-14T22:37:23+02:00
+description: "Learn the basics on how to use the garlic-player REST-API on a concrete example."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+				<p>
+					For the purposes of this tutorial, we will be using the  <a href="https://www.postman.com/product/rest-client/" class="external_link">Postman REST Client</a> in the screenshots. However, you are free to use any other REST client you prefer. Since we're using a local version of garlic-player, the domain will be localhost here.
+				</p>
+				<section>
+					<h2 id="get_token">Authentication: Get the Token</h2>
+					<p>
+						Every API command will require a valid token for authentication. You must first request a valid token to use the API. Two kinds of POST request are capable of doing this.
+					</p>
+					<article>
+						<h3 id="json">1. Via JSON</h3>
+						<pre><code class="language-html line-numbers">POST /v2/oauth2/token HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept: application/json
+
+{
+    "grant_type":"password",
+    "username":"admin",
+    "password":""
+}
+</code></pre>
+					</article>
+					<article>
+						<h3 id="x-www-form">2. Via x-www-form-urlencoded:</h3>
+						<pre><code class="language-html line-numbers">POST http://localhost:8080/v2/oauth2/token
+Content-Type: application/x-www-form-urlencoded;charset=UTF-8
+Accept: application/json
+
+grant_type=password&username=admin&password=
+</code></pre>
+					</article>
+					<article>
+						<h3 id="response">The Response</h3>
+						<p>
+							If everything goes as expected, you should receive a response of the form:
+						</p>
+						<pre><code class="language-json line-numbers">{
+    "access_token": "9EED50FE365F112A4D6BEA7B5ED8BFAD",
+    "expires_in": "2022-09-24T00:08:12",
+    "token_type": "Bearer"
+}
+</code></pre>
+						<figure>
+							<img src="/images/garlic-player/docs/rest-api/get_token.png" alt="Postman screenshot for get token" style="width:100%">
+							<figcaption>Here's a picture of the token request and the response</figcaption>
+						</figure>
+					</article>
+					<p>
+						You may also want to look at the reference for the<a href="/garlic-player/docs/rest-api/reference/#authentication">authentication</a> iinput and output parameters. We'll need the marked token for the next step.
+					</p>
+					<article>
+						<h3 id="Troubleshooting">Troubleshooting</h3>
+						<p>
+							If the domain is unknown, you will receive a "404 Not found" response with the error message: The URL is wrong, no such document.
+						</p>
+						<p>
+							A successful request will return a response with code 200. If a parameter is incorrect, you will receive a JSON response with an 'error' key containing a descriptive message, such as 'wrong grant_type' or 'wrong username', etc.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="use_token">Use the Token</h2>
+					<p>
+						In the next step, we will use the token to accomplish certain tasks.
+					</p>
+					<article>
+						<h3 id="get_modelinfo">Get the ModelInfo</h3>
+						<p>
+							This expects only a GET request without additional parameters.
+						</p>
+					<pre><code class="language-json line-numbers">GET /v2/system/modelInfo?access_token=9EED50FE365F112A4D6BEA7B5ED8BFAD
+Host: localhost:8080
+Accept: application/json
+</code></pre>
+					<p>
+						On my Arch Linux machine, I will get This response:
+					</p>
+					<pre><code class="language-json line-numbers">{
+  "PCB": "garlic-player",
+  "PCBRevision": "",
+  "licenseModel": "linux",
+  "manufacturer": "Sagiadinos",
+  "manufacturerURL": "https://garlic-player.com",
+  "modelDescription": "",
+  "modelName": "garlic-player",
+  "modelURL": "",
+  "options": ""
+}
+</code></pre>
+						<figure>
+							<img src="/images/garlic-player/docs/rest-api/get_modelinfo.png" alt="Postman screenshot for get model info" style="width:100%">
+							<figcaption>Postman screenshot for retrieving information about the player model</figcaption>
+						</figure>
+					</article>
+					<article>
+						<h3 id="find_files">Find Inventory Files</h3>
+						<p>
+							Let's try something more challenging and list the files in the cache. Once again, we use the JSON approach.
+						</p>
+						<pre><code class="language-json line-numbers">POST /v2/files/find?access_token=9EED50FE365F112A4D6BEA7B5ED8BFAD HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept: application/json
+
+{
+  "maxResults": "5",
+  "pageToken": "2"
+}
+</code></pre>
+						<p>
+							The results will be provided in pages. The maxResults parameter specifies how many items will be shown, and pageToken identifies which page. These are not mandatory. The maxResults parameter has a default value of 10, and pageToken has a default value of 1. The result is a list of items in JSON format, which looks like this.
+						</p>
+						<figure>
+							<img src="/images/garlic-player/docs/rest-api/find.png" alt="Postman screenshot for find files" style="width:100%">
+							<figcaption>Postman screenshot for find files</figcaption>
+						</figure>
+					</article>
+					<article>
+						<h3 id="screenshot">Take a Screenshot</h3>
+						<p>
+							The REST-API also lets you take a screenshot. If you are using a desktop operating system with multiple screens, it will screenshot the primary screen. The screenshot API entry point is:
+						</p>
+						<pre><code class="language-json line-numbers">POST /v2/task/screenshot?access_token=9EED50FE365F112A4D6BEA7B5ED8BFAD HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Accept: application/json
+
+</code></pre>
+						<p>
+							A successful response sends you the Content-Type: image/jpeg, the Content-Length and the image.
+						</p>
+						<figure>
+							<img src="/images/garlic-player/docs/rest-api/screenshot.jpg" alt="Postman screenshot for take screenshot" style="width:100%">
+							<figcaption>Postman Screenshot for take screenshots</figcaption>
+						</figure>
+					</article>
+				</section>
+
+			<aside>
+				<div id="toc"><strong>Table of Contents</strong></div>
+			</aside>
