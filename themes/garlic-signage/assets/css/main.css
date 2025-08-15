@@ -78,14 +78,14 @@ h1, h2, h3, h4
     color:       #165669;
     font-family: 'Inconsolata Bold', 'Open Sans Bold', sans-serif;
     font-style:  normal;
-	margin:      1em 0 0 0;
+	margin:      0.5rem 0 0 0;
 	padding:     0;
 }
 
-h1{font-size:2em;margin: 1em 0 0.5em 0;}
-h2 {font-size:1.6em;}
-h3 {font-size:1.2em;}
-h4 {font-size:1.0em;}
+h1{font-size:1.6rem;margin:0.75rem 0 0.55rem 0;}
+h2 {font-size:1.2rem;}
+h3 {font-size:1.1rem;}
+h4 {font-size:1.0rem;}
 
 h1:target, h2:target, h3:target
 {
