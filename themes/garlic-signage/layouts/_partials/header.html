@@ -1,1 +1,4 @@
 {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
+{{- if eq .Section "garlic-player" -}}
+	{{- partial "subnav-garlic-player.html" . -}}
+{{- end -}}

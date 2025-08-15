@@ -6,9 +6,6 @@
 	<body>
 		<header>
 			{{ partial "header.html" . }}
-			{{- if eq .Section "garlic-player" -}}
-			{{- partial "subnav-garlic-player.html" . -}}
-			{{- end -}}
 		</header>
 		<div id="content_section">
 			<main>
@@ -16,12 +13,11 @@
 				<h1>{{ .Title }}</h1>
 				{{ block "main" . }}{{ end }}
 			</main>
-			{{- if (fileExists (printf "assets/js/%s.js" "toc")) }}
+			{{- if and (in .Params.customJS "toc") (fileExists "assets/js/toc.js") }}
 			<aside>
 			  <div id="toc"><strong>Table of Contents</strong></div>
 			</aside>
 			{{- end }}
-
 		</div>
 	<footer>
 		{{ partial "footer.html" . }}
