@@ -1,0 +1,153 @@
+---
+title: "Build Qt with QWebengine as Universal Binary with macOS"
+smallTitle: "macOS (Universal)"
+date: 2025-08-15T22:37:23+02:00
+description: "Tutorial on how to build an universal binary Qt Lib with QWebengine with Xcode and macOS."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+				<p>
+					To address a common suggestion upfront, using Homebrew or macports to install Qt isn't viable in this case, as it doesn't provide a universal build of Qt. For those aiming to work with an open-source version, you have to go the path of pain. Let's try to make it less harder.
+				</p>
+				<figure>
+					<img src="/images/garlic-player/docs/build-qt/qt-macbook-dancing-640x640.jpg" style="width:100%" alt="Dancing program,mer in front of a macbook and Qt cup">
+				</figure>
+				<section>
+					<h2 id="Build-Qt-Lib">Build Qt Lib</h2>
+					<p>
+						This process will be carried out in one step. In the tutorials for <a href="/garlic-player/docs/build-qt-lib/build-qt-windows-with-qtwebengine/">Windows</a> and Linux, we'll construct the Qt Library while bypassing the Qt Webengine in the first step. Assembling the primary library is straightforward, especially when contrasted with the complexities of QWebengine. Additionally, this approach allows for the utilization of all available CPU cores without any worries.
+					</p>
+					<p>
+						But for some mysterious reasons this is not possible with macOS. The second step will throw errors mostly after 90%. Let's do it in one step.
+					</p>
+					<article>
+						<h3 id="requirements_qt">Requirements for Qt-Lib</h3>
+						<ul>
+							<li>
+								macOS 13 (Ventura). Currently, it this procedure will not work with macOS 14 and Xcode 15. Sonoma requires Xcode 15. If you find a way to include QWebengine with Xcode 15, contact me.
+							</li>
+							<li>
+								<a href="https://xcodereleases.com/" rel="noopener" class="external_link">Xcode 14.01</a>.
+								<p>
+									Don't fool around and try any newer Xcode. You will waste your time like me. The reason seems to bee that this is the last Xcode version which includes macOS 12 SDK. With newer version of Xcode, you have to deal with SDK 13. You will be able after applying some patches to build the Qt lib, but Qt Webengine build will fail and fail.
+								</p>
+								<p>
+									This is also the other reason not install macOS Sonoma. As indicated above, Xcode 14.01 will not work with macOS 14.
+								</p>
+							</li>
+							<li>
+								<a href="https://download.qt.io/archive/qt/5.15/5.15.11/single/" rel="noopener" class="external_link">Qt5.15.11 Source code</a>.
+								<pre><code class="language-xml line-numbers">tar xvf qt-everywhere-opensource-src-5.15.11.tar.xz</code></pre>
+								I would suggest creating a Qt and moving the extracted as Src
+								<pre><code class="language-xml line-numbers">mkdir -p Qt/5.15.11/
+mv qt-everywhere-opensource-src-5.15.11 Qt/5.15.11/Src
+</code></pre>
+							</li>
+						</ul>
+					</article>
+					<article>
+						<h3 id="requirements_qwebengine ">Requirements and Preparatory her Annoyance: QWebengine</h3>
+						<p>
+							The frustration of dealing with this software that repeatedly fails to compile can be likened to the relentless demands of an attention-seeking child. Each failed attempt at compiling is a cry for attention, a signal that something is amiss and requires immediate care and intervention. Welcome to the annoying world of Qt's Webengine.
+						</p>
+						<ul>
+							<li>
+								You need to install some software. I prefer <a href="https://www.macports.org/" rel="noopener" class="external_link">macports</a> because it installs in /opt and is more independent of macOS libs. Which makes it slower to install but more stable. You can also use <a href="https://brew.sh/">Homebrew</a>.
+								<pre><code class="language-xml line-numbers">sudo port install python27 gperf bison flex nodejs pkg-config</code></pre>
+								If you have python3 already install, do not forget to select python2 before compiling.
+								<pre><code class="language-xml line-numbers">port select --list python</code></pre> to see which versions are install and then probably
+								<pre><code class="language-xml line-numbers">sudo port select --set python python27</code></pre>
+							</li>
+						</ul>
+					</article>
+					<article>
+						<h3 id="build-steps-qt-lib ">Build Steps for Qt-Lib</h3>
+						<ol>
+							<li>
+								Open a Terminal, create a shadow directory and enter it.
+								<p>
+									Utilizing a shadow build directory is highly beneficial when constructing Qt software or C++ applications. This method, which maintains a separation between source code and build artifacts, facilitates multiple build configurations, eases the cleanup process, and offers several other advantages.
+								</p>
+								<pre><code class="language-xml line-numbers">mkdir build_qt
+cd build_qt
+</code></pre>
+							</li>
+							<li>
+								Set the path to the correct compiler if you have multiple versions of Xcode installed. In my case, I renamed the Xcode folder in Applications to Xcode_14_01 and exported the DEVELOPER_DIR environment variable.
+								<pre><code class="language-xml line-numbers">export DEVELOPER_DIR=/Applications/Xcode_14_01.app/Contents/Developer</code></pre>
+							</li>
+							<li>
+								Call the configure script in the directory of the source.
+								<pre><code class="language-xml line-numbers">$QT_SRC/configure QMAKE_APPLE_DEVICE_ARCHS="x86_64 arm64" \
+    -release -optimize-size \
+	-opensource -confirm-license -nomake tests -nomake examples \
+    -no-openssl -securetransport \
+	-webengine-proprietary-codecs \
+    -prefix path/to/qt/5.15.11/clang_64 \
+    -skip qttranslations \
+	-skip qtserialport \
+	-skip qtwayland \
+	-skip qtdoc \
+	-skip qtpurchasing \
+	-skip qtvirtualkeyboard \
+	-skip qtspeech
+</code></pre>
+								<h4>Explanations</h4>
+								<ul>
+									<li>
+										QMAKE_APPLE_DEVICE_ARCHS="x86_64 arm64" set the universal build for Intel/AMD and arm CPUs.
+									</li>
+									<li>
+										-optimize-size creates smaller size binaries. It seems to be a linker bug, “Unable to insert branch island. No insertion point available for architecture armv8” in ld which cannot link files bigger than 40MB in QWebengine. As it is frustrating when a build fails in the linking process after hours of compiling.
+									</li>
+									<li>
+										Wayland, ActiveQt, SerialPort, and more are not necessary for garlic-player.
+									</li>
+									<li>
+										-no-openssl -securetransport There is no need to use openssl as macOS uses its own SSL lib.
+									</li>
+									<li>
+										The parameter -release will build the release version. If you want to debug Qt, use -debug.
+									</li>
+									<li>
+										-webengine-proprietary-codecs
+										<p>
+											This option activates compatibility for specialized media codecs not present in the basic build, including AAC, H.264, and MP3. It expands the variety of media formats that can be played in applications utilizing Qt Webengine. This is particularly useful for ensuring compatibility with specific web content that relies on these codecs.
+										</p>
+									</li>
+									<li>
+										-prefix path/to/qt/5.15.11/clang_64 defines that  <em>make install</em> will install created Qt binaries on this directory.
+									</li>
+								</ul>
+								<p>
+									This will build qmake and some other stuff.
+								</p>
+								<p>
+									In case of errors or something is missing, you will get a more or less detailed notice. If everything is fine, continue to the next step.
+								</p>
+							</li>
+							<li>
+								Call make with multicore support for M1. Use more if you have more cores and space. With 16 GB Ram, it appears to be safe to use all available cores.
+								<pre><code class="language-xml line-numbers">make -j8</code></pre>
+								<p>
+									Have some patience. The build needs more than 2,5 hours on my M1 Pro MacBook. Btw.: That is your chance to hear the fan.
+								</p>
+							</li>
+							<li>
+								Install compiled lib to -prefix directory.
+								<pre><code class="language-xml line-numbers">make install</code></pre>
+								This will also take some minutes.
+							</li>
+						</ol>
+					</article>
+				</section>
+				<section>
+					<h2 id="share">Share Your Thoughts</h2>
+					<p>
+						Your input is significant. Should you have any thoughts, ideas, or suggestions for improvement, please feel free to get in touch. You can share your feedback by emailing me or connecting on LinkedIn (find the links in the footer). Every message, whether it's a word of thanks, a query, or a recommendation for enhancement, plays a crucial role in determining the quality and trajectory of our upcoming content.
+					</p>
+					<p>
+						Thank you for following along, and happy coding!
+					</p>
+				</section>
+

@@ -1,0 +1,262 @@
+---
+title: "Build Qt with Qt Webengine with VS2019 Community"
+smallTitle: "VS2019 Windows"
+date: 2025-08-14T22:37:23+02:00
+description: "Tutorial on how to build Qt Lib with QWebengine with Visual Studio 2019 and Windows."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+				<p>
+					We will do this in two steps. First, we build the Qt Lib and skip Qt Webengine. This is not mandatory, but will make your life much easier in case of some fails. Compiling the main lib is a piece of cake compared to QWebengine. You can also use all your cpu cores without concerns.
+				</p>
+				<figure>
+					<img src="/images/garlic-player/docs/build-qt/windows-qtwebengine-640x640.jpg" style="width:100%" alt="Dancing program,mer in front of a macbook and Qt cup">
+				</figure>
+				<section>
+					<h2 id="Build-Qt-Lib">Build Qt Lib</h2>
+					<p>
+						The following sections will outline the prerequisites, tools, and setup necessary to compile Qt on your machine. So, let's get started first by mastering the Qt lib build process!
+					</p>
+					<article>
+						<h3 id="requirements_qt">Requirements for Qt-Lib</h3>
+						<ul>
+							<li>
+								OpenSSL 1.1.1w <a href="https://www.openssl.org/source/" rel="noopener" class="external_link">Source</a> or <a href="https://slproweb.com/products/Win32OpenSSL.html" rel="noopener" class="external_link">Binaries</a>
+								You can take an older or newer version than w. It is only important to use 1.1.1 as Qt5.15 does not support older versions as default anymore.
+							</li>
+							<li>
+								Install <a href="https://download.qt.io/development_releases/prebuilt/libclang/" rel="noopener" class="external_link">vs2019 llvm</a> from qt download server and <em>set LLVM_INSTALL_DIR=YOUR_PATH</em> if you want to create QDoc. Do not take the latest version from LLVM GitHub because Qt config won't recognize it.
+							</li>
+							<li>
+								<a href="https://download.qt.io/archive/qt/5.15/5.15.11/single/" rel="noopener" class="external_link">Qt5.15.11 Source code</a>. It is recommended to extract it in C:\Qt\<br>
+								You can unpack with on-board tools:
+								<pre><code class="language-xml line-numbers">Expand-Archive -Force .\qt-everywhere-opensource-src-5.15.11.zip C:\Qt\</code></pre> But that takes an incredible amount of time. <br><br>
+
+								Better solution: Install 7-Zip and use the command line.
+								<pre><code class="language-xml line-numbers">'C:\Program Files\7-Zip\7z.exe' x .\qt-everywhere-opensource-src-5.15.11.zip</code></pre>
+							</li>
+							<li>
+								Install <a href="https://visualstudio.microsoft.com/de/vs/older-downloads/" rel="noopener" class="external_link">Visual Studio 2019 Community and Windows 10.0.19041.0 SDK</a>. It is important to install also C++ ATL for the correspondingh build-tools version. Otherwise compile can fail.
+							</li>
+						</ul>
+					</article>
+					<article>
+						<h3 id="build-steps-qt-lib ">Build Steps for Qt-Lib</h3>
+						<ol>
+							<li>
+								Open the Visual Studio x64 native tool command line prompt.
+							</li>
+							<li>
+								Create a shadow directory and enter it.
+								<p>
+									A shadow build directory is very helpful when building Qt software or C++ in general. Using a shadow build directory, keeps the source code separate from build artifacts, allows for multiple build configurations, simplifies cleanup and more.
+								</p>
+								<pre><code class="language-xml line-numbers">mkdir build_qt
+cd build_qt
+</code></pre>
+							</li>
+							<li>
+								Call configure.bat in the directory of the source.
+								<pre><code class="language-xml line-numbers">\PATH_TO_QT_SOURCE\configure -platform win32-msvc -opensource -confirm-license ^
+ -I "C:\Program Files\OpenSSL-Win64\include" -L "C:\Program Files\OpenSSL-Win64\lib" ^
+ -prefix C:\Qt\5.15.11 ^
+ -debug-and-release -nomake examples -nomake tests -silent ^
+ -skip qtwayland ^
+ -skip qtactiveqt ^
+ -skip qtserialport ^
+ -skip qtwebengine
+</code></pre>
+								<h4>Some hints</h4>
+								<ul>
+									<li>
+										Wayland, ActiveQt, and SerialPort are not necessary for garlic-player. As said above, we handle Webengine later.
+									</li>
+									<li>
+										The parameter -debug-and-release will build both. It is helpful if you want to debug things. If not, you can use -release only.
+									</li>
+									<li>
+										-prefix C:\Qt\5.15.11 says that a <em>nmake install</em> will install created Qt binaries on this directory.
+									</li>
+								</ul>
+								<p>
+									This will build qmake.exe and some other stuff. It will complain about QDoc if you do not install LLVM.
+								</p>
+								<p>
+									In case of errors or something is missing, you will get a more or less detailed notice. If everything is fine, continue to the next step.
+								</p>
+							</li>
+							<li>
+								Call nmake with multicore support.
+								<pre><code class="language-xml line-numbers">set CL=/MP
+nmake
+</code></pre>
+								<p>
+									There is also a nmake replacement from Qt-labs called <a href="https://github.com/qt-labs/jom" rel="noopener" class="external_link">jom</a>. Jom is a parallel make tool for Windows. You can use it here securely, but better not for Qt Webengine. If you previously installed Qt via their Maintenance Tool, you will find it in %QtDIR%\Tools\QtCreator\bin\jom\jom.exe
+								</p>
+								<p>
+									Sit back, drink some beverage, or do start to brainstorm a plan to conquer the world. Depending on your CPU, this process will need some time to finish. My Geekom AS6 required about 20 min. It consumed 100% CPU and about 11 GB of memory.
+								</p>
+							</li>
+							<li>
+								Install compiled lib to -prefix directory.
+								<pre><code class="language-xml line-numbers">nmake install</code></pre>
+								This will take some minutes.
+							</li>
+						</ol>
+					</article>
+				</section>
+				<section>
+					<h2 id="">The Pain Queen: Qt Webengine</h2>
+					<p>
+						Welcome to the exclusive club of compiling Qt Webengine, where the only thing more unpredictable than the British weather is whether your build will breeze through or crash and burn at 80%. To find out the correct parameters how to compile this on a fresh installed Geekom AS6 NUC with 32 GB RAM, 1 TB NVMe, and a Ryzen 7735HS with Windows 11 Pro costs me some time.
+					</p>
+					<article>
+						<h3 id="requirements_webengine">Requirements and Preparatory Work for Qt Webengine</h3>
+						<ul>
+							<li>
+								Install GNU <a href="http://downloads.sourceforge.net/gnuwin32/bison-2.4.1-setup.exe" rel="noopener" class="external_link"> Bison</a>, <a href="https://gnuwin32.sourceforge.net/downlinks/flex.php" rel="noopener" class="external_link">Flex</a>, and <a href="https://sourceforge.net/projects/gnuwin32/files/gperf/3.0.1/gperf-3.0.1.exe/download" rel="noopener" class="external_link">GPerf</a>.
+							</li>
+							<li>
+								Install <a href="http://releases.llvm.org/download.html" rel="noopener" class="external_link">ActivePerl</a> or <a href="https://strawberryperl.com/" rel="noopener" class="external_link">StrawberryPerl</a>.
+							</li>
+							<li>
+								Install <a href="https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi" rel="noopener" class="external_link">Python 2.7</a>. Do not use Python 3, as it is not compatible.
+							</li>
+							<li>
+								Install <a href="https://nodejs.org/en" rel="noopener" class="external_link">Node.js version 18</a> or newer. LTS version is recommended.
+							</li>
+							<li>
+								Optional: Install <a href="https://github.com/ninja-build/ninja/releases" rel="noopener" class="external_link">ninja</a>.
+								<p>
+									Ninja is a small build system with a focus on speed, but with some caveats. Webengine comes with an own ninja implementation. You activate it with the qmake option: -no-feature-webengine-system-ninja. Sometimes it helps, sometimes not. Qt also comes with a ninja.exe in C:\Qt\Tools\Ninja.
+								</p>
+								<p>
+									If you decide to use the latest ninja.exe from GitHub or the version from Qt, put it in your search path.
+								</p>
+							</li>
+							<li>
+								You should also turn on NTFS long path name support to reduce the risk of the compilation failing. Keep also for sure the paths as short as possible.
+								<ul>
+									<li>
+										<em>Windows 10: </em> Navigate to Local Computer Policy > Computer Configuration > Administrative Templates > System > Filesystem > NTFS.
+									</li>
+									<li>
+										<em>Windows 11: </em> Navigate to Local Computer Policy > Computer Configuration > Administrative Templates > System > Filesystem.
+									</li>
+								</ul>
+								Double-click the “Enable NTFS long paths option” and activate it.
+							</li>
+							<li>
+								Patch file ./qtwebengine/src/buildtools/config/common.pri<br>
+								Find:<br>
+								<pre><code class="language-xml line-numbers">precompile_header {
+	gn_args += enable_precompiled_headers=true
+} else {
+	gn_args += enable_precompiled_headers=false
+}
+</code></pre>
+								and change it to:<br>
+								<pre><code class="language-xml line-numbers">precompile_header {
+	gn_args += enable_precompiled_headers=false
+} else {
+	gn_args += enable_precompiled_headers=false
+}
+</code></pre>
+<p>
+	<strong>Background:</strong> The job of a precompiled header is to fasten builds. This works well in most cases for the Qt-Lib, but not for QWebengine. According to reports like <a href="https://bugreports.qt.io/browse/QTBUG-65677" rel="noopener" class="external_link">QTBUG-65677</a> and other, it works for some people and for some not. Unfortunately, I seem to be permanently in category two. My advice: Deactivate this crap! This will increase your build time, but this was the only way to make it work on my machine.
+</p>
+							</li>
+							<li>
+								Time, coffee, tea, popcorn, and some frustration residence
+							</li>
+						</ul>
+					</article>
+					<article>
+						<h3 id="build-steps-qwebengine">Build Steps for Qt Webengine</h3>
+						<ol>
+							<li>
+								Open a new Visual Studio x64 command line prompt.
+							</li>
+							<li>
+								Create a new shadow directory and enter it.
+								<pre><code class="language-xml line-numbers">mkdir build_qt_webengine
+cd build_qt_webengine
+</code></pre>
+							</li>
+							<li>
+								Set maximum core usage and start with the qmake you created previously.
+								<pre><code class="language-xml line-numbers">set CL_MPCount=8
+set NINJAFLAGS=-j8
+C:\Qt\5.15.11\bin\qmake %QT_SRC%\qtwebengine\qtwebengine.pro -- -no-webengine-jumbo-build ^
+ -no-feature-webengine-system-ninja ^
+ -proprietary-codecs
+</code></pre>
+								<h4>Explanations</h4>
+								<p>
+									You can add qmake parameters in command line after a --.
+								</p>
+								<ul>
+									<li>
+										<strong>Restrict core usage:</strong> As maybe mentioned, ;) a chromium build demands a high amount of RAM and resources. Furthermore, Every core requires some gigabyte. If we let ninja free decide to use all available cores, the build can crash because of low memory. That is the reason we limit the core usage for nmake and ninja with CL_MPCount and NINJAFLAGS to 8. If You have 32 GB Ram ore more, you can try to raise the number.
+									</li>
+									<li>
+										<strong>-no-webengine-jumbo-build</strong>
+										<p>
+											Jumbo build refers to a technique used to speed up the compilation of the large Chromium codebase. It combines several C++ files into one "jumbo" file before compiling, which can significantly reduce the overall build time because there are fewer files for the compiler to process individually. This method takes advantage of parallel processing and reduces overhead, making the build process more efficient.
+										</p>
+										<p>
+											If it works for you fine. If not set this flag to prevent jumbo files.
+										</p>
+									</li>
+									<li>
+										<strong>-no-feature-webengine-system-ninja</strong>
+										<p>
+											As mentioned before. This uses the ninja comes with QWebengine source. As long as you do not need special features of the current ninja versions, you should activate this flag.
+										</p>
+									</li>
+									<li>
+										<strong>-proprietary-codecs</strong>
+										<p>
+											This flag enables support for proprietary media codecs that are not included in the standard build, such as AAC, H.264, and MP3. It allows the playback of a wider range of media formats in applications using Qt Webengine, which might be necessary for compatibility with certain web content that uses these codecs.
+										</p>
+									</li>
+									<li>
+										<strong>Optional -feature-pdf-v8</strong>
+										<p>
+											This included support for the embedded V8 JavaScript engine in PDF files. This allows for interactive features within PDF documents, like forms and dynamic content, that are powered by JavaScript when rendered in the application.
+										</p>
+										<p>
+											Enabling JavaScript in PDFs with the V8 engine can have security concerns. JavaScript in PDFs can be used maliciously, similar to how it can be exploited on web pages, to run harmful scripts on a user's machine. It can potentially open up avenues for various attacks, such as phishing, if a user opens a malicious PDF.
+										</p>
+										<p>
+											I would recommend not to use this flag if you do not have special projects1 which require interactive PDF. I would recommend not to use this flag if you do not have special projects1 which require interactive PDF. As a side note.: PDFs are not ideal for digital signage.
+										</p>
+									</li>
+								</ul>
+							</li>
+							<li>
+								Call nmake and do not use jom. The build time on Ryzen 7735HS with this configuration took about 5 hours. So, prepare some dinner or continue your plan to rule the world. If everything work fine, you can try to optimize.
+								<h4>Optimizations</h4>
+								<p>
+									If you have at least 32 GB of RAM and are an adventures nature try <em>-webengine-jumbo-build 100</em> or an other amount instead of  <em>-no-webengine-jumbo-build</em>. This will allow to combine until 100 files to a jumbo compile. Furthermore, do not set CL_MPCount and NINJAFLAGS and use jom. Alternative raise the values of CL_MPCount and NINJAFLAGS with nmake.
+								</p>
+							</li>
+							<li>
+								Finishing with installing compiled lib to -prefix directory.
+								<pre><code class="language-xml line-numbers">nmake install</code></pre>
+							</li>
+						</ol>
+					</article>
+				</section>
+				<section>
+					<h2 id="share">Share Your Thoughts</h2>
+					<p>
+						Congratulations on completing this tutorial! By now, you should have some moore understanding of how build Qt WebEngine.
+					</p>
+					<p>
+						Your feedback is invaluable. If you have any comments, suggestions, or enhancements, please don't hesitate to reach out. Send your thoughts to me via email or Linked (links in footer). Whether it's a simple thank-you, a question, or a proposal for improvement, your input is what shapes the quality and direction of future content.
+					</p>
+					<p>
+						Thank you for following along, and happy coding!
+					</p>
+				</section>

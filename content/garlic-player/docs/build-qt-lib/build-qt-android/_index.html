@@ -1,0 +1,207 @@
+---
+title: "Build Qt for Android (Multi ABI) with Debian"
+smallTitle: "Android with Debian"
+date: 2025-08-15T22:37:23+02:00
+description: "Tutorial on how to build an Multi ABI Qt Lib for Android with a Debian LinuxS."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+				<p>
+					This article provides a thorough tutorial on compiling a multi ABI Qt for Android under the Linux operating system. It covers topics such as setting up the development environment, configuring the Android SDK and NDK, preparing the Qt source code, and the step-by-step process of cross-compiling Qt for Android.
+				</p>
+				<p>
+					The guide also includes sections on testing and troubleshooting, along with advice for integrating compiled Qt libraries with Android Studio. This tutorial is aimed at developers seeking practical guidance on using Qt for Android development in a Linux environment.
+				</p>
+				<figure>
+					<img src="/images/garlic-player/docs/build-qt/linux-android-640x640.jpg"  style="width:100%" alt="the linux pinguin dances with the Android logo">
+				</figure>
+				<p>
+					You will build Qt for the following ABI's: x86, x86_64, armeabi-v7a, and arm64-v8a. The tutorial is tested in Debian 11 (Bullseye), 12 (Bookworm), and Linux Arch. It should be work similar on other distributions.
+				</p>
+				<section>
+					<h2 id="pitfall">The Qt5.15.11 Pitfall</h2>
+					<p>
+						Although we luckily don't build chromium based Webengine for Android, there are some other pitfalls we cover in the descriptions. Foremost: Skip Qt5.15.11 if it is possible for you. It has a bug in androiddeployqt. You will build <a href="/garlic-player/">garlic-player</a> successfully, but Android deployment will not configure Qt Multimedia correct in the APK. Which makes the player and other multimedia software pretty useless. If you need 5.15.11 for some reason you can use androiddeployqt from 5.15.10 as a workaround. Just copy it to your 5.15.11/android/bin-directory.
+					</p>
+				</section>
+				<section>
+					<h2 id="Build-Qt-Lib">Build Qt Lib</h2>
+					<p>
+						In the following sections, we will thoroughly outline the prerequisites, detail the specific tools required, and guide you through the entire setup process essential for successfully compiling Qt. You can do the most work with your user account and with to root only when there are things to install for the operating system.
+					</p>
+					<article>
+						<h3 id="requirements_qt">Requirements for Qt-Lib</h3>
+						<ol>
+							<li>
+								Create a Qt folder in your home directory
+								<pre><code class="language-xml line-numbers">mkdir -p ~/Qt/5.15.10</code></pre>
+							</li>
+							<li>
+								Download <a href="https://download.qt.io/archive/qt/5.15/5.15.10/single/qt-everywhere-opensource-src-5.15.10.tar.xz" rel="noopener" class="external_link">Qt5.15.10 source code</a>.
+								<pre><code class="language-xml line-numbers">tar xvf qt-everywhere-opensource-src-5.15.10.tar.xz -C ~/Qt/5.15.10/ </code></pre> and move the created qt-everywhere-opensource-src-5.15.10 directory to ~/Qt/5.15.10/Src
+							</li>
+							<li>
+								Patch WebView.
+								<p>
+									As we require Qt to build a<a href="https://smil-control.com/magazine/what-is-a-digital-signage-player/" class="external_link">digital signage player</a>, we need to activate some features like video autoplay in the browser component, dom storage, pass CORS, fixed zoom support for widgets and more.
+								</p>
+								<p>
+									Open PATH_TO_Qt/5.15.11/Src/qtwebview/src/jar/src/org/qtproject/qt5/android/view/QtAndroidWebViewController.java and find webSettings.setJavaScriptEnabled(true).
+								</p>
+								<p>
+									After this line, add:
+								<pre><code class="language-xml line-numbers">webSettings.setMediaPlaybackRequiresUserGesture(false);
+webSettings.setAllowFileAccessFromFileURLs(true);
+webSettings.setAllowUniversalAccessFromFileURLs(true);
+webSettings.setDomStorageEnabled(true);
+
+m_webView.setInitialScale(1);
+m_webView.setBackgroundColor(0x00000000);
+webSettings.setSupportZoom(false);
+webSettings.setDisplayZoomControls(false);
+webSettings.setUseWideViewPort(true);
+webSettings.setLoadWithOverviewMode(true);</code></pre>
+								to make your digital signage life easier.
+							</li>
+							<li>
+								Install some build essentials for Linux and the Java SDK.
+								<pre><code class="language-xml line-numbers">sudo apt install build-essential openjdk-17-jdk</code></pre>
+								You can also use OpenJDK 11. Use the full JDK install and not the runtime or headless variants as you will need javac.
+								<p class="">
+									<strong>Attention</strong>: IIf you found some tutorials about 5.15.7 or lower versions, they suggest OpenJDK 8. From 5.15.8 and above it is not supported anymore.
+								</p>
+							</li>
+							<li>
+								<p>Install Android SDK and NDK.</p>
+								You have three options.
+								<ol>
+									<li>Download Android Studio and use the integrated graphical sdkmanager</li>
+									<li>Use Qt Creator and watch for the right NDK</li>
+									<li>Do it <a href="#android_sdk_manually">manually</a></li>
+								</ol>
+							</li>
+							<li>
+								Install OpenSSL 1.1.1.
+								<p>
+									Android has its own SSL libs which are incompatible with OpenSSL. For this reason, we need to compile our own. But: The boys and girls from KDLAB had compassion for our situation and done this already. Enter the android SDK directory and clone their git repository.
+								</p>
+								<p>
+									You should download it as zip-file from from https://github.com/KDAB/android_openssl/
+									Do not clone the repository as there are missing x86 files.
+								</p>
+								<p>Another solution is to let Qts Maintenance Tool install it. <strong>But check the x86 directory for 1.1.1 version!</strong></p>
+							</li>
+						</ol>
+					</article>
+					<article>
+						<h3 id="android_sdk_manually">Install Android SDK Essentials Manually</h3>
+						<p>
+							The manual installation gives you more freedom in selecting exactly only what you require. This can be important, when you have to compile on a server via ssh.
+						</p>
+						<ol>
+							<li>
+								Go to <a href="https://developer.android.com/studio">Android SDK</a>, scroll down and download command line tools only.
+							</li>
+							<li>
+								Create the directory Android SDK and extract the command line tools in this directory and rename the directory in cmdline-tools to latest.
+								<pre><code class="language-xml line-numbers">mkdir -p Android/Sdk/cmdline-tools
+unzip commandlinetools-linux-xxxxxxx_latest.zip -d Android/Sdk/cmdline-tools
+mv Android/Sdk/cmdline-tools/cmdline-tools/ Android/Sdk/cmdline-tools/latest</code></pre>
+								Now you can use commandline sdkmanager to install necessary components. And what is more important: In the correct version for Qt.
+								<p>
+									Now you can use the command line sdkmanager to install necessary components. And what is more significant: In the correct version for Qt.
+									Enter the cmdline-tools bin directory; otherwise, you have to set always the SDK directory with --sdk_root="/absolute/path/to/Android/Sdk"
+								</p>
+								<pre><code class="language-xml line-numbers">cd Android/Sdk/cmdline-tools/latest/bin/</code></pre>
+								If you have set Java default to OpenJDK 11, you will get a Java Linkage Error because sdkmanager is built with a newer java version. You can use an older sdkmanager or install OpenJDK 17 and set this as default.
+								<p>
+									On Debian this is possible with
+								</p>
+								<pre><code class="language-xml line-numbers">sudo update-alternatives --config java</code></pre>
+							</li>
+							<li>
+								Install the NDK. The NDK contains among others the clang compiler and debugger. Unit Qt 5.15.8 NDK 21.3.6528147 was required. Now we need version 22.1.7171670
+								<pre><code class="language-xml line-numbers">./sdkmanager --install "ndk;22.1.7171670"</code></pre>
+								and confirm the license request.
+							</li>
+							<li>
+								Install the platform-tools. Platform tools including adb for debugging, fastboot and more.
+								<pre><code class="language-xml line-numbers">./sdkmanager --install "platform-tools"</code></pre>
+								The version is not relevant.
+							</li>
+							<li>
+								Install the Android platform SDK you want to compile with. You will need at least SDK 31 for Android 12 otherwise the compilation will fail.
+								<pre><code class="language-xml line-numbers">./sdkmanager --install "platforms;android-31"</code></pre>
+							</li>
+							<li>
+								Install the build-tools which includes the packaging tools, apkbuilder and others.
+								<pre><code class="language-xml line-numbers">./sdkmanager --install "build-tools;31.0.0"</code></pre>
+								If you have experiences with newer versions, write me.
+							</li>
+						</ol>
+					</article>
+					<article>
+						<h3 id="build-steps-qt-lib ">Build Steps for Qt-Lib</h3>
+						<ol>
+							<li>
+								Create a shadow directory and enter it.
+								<p>
+									Utilizing a shadow build directory offers significant advantages when compiling Qt software or C++ projects. It ensures a distinct separation between the source code and build artifacts, enables easy management of multiple build configurations, simplifies the cleanup process, and provides other benefits.
+								</p>
+								<pre><code class="language-xml line-numbers">mkdir build_qt
+cd build_qt
+</code></pre>
+							</li>
+							<li>
+								Set some variables
+								<pre><code class="language-xml line-numbers">export ANDROID_SDK_ROOT=/FULL_PATH_TO/Android/Sdk # path to Android SDK do not use ~/
+export ANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/22.1.7171670	# path to NDK
+export JDK_PATH=/usr/lib/jvm/java-17-openjdk-amd64
+export JAVA_HOME=$JDK_PATH
+</code></pre>
+								Call configure in the directory of the source.
+								<pre><code class="language-xml line-numbers">/PATH_TO_QT_SOURCE/configure -c++std c++17 -opensource -confirm-license -nomake tests -nomake examples \
+    -xplatform android-clang  \
+    -ssl -openssl-runtime -I "/PATH_TO_ANDROID_SDK_DIR/Sdk/android_openssl/ssl_1.1/include" -L "/PATH_TO_ANDROID_SDK_DIR/Android/Sdk/android_openssl/ssl_1.1"\
+    -prefix $QT_INSTALL_DIR \
+	-android-ndk-host linux-x86_64 \
+    -android-sdk $ANDROID_SDK_ROOT \
+    -android-ndk $ANDROID_NDK_ROOT \
+    -skip qttranslations -skip qtserialport -skip qtwebengine -skip qt3d -skip qtwayland -skip qtpurchasing -skip qtvirtualkeyboard -skip qtspeech \
+    -no-warnings-are-errors -disable-rpath
+</code></pre>
+								<h4>Some hints</h4>
+								<ul>
+									<li>
+										Wayland, ActiveQt, and SerialPort are not required for garlic-player. We use WebView instead of Webengine.
+									</li>
+									<li>
+										-prefix indicate that <em>nmake install</em> will copy Qt binaries to this directory.
+									</li>
+								</ul>
+								<p>
+									This will build qmake, qtandroiddeploy and some other binary stuff.
+								</p>
+							</li>
+							<li>
+								Call make with the number of the cores your machine has available.
+								<pre><code class="language-xml line-numbers">make -jx</code></pre>
+							</li>
+							<li>
+								Install compiled lib to -prefix directory.
+								<pre><code class="language-xml line-numbers">make -jx install</code></pre>
+							</li>
+						</ol>
+						On an AMD Ryzen 9 5950X with make -j32 build process will take about 20 min.
+					</article>
+				</section>
+				<section>
+					<h2 id="share">Share Your Thoughts</h2>
+					<p>
+
+						Your feedback is essential. Should you have any comments, ideas, or suggestions for improvement, feel free to contact me. My email and LinkedIn details can be found in the footer. I welcome all forms of feedback, from a simple thank you to questions or suggestions for enhancements. Your contributions are crucial in determining the quality and direction of upcoming content.
+					</p>
+					<p>
+						Thank you for reading, and happy coding!
+					</p>
+				</section>
