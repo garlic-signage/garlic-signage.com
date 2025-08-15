@@ -1,0 +1,83 @@
+---
+title: "Garlic-Player » Build Instructions for Android"
+smallTitle: "Android"
+date: 2025-08-14T22:37:23+02:00
+description: "ow To build Garlic-Player for Android."
+---
+				<p>
+					Builds for Android do not require any further libs like the desktop variants. Garlic-player will use the integrated Android WebView and Media-API. Therefore, garlic-player supports the same codecs and browser features as the underlying Android.
+				</p>
+				<figure>
+					<img src="/images/garlic-player/docs/build-instructions/android-developing-640x640.jpg" width="640" height="640" alt="Annoyed Android Developer">
+				</figure>
+				<section>
+					<h2 id="mandatory">Mandatory Knowledge</h2>
+					<p>
+						You should be familiar with C++, Java, Qt, and qt creator on your operating system. Furthermore, you need to know how to install JDK or OpenJDK (Linux) Android SDK and NDK to work with qt creator.
+					</p>
+				</section>
+				<section>
+					<h2 id="requirements">Requirements</h2>
+					<p>
+						Android primarily uses Java for app development. As garlic-player is in C++. In applications that require native languages like C or C++, the NDK provides the tools needed to embed native code written in these languages. The NDK provides libraries that give C++ code direct access to hardware components, such as the CPU and sensors, which can be essential for certain types of apps.
+					</p>
+					<p>
+						C++ must be written for more than one ABI (Application Binary Interface) in Android development because different Android devices use different processor architectures (like ARM, ARM64, x86). Each architecture has its ABI, which defines how low-level operations like function calls and data handling are performed. To ensure that a C++ application runs correctly and efficiently on various devices, it must be compiled for each of the relevant ABI.
+					</p>
+					<p>
+						Until now, garlic versions could use only one ABI with Qt5.12. We created the binaries for armv7, as this is suitable for the most Android devices. From now on (Qt15.5) it is possible to pack more than one ABI in an APK (x86_64 arm64-v8a armeabi-v7a x86). As a result, the binary builds are much bigger and the process is more complex.
+					</p>
+					<ul>
+						<li>
+							&gt;= Qt5.15.8
+							<p>
+								The code is in a “transitional period” ;) and I prepare it for the migration to Qt6. You can also use lower Qt5.15.x versions but then take a look at the deprecated qmake in  <a href="https://github.com/garlic-signage/garlic-player/blob/master/src/player-c2qml/" rel="noopener" class="external_link">QML player</a> and use the deprecated <a href="https://github.com/garlic-signage/garlic-player/tree/master/src/player-c2qml/android_brandings/GarlicPlayer_deprecated/android" rel="noopener" class="external_link">Android brandings</a>
+							</p>
+							<p>
+								If you want to use Qt5.12.12, take the last stable source from <a href="https://github.com/garlic-signage/garlic-player/tree/v0.6.0" rel="noopener" class="external_link">v0.6.0 tree</a>
+							</p>
+						</li>
+						<li>
+							Android SDK
+						</li>
+						<li>
+							Android NDK. For &gt=Qt5.15.8 use 22.1.7171670. Older versions based on 21.3.6528147.
+						</li>
+						<li>
+							OpenSSL 1.1.1.
+						</li>
+					</ul>
+					Take a look at <a href="/garlic-player/docs/build-instructions/android/">Build Qt for Android</a> for more details.
+				</section>
+				<section>
+					<h2 id="build_order">Build Order</h2>
+					<p>
+						The build process Garlic-player for Android requires this order:
+					</p>
+					<ol>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/src/ext/zlib/zlib.pro" class="external_link">zlib</a>
+						</li>
+						<li>
+							 <a href="https://github.com/garlic-signage/garlic-player/blob/master/src/ext/quazip/quazip.pro" class="external_link">quazip</a>
+						</li>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/src/garlic-lib/garlic-lib.pro" class="external_link">garlic-lib</a>
+						</li>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/src/player-c2qml/player-c2qml.pro" class="external_link">player-c2qml</a>
+						</li>
+					</ol>
+					<p>
+						If you would rather not build garlic-player for all ABI's open the corresponding pro-files, find the line “ANDROID_ABIS=x86_64 arm64-v8a armeabi-v7a x86" and remove the ABI you do not need.
+					</p>
+					<p>
+						Compiling of player-2qml will create an unsigned debug APK and the run process deploy it to your device or virtualization.
+					</p>
+				</section>
+				<section>
+					<h2 id="automation">Automation and Signed Release APK</h2>
+					<p>
+						If you want to make a signed APK, check out the Android build script in the <a href="https://github.com/garlic-signage/garlic-player/tree/master/build_scripts/player" class="external_link">script directory</a>.
+					</p>
+				</section>

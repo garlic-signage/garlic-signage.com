@@ -1,0 +1,125 @@
+---
+title: "Garlic-Player » Build Instructions for Desktop OS"
+smallTitle: "Desktop OS"
+date: 2025-08-14T22:37:23+02:00
+description: "How To build Garlic-Player for Linux, macOS, and Windows."
+---
+				<p>
+					Builds for desktop require QWebengine. So, under Windows you cannot use mingw, and you need to install Microsoft Visual Studio. Free community version is sufficient. Currently, the build server uses VS 2017. You also need to compile or install a multimedia API first.
+				</p>
+				<section>
+					<h2 id="mandatory">Mandatory Knowledge</h2>
+					<p>
+						You should be familiar with C++, Qt, and qt creator on your operating system. Furthermore, you have to know how to install the operating system SDK. Have a look at the <a href="https://doc.qt.io/archives/qt-5.12/supported-platforms.html" class="external_link">supported platforms</a> for your selected Qt version.
+					</p>
+				</section>
+				<section>
+					<h2 id="multimedia">Multimedia APIs</h2>
+					<p>
+						The widget variant of the garlic-player supports for multimedia APIs. You can change then with the config variable set in player-widget.pro. Possible values are support_qtavaplayer, support_qtmm, support_libvlc, and support_qtav (deprectated).
+					</p>
+					<ol>
+						<li><a href="https://github.com/valbok/QtAVPlayer" class="external_link">QtAVPlayer</a></li>
+						<li><a href="https://doc.qt.io/qt-5/qtmultimedia-index.html" class="external_link">QtMultimedia</a></li>
+						<li><a href="https://www.videolan.org/vlc/libvlc.html" class="external_link">libVLC</a></li>
+						<li><a href="https://github.com/wang-bin/QtAV" class="external_link">QtAV</a> (deprecated and replaced in v0.6.0)</li>
+					</ol>
+					<article>
+						<h3 id="qtavplayer">QtAVPlayer (default)</h3>
+						<p>
+							QtAVPlayer is a small Qt wrapper around FFmpeg. It works fast and stable with FFmpeg 4.4 and 5.x.
+						</p>
+						<p>
+							Since Build 655 QtAVPlayer is default for the <a href="/garlic-player/downloads/">binary downloads</a>.
+						</p>
+						<p>
+							QtAVPlayer is related to the Qt version. You find compile instructions in the readme <a href="https://github.com/valbok/QtAVPlayer#build" class="external_link">here</a>.
+						</p>
+						<p>
+							The stable v0.6.0 binaries use QtAVPlayer.
+						</p>
+						<p>
+							For Linux you need to install:
+							apt install libavcodec-dev libavdevice-dev libavfilter-dev  libavformat-dev libavresample-dev libavutil-dev libpostproc-dev libswresample-dev libswscale-dev fuse
+						</p>
+					</article>
+					<article>
+						<h3 id="libVLC">libVLC</h3>
+						<p>
+							One alternative to QtAVPlayer especially for Linux based systems is libVLC. On a Raspberry Pi 4 VLC is the only chance to get 4K work accelerated in full screen. FFmpeg hardware acceleration consumes more resources than libVLC.
+						</p>
+						<p>
+							The easiest way to install, is to use Linux package management or brew with macOS. There are <a href="https://wiki.videolan.org/Win32Compile/" class="external_link">compile instructions</a> for Windows. Be aware that you have to compile it with Visual Studio and not mingw or cygwin.
+						</p>
+						<p>
+							LibVlc works fine on Linux X11, but it crashes on macOS for unknown reasons.
+						</p>
+					</article>
+					<article>
+						<h3 id="QtMultimedia">QtMultimedia</h3>
+						<p>
+							QtMultimedia is the standard Multimedia interface for Qt. Unfortunately, in Qt5 it is slow buggy and require the installation of additional libraries. Windows needs DirectShow and tons of codecs, Linux require gstreamer, which had also plenty of bugs in the past. With macOS, you had also to some QuickTime codes, otherwise VP8/9 and other video codecs Apple do not want to support will fail to play. Maybe things change in Qt6.
+						</p>
+						<p>
+							Some user reported that the <a href="https://www.codecguide.com/" class="external_link">K-Lite Codec Pack</a> will work for Windows.
+						</p>
+					</article>
+					<article>
+						<h3 id="qtav">QtAV (default until build 654)</h3>
+						<p>
+							QtAV is a Qt wrapper around FFmpeg. It works until FFmpeg 4.4. Unfortunately, the maintainer has lost interest and abandoned it. His follow-up project is not open-source.
+						</p>
+						<p>
+							QtAV was default for the current binary downloads until build 654 and stable v0.5.0. Due to missing zero-copy features in Qt, QtAV produces lags on Raspberry Pi 3. Only Raspberry 4 plays videos smooth with garlic-player.
+						</p>
+						<p>
+							As QtAV is related to the Qt version, you had to compile it. The instructions are <a href="https://github.com/wang-bin/QtAV/wiki/Build-QtAV#recommended-put-ffmpeg-headers-and-libs-into-qt-directories" class="external_link">here</a>. Keep in mind that FFmpeg 5 will not work, so use FFmpeg 4.4 as highest version.
+						</p>
+						<p>
+							In newer versions of garlic-player after July 2022 the pause behaviour was enhanced. Unfortunately this revealed an annoying memory leak. In stable release v0.6.0 QtAV is replaced by QtAVPlayer. Code will removed.
+						</p>
+						<p>
+							In short: Do not use it anymore.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="build_order">Build Order</h2>
+					<p>
+						The build process for garlic-player desktop requires this order:
+					</p>
+					<ol>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/src/ext/zlib/zlib.pro" class="external_link">zlib</a>
+						</li>
+						<li>
+							 <a href="https://github.com/garlic-signage/garlic-player/blob/master/src/ext/quazip/quazip.pro" class="external_link">quazip</a>
+						</li>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/src/garlic-lib/garlic-lib.pro" class="external_link">garlic-lib</a>
+						</li>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/src/player-c2qml/player-c2qml.pro" class="external_link">player-widget</a>
+						</li>
+					</ol>
+				</section>
+				<section>
+					<h2 id="automation">Automation and Deploying</h2>
+					<p>
+						If you want to deploy install files, throw a look in the <a href="https://github.com/garlic-signage/garlic-player/tree/master/build_scripts/player" class="external_link">script directory</a>.
+					</p>
+					<ul>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/scripts/player/1.3_deployLinux64.sh" class="external_link">Linux deploy (deb, 7z)</a>
+						</li>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/scripts/player/3.1_buildWindows.bat" class="external_link">Windows build and deploy batch (EXE, 7z)</a>
+						</li>
+						<li>
+							<a href="https://github.com/garlic-signage/garlic-player/blob/master/scripts/player/4.1_buildMacOS64.sh" class="external_link">macOS build and deploy (DMG)</a>
+							<p>
+								as a side note.: Deployment for macOS is different because it needs to modify the paths in the dynamic libs.
+							</p>
+						</li>
+					</ul>
+				</section>

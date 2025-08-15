@@ -1,0 +1,53 @@
+---
+title: "Garlic-Player » Build Instructions"
+smallTitle: "Build Instructions"
+date: 2025-08-14T22:37:23+02:00
+description: "How To build Garlic-Player for different operating systems."
+---
+		<p>
+			Learn about the build instructions for different operating systems. Garlic-player is split in garlic-lib and a player component. Take player-c2qml for mobile systems. It based on QML. Fore desktops use the widget library player-widget.
+		</p>
+		<p>
+			Of course, you can try the QML player for desktop, too, but according to our experience, the widget library is technically more mature and give lesser problems in the past.
+		</p>
+		<section>
+			<h2 id="Requirements">Basic Requirements</h2>
+			<ul>
+				<li>
+					A C++ compiler. For Windows Visual Studio Community 2019, GCC for Linux and clang for macOS/Android.
+				</li>
+				<li>
+					The open-source version of <a href="https://www.qt.io/product/development-tools" class="external_link">Qt</a>.
+					See on Qt-Website which platforms are supported by your selected <a href="https://doc.qt.io/archives/qt-5.12/supported-platforms.html" class="external_link">Qt-Version</a>.
+				</li>
+				<li>
+					Qt 5.15.x<br />
+					<p>
+						Unfortunately, you cannot use Qt6 because The Qt Company removed <a href="https://doc.qt.io/qt-5/qtxmlpatterns-index.html" class="external_link">QXmlPatterns</a>, which is required for the XPath support described under <a href="http://garlic-player.lan/garlic-player/docs/essentials/conditional-play/">conditional play</a>.
+					</p>
+				</li>
+				<li>
+					Qt Creator
+				</li>
+			</ul>
+		</section>
+		<ol class="overview">
+			<li>
+				<a href="desktop/">
+					<article>
+						<h2>Build for Desktop</h2>
+						<p>
+							How to build garlic-player for standard Linux, macOS, and Windows
+						</p>
+					</article>
+				</a>
+			</li>
+			<li>
+				<a href="android/">
+					<article>
+						<h2>Build for Android</h2>
+						<p>The Android build process has a few differences</p>
+					</article>
+				</a>
+			</li>
+		</ol>
