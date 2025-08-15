@@ -191,11 +191,10 @@ header
 		margin:0 0 0.5em 0 ;
 		display:flex;
         font-size: 0.8rem;
-		flex-wrap: wrap;
 		border-bottom: 2px solid #333;
 	}
 	.breadcrumb li {padding:0 2px 0 0;}
-	.breadcrumb li:not(:last-child):after {content:"\00a0›\00a0";}
+	.breadcrumb li:not(:last-child):after {content:"\00a0›\00a0";font-weight: bold;}
 	.breadcrumb li a{border-bottom:0;}
 	.breadcrumb li a span {color: #165669;}
 
