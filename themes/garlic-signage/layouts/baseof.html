@@ -8,6 +8,9 @@
 			{{ partial "header.html" . }}
 		</header>
 		<div id="content_section">
+			{{- if strings.HasPrefix .File.Path "garlic-player/docs/essentials/" }}
+				{{ partial "player-essentials-navigation.html" . }}
+			{{- end }}
 			<main>
 				{{- partial "breadcrumb.html" . -}}
 				<h1>{{ .Title }}</h1>
