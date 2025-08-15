@@ -1,0 +1,270 @@
+---
+title: "Container for Playlist Control | The SMIL Essentials"
+smallTitle: "Container for Playlists Control"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how the you can organize powerful presentations with different SMIL container."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+		<style>
+			#mn_containers:before{content:'➤';}
+		</style>
+				<p>
+					SMIL supports 3 container types
+				</p>
+				<ol>
+					<li>Sequential</li>
+					<li>Parallel</li>
+					<li>Exclusive</li>
+				</ol>
+				<section>
+					<h2 id="sequential">Sequential Playlist</h2>
+					<p>
+						The sequential playlist is the simplest form of playlists in SMIL. In a sequential playlist, media objects are played in the order they are listed in the SMIL file. One media object starts playing after the one ends.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;seq repeatCount="indefinite"/&gt;
+	&lt;video src="video1.mkv" /&gt;
+	&lt;img src="image.png" dur="5s" /&gt;
+&lt;seq/&gt;
+</code></pre>
+						<figcaption>
+							Loop a video and a JPG image indefinitely.
+						</figcaption>
+					</figure>
+					<p>
+						Another great feature of SMIL is the option to nest container.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;seq repeatCount="indefinite"/&gt;
+	&lt;video src="video1.mkv" /&gt;
+	&lt;seq repeatCount="3"/&gt;
+		&lt;img src="image1.jpg" dur="5s" /&gt;
+		&lt;img src="image2.jpg" dur="5s" /&gt;
+	&lt;seq/&gt;
+&lt;seq/&gt;
+</code></pre>
+						<figcaption>
+							Plays the video and then the two-image sequence 3 times. Then it repeats the entire sequence endlessly.
+						</figcaption>
+					</figure>
+					<p>
+						You can find a simple seq sample to study <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/seq/1_simple.smil" class="external_link">here</a>, <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/seq/2_without_dur.smil" class="external_link">here</a>, and <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/seq/3_indefinite.smil" class="external_link">here</a>
+					</p>
+				</section>
+				<section>
+					<h2 id="parallel">Parallele Playlist</h2>
+					<p>
+						The SMIL parallel playlist is a list of media objects that start playback simultaneously. Illustration of using the parallel playlist for multi-zone effects is located in the section on Layout.	Children of the parallel playlist can be specified to start at a specific time defined by the player's real-time clock. See the section on <a href="../triggers/">trigger</a> for details.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;par&gt;
+	&lt;seq repeatCount="indefinite"&gt;
+		&lt;img src="pic1.jpg" dur="5s" /&gt;
+		&lt;img src="pic2.jpg" dur="5s" /&gt;
+		&lt;img src="pic3.jpg" dur="5s" /&gt;
+	&lt;/seq&gt;
+	&lt;audio src="music.mp3" repeatCount="indefinite" /&gt;
+&lt;/par&gt;
+</code></pre>
+						<figcaption>
+							An image slide show with background music
+						</figcaption>
+					</figure>
+					<p>
+						The parallel schedule has two children: a sequential playlist containing three images, and a single audio media object. The sequential playlist and the audio object start simultaneously, like a slide show, while music plays in the background.
+					</p>
+					<p>
+						You can find a real world with a simple multiple <a href="../screen-layout/">screen layout</a> par samples to study <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/par/1_simple.smil" class="external_link">here</a>
+				</section>
+				<section>
+					<h2 id="exclusive">Exclusive Playlist</h2>
+					<p>
+						This is the most interesting, but also most complicated container. It allows only one of its children to play at the same time. The start of one media object causes the currently playing item to either pause or stop. The priorityClass tag further defines interrupt priorities and behavior (pause, defer, never, or stop) of media objects when interrupts occur. The starting of a media object may be triggered by an event such as a key press, mouse click, touch, or a time, as the following sample code illustrates.
+					</p>
+					<p>
+						The peer-attribute describes the interrupted behavior of the priorityClass children.
+					</p>
+					<article>
+						<h3 id="peer_stop">Stop behavior</h3>
+						<p>
+							Stop means that a higher element stops the lower element.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;excl&gt;
+	&lt;priorityClass peers="stop"&gt;
+		&lt;img src="0002.jpg" begin="1s" dur="1s" /&gt;
+		&lt;img src="0001.jpg" begin="0s" dur="10s" /&gt;
+	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+							<figcaption>
+								Image 1 start playing and will be interrupted by 2 after 1s and ends after another second
+							</figcaption>
+						</figure>
+						<p>
+							The attribute beginning will be discussed during the lesson <a href="../triggers/">trigger</a> in more detail. You need to imagine a timeline. It starts on 0s with image 1 which should play the 10s. But it will be interrupted by 001 after 1s because 1 has a higher priority in the priority class.
+						</p>
+					</article>
+					<article>
+						<h3 id="peer_default">Peer default</h3>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;excl&gt;
+	&lt;img src="0002.jpg" begin="1s" dur="1s" /&gt;
+	&lt;img src="0001.jpg" begin="0s" dur="10s" /&gt;
+&lt;/excl&gt;
+</code></pre>
+							<figcaption>
+								Same results as above (stop)
+							</figcaption>
+						</figure>
+						<p>
+							You can skip the priorityClass-tags if you use only one priority. If you have two priorities, it is necessary to use the priorityClass two times; otherwise this is an error. As the default behavior for peer is stop, we get the same results as above.
+						</p>
+						<p>
+							A more complex real-world example to study the peer <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/peers/1_stop.smil" class="external_link">stop behavior</a>
+						</p>
+					</article>
+					<article>
+						<h3 id="peer_pause">Pause behavior</h3>
+						<p>
+							Pause causes a higher element to pause the lower element. The paused element enters a waiting queue. After the higher element is finished, the lower element plays again for the remaining time of his duration.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;excl&gt;
+	&lt;priorityClass peers="pause"&gt;
+		&lt;img src="0002.jpg" begin="1s" dur="1s" /&gt;
+		&lt;img src="0001.jpg" begin="0s" dur="10s" /&gt;
+	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+							<figcaption>
+								Image 1 will be interrupted by 2, but after that jumped back to 1 for 9s again
+							</figcaption>
+						</figure>
+						<p>
+							This timeline starts on 0s with image 001 and will again be interrupted by 001 after 1s because 1 has a higher priority in the priority class. But because we set pause as a peer after the end of 002, it jumps back to 002 and plays for a rest time of 9 s.
+						</p>
+						<p>
+							Study <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/peers/2_pause.smil" class="external_link">pause behavior</a>
+						</p>
+					</article>
+					<article>
+						<h3 id="peer_defer">Defer behavior</h3>
+							Defer describes what happened when a lower element tries to interrupt a higher element. In this case, the lower element will take place in a waiting queue until the higher element finished.
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;excl&gt;
+	&lt;priorityClass peers="defer"&gt;
+		&lt;img src="0001.jpg" begin="0s" dur="10s" /&gt;
+		&lt;img src="0002.jpg" begin="1s" dur="2s" /&gt;
+	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+							<figcaption>
+								image 1 will play the 10s and then 2s
+							</figcaption>
+						</figure>
+						<p>
+							This timeline starts on 0s with image 001 and after one second image 002 tries to start. But as image 002 has a lower priority, it will enter in wait state. Nine seconds later, when 001 is finished, 002 starts to display for two seconds.
+						</p>
+						<p>
+							Study the defer behavior with this <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/peers/3_defer.smil" class="external_link">example</a>
+						</p>
+					</article>
+					<article>
+						<h3 id="peer_never">Never behavior</h3>
+						<p>
+							A lower element stops when it attempts to start during an active duration of his higher sibling.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;excl&gt;
+	&lt;priorityClass peers="never"&gt;
+		&lt;img src="0001.jpg" begin="0s" dur="10s" /&gt;
+		&lt;img src="0002.jpg" begin="1s" dur="2s" /&gt;
+	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+							<figcaption>
+								Image 1 will play 10 s. Image 2 will be ignored.
+							</figcaption>
+						</figure>
+						<p>
+							This timeline starts on 0 s with image 001, and after one-second lower prioritized image 002 tries to start. In this case, nothing happens and image 002 is ignored.
+						</p>
+						<p>
+							Study the <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/peers/4_never.smil" class="external_link">never behavior</a>
+						</p>
+					</article>
+					<article>
+						<h3 id="higher">The Higher Attribute</h3>
+							The attribute higher describe, what happened when an item from, a higher priorityClass group interrupts an element from a lower priorityClass.
+							There are two options: pause (default) and stop.
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;excl&gt;
+	&lt;priorityClass"&gt;
+		&lt;img src="0001.jpg" begin="1s" dur="10s" /&gt;
+	&lt;/priorityClass&gt;
+	&lt;priorityClass higher="stop"&gt;
+		&lt;img src="0003.jpg" begin="0s" dur="2s" /&gt;
+		&lt;img src="0004.jpg" begin="2s" dur="2s" /&gt;
+	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+							<figcaption>
+								Image 3 will play 1 s. Image 1 interrupt.
+							</figcaption>
+						</figure>
+						<p>
+							This is similar to the stop behavior in peer, but this control two or more groups of elements in priorityClass.
+						</p>
+						<p>
+							Study examples for <a href="https://github.com/garlic-signage/garlic-player/tree/master/tests/data/smil/excl/higher" class="external_link">Higher-attributes</a>
+						</p>
+					</article>
+					<article>
+						<h3 id="lower">The Lower Attribute</h3>
+						The attribute lower describes, what happened when an item of an element from a lower priorityClass tries to interrupt a higher priority.
+						There are two options: defer (default) and never.
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;excl&gt;
+	&lt;priorityClass lower="defer"&gt;
+		&lt;img src="0001.jpg" begin="0s" dur="10s" /&gt;
+		&lt;img src="0002.jpg" begin="10s" dur="1s" /&gt;
+	&lt;/priorityClass&gt;
+	&lt;priorityClass&gt;
+		&lt;img src="0003.jpg" begin="1s" dur="2s" /&gt;
+	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+							<figcaption>
+								Image 1 s plays 10, the image 2 for 1 second and then image 3 for 2s. Image 1 interrupt.
+							</figcaption>
+						</figure>
+						<p>
+							This is also similar to the deferred behavior in peer. Image 1 starts three attempts to interrupt, bus as in lower priority it moves to a waiting queue and starts player after the finish of image 2. The higher priority has a duration of 12 seconds.
+						</p>
+						<p>
+							Study examples for <a href="https://github.com/garlic-signage/garlic-player/tree/master/tests/data/smil/excl/higher" class="external_link">Lower-attributes</a>
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="attributes">Generic Container Attributes</h2>
+					<p>
+						In this starter tutorial, the repeatCount attribute is relevant for playlist containers and <a href="../media-objects/">media objects</a>.
+					</p>
+					<article>
+						<h3 id="repeatCount">Repeat Count</h3>
+						<p>
+							The attribute repeatCounts controls how often the media or container can be repeated. There are two values possible:
+						</p>
+						<ul>
+							<li>
+								<strong>indefinite</strong>: In this context, it means endless.
+							</li>
+							<li>
+								<strong>numeric value</strong>: A decimal integer number greater than 0. Some SMIL-player also supports floating-point numeric values like 2.5.
+							</li>
+						</ul>
+					</article>
+				</section>

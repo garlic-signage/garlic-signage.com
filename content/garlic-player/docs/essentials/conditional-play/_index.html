@@ -1,0 +1,148 @@
+---
+title: "Conditional Play | The SMIL Essentials"
+smallTitle: "Conditional Play"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how to set explicit play times for your content. Control time-dependent advertisements or copyrighted media."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+		<style>
+			#mn_conditional_play:before{content:'➤';}
+		</style>
+				<p>
+					SMIL features the <code class="tag">expr</code> attribute. We use this to define conditions for media playback. This is a powerful feature. Especially when you combine this with <a href="../triggers/">triggers</a>.
+				</p>
+				<ul>
+					<li>Defining a “validity period” for playback of licensed media</li>
+					<li>Set SMIL elements for displaying on certain weekdays</li>
+					<li>Ability to a micro adjustment playback via ID or other meta-data</li>
+				</ul>
+				<section>
+					<h3 id="conditional_play_example">A simple Example</h3>
+					<p>
+						The general format to specifying a conditional play is by adding the <code class="tag">expr</code> attribute to a media item. When the given expression equals to “true” the associated item is played.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;seq repeatCount="indefinite"&gt;
+   &lt;seq&gt;
+      &lt;img src="everyday.jpg" /&gt;
+      &lt;img src="wednesday.jpg" expr="3=adapi-weekday()" /&gt;
+   &lt;/seq&gt;
+   &lt;seq dur="0.1" /&gt;
+&lt;/seq&gt;
+</code></pre>
+						<figcaption>
+							Image wednesday.jpg will only be displayed on Wednesday
+						</figcaption>
+					</figure>
+					<p>
+						btw: This also works with <a href="../containers/">playlist container</a>.
+					</p>
+				</section>
+				<section>
+					<h2 id="supported_functions">Supported Functions</h2>
+					<p>
+						The expr tag content is an HTML-encoded <a href="http://www.w3.org/TR/xpath/#section-Expressions" class="external_link">XPath 1.0 expression</a> or <a href="http://www.w3.org/TR/xpath-functions/" class="external_link">XPath 1.0 functions</a>.
+					</p>
+					<p>
+						In addition to XPath 1.0, IAdea established some player-specific functions also date and compare functionally that were introduced in XPath 2.0. The prefix adapi- is used for this function-set.
+					</p>
+					<table class="listing">
+						<thead>
+							<tr>
+								<th>Function</th>
+								<th>Description</th>
+								<th>Example</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>smil-playerId()</td>
+								<td>Returns player UUID in lower case.
+								</td>
+								<td>expr="adapi-compare(smil-playerId(),'player-uuid')"
+								</td>
+							</tr>
+							<tr>
+								<td>smil-playerName()</td>
+								<td>Returns player name, which can be configured per player.</td>
+								<td>expr="adapi-compare(smil-playerName(),'Entrance')"</td>
+							</tr>
+							<tr>
+								<td>adapi-date()</td>
+								<td>Returns player's local date-time in ISO8601 format.</td>
+								<td>expr="adapi-compare(adapi-date(),'2010-01-01T00:00:00')&amp;lt;0"</td>
+							</tr>
+							<tr>
+								<td>adapi-gmdate()</td>
+								<td>Returns player's UTC date-time in ISO8601 format (ending in UTC indicator “Z”).</td>
+								<td>expr="adapi-compare(adapi-gmdate(),'2010-01-01T00:00:00Z')&amp;lt;0"</td>
+							</tr>
+							<tr>
+								<td>adapi-weekday()</td>
+								<td>Returns a number from 0 (Sunday) to 6 (Saturday) indicating the player's local day-of-week.</td>
+								<td>expr="adapi-weekday()=1"</td>
+							</tr>
+							<tr>
+								<td>adapi-gmweekday()</td>
+								<td>Returns a number from 0 (Sunday) to 6 (Saturday) indicating the player's UTC day-of-week.</td>
+								<td>expr="adapi-gmweekday()=1"</td>
+							</tr>
+							<tr>
+								<td>adapi-compare(string comp1, string comp2)</td>
+								<td>Returns -1 if comp1 is “less” than comp2 as a string, 0 of equal, 1 if “greater.”</td>
+								<td>expr="adapi-compare(adapi-date(),'2010-01-01T00:00:00')&amp;lt;0"</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h2 id="more_examples">Some more Examples</h2>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;par expr="adapi-weekday()=1 or adapi-weekday()=5"&gt;
+	&lt;seq repeatCount="indefinite"&gt;
+		&lt;video src="video.mp4"/&gt;
+		&lt;img dur="3s" src="image.jpg" /&gt;
+	&lt;/seq&gt;
+&lt;/par&gt;
+</code></pre>
+						<figcaption>
+							Play <code class="tag">par</code> tag on Sunday or Friday
+						</figcaption>
+					</figure>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;par expr="adapi-compare(adapi-date(), '2021-01-25T00:00:00')>0 and compare(adapi-date(), '2021-01-29T23:59:59')&lt;=0"&gt;
+	&lt;seq repeatCount="indefinite"&gt;
+		&lt;video src="video.mp4"/&gt;
+		&lt;img dur="3s" src="image.jpg" /&gt;
+	&lt;/seq&gt;
+&lt;/par&gt;
+</code></pre>
+						<figcaption>
+							Play <code class="tag">par</code> tag between 25th of January and 29th of January
+						</figcaption>
+					</figure>
+					<p>
+						Even more sophisticated combinations are possible. ;-)
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;ref expr="adapi-compare(substring-before(adapi-date(), 'T'), '2022-05-10')&gt;=0 and
+	adapi-compare(substring-before(adapi-date(), 'T'), '2022-05-25')&lt;=0 and
+	adapi-compare(substring-after(adapi-date(), 'T'), '08:00:00')&gt;=0 and
+	adapi-compare(substring-after(adapi-date(), 'T'), '12:00:00')&lt;=0 and
+	((1=adapi-weekday() and adapi-compare(substring-after(adapi-date(), 'T'), '15:00:00')&gt;=0 and
+	adapi-compare(substring-after(adapi-date(), 'T'), '20:00:00')&lt;=0) or (3=adapi-weekday() and
+	adapi-compare(substring-after(adapi-date(), 'T'), '15:00:00')&gt;=0 and
+	adapi-compare(substring-after(adapi-date(), 'T'), '20:00:00')&lt;=0) or (5=adapi-weekday() and
+	adapi-compare(substring-after(adapi-date(), 'T'), '15:00:00')&gt;=0 and
+	adapi-compare(substring-after(adapi-date(), 'T'), '20:00:00')&lt;=0))"
+	src="rss-widget.wgt" dur="10s" type="application/widget" &gt;
+</code></pre>
+						<figcaption>
+							Play rss-widget between 10th and 25th of May 2022 every day between 8:00 and 12:00 o clock and additional on Mondays, Wednesdays, and Fridays between 15:00 and 20:00 o'clock.
+						</figcaption>
+					</figure>
+				</section>
+				<p>
+					You can study a real-world example of conditional play <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/seq/6_conditional_play.smil" class="external_link">here</a>.
+				</p>

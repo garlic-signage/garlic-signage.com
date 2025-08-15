@@ -1,0 +1,132 @@
+---
+title: "Layout your Screen in Different Zones | The SMIL Essentials"
+smallTitle: "Screen Layouts"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how to set your visible viewports, split screens, or overlap multiple zones."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+
+
+		<style>
+			#mn_screen_layout:before{content:'➤';}
+		</style>
+				<p>
+					The SMIL Layout is defined via a section in the head area.
+				</p>
+				<figure>
+<pre><code class="language-xml line-numbers">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;smil&gt;
+	&lt;head&gt;
+		&lt;!--  Controls, information or instructions --&gt;
+		&lt;meta name=&quot;title&quot; content=&quot;A SMIL Index file&quot; /&gt;
+		&lt;layout>
+			&lt;!-- place here the layout instructions--&gt;
+		&lt;/layout&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;/body&gt;
+&lt;/smil&gt;
+</code></pre>
+					<figcaption>
+						Typical SMIL index structure
+					</figcaption>
+				</figure>
+				<section>
+					<h2 id="global">Global Resolution</h2>
+					<p>
+						The tag root-layout defines the width and height of the display area. It makes sense to use the resolution of the entire screen area for digital signage.
+					</p>
+					<figure>
+
+<pre><code class="language-xml line-numbers">&lt;layout&gt;
+  &lt;root-layout width="1920" height="1080" /&gt;
+&lt;/layout&gt;
+</code></pre>
+						<figcaption>
+							Root layout for HD resolution
+						</figcaption>
+					</figure>
+					<p>
+						The root layout is defined in pixel only by default. It is not necessary to add px. like in regions
+					</p>
+				</section>
+				<section>
+					<h2 id="regions">Regions</h2>
+					<p>
+						The region-tag defines properties like position, z-index, width, height and some more of an area. With this technique, you create multiple zones. Some calls them split screens, too, but this is not correct. We call this multi zone because zones can overlap each other. That is more than only a simple “split”.
+					</p>
+					<figure>
+
+<pre><code class="language-xml line-numbers">&lt;layout&gt;
+  &lt;root-layout width="1920" height="1080" backgroundColor="#000" /&gt;
+  &lt;region regionName="screen1" top="0" left="0" width="50%" height="100%" z-index="0" backgroundColor="red" /&gt;
+  &lt;region xml:id="screen2" top="0" left="50%" width="50%" height="100%" z-index="0" backgroundColor="green" /&gt;
+  &lt;region regionName="ticker_overlay" top="980px" left="0" width="1920px" height="100px" z-index="1"  backgroundColor="transparent" /&gt;
+&lt;/layout&gt;
+</code></pre>
+						<figcaption>
+							Layout for two zones with a 100px height news ticker overlay in the bottom
+						</figcaption>
+					</figure>
+					Properties
+					<ul>
+						<li>
+							<strong>regionName</strong>: An unique identification for this region. You can also use SMIL.20 ID or the correct SMIL 3.0 xml:id for that. If you specified both, regionName is used.
+						</li>
+						<li>
+							<strong>top</strong>: Top position of the region (px or %)
+						</li>
+						<li>
+							<strong>left</strong>: Left position of the region (px or %)
+						</li>
+						<li>
+							<strong>width</strong>: Region width (px or %)
+						</li>
+						<li>
+							<strong>height</strong>: Region height
+						</li>
+						<li>
+							<strong>backgroundColor</strong>: The background color of the region. You can use RGB values #000 or CSS names. <em>backgroundColor property is not supported by the IAdea player.</em>
+						</li>
+					</ul>
+					<p>
+						By default, px is assumed for the top, left, width, and height properties.
+					</p>
+				</section>
+				<section>
+					<h2 id="assign">Assign Content to Regions</h2>
+					<p>
+						You assign content to regions with the content attribute. In this example, we use a parallel playlist to display the content simultaneously.
+					</p>
+					<p>
+						Let's enhance our regions example from above with a body area
+					</p>
+
+					<figure>
+
+<pre><code class="language-xml line-numbers">&lt;smil&gt;
+	&lt;head&gt;
+		&lt;layout&gt;
+		  &lt;root-layout width="1920" height="1080" backgroundColor="#000" /&gt;
+		  &lt;region regionName="screen1" top="0" left="0" width="50%" height="100%" z-index="0" backgroundColor="red" /&gt;
+		  &lt;region xml:id="screen2" top="0" left="50%" width="50%" height="100%" z-index="0" backgroundColor="green" /&gt;
+		  &lt;region regionName="ticker_overlay" top="980px" left="0" width="1920px" height="100px" z-index="1"  backgroundColor="transparent" /&gt;
+		&lt;/layout&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+      &lt;video src="video.mp4" region="screen1" dur="20s" /&gt;
+      &lt;img src="image.jpg" region="screen2" dur="20s" /&gt;
+      &lt;ref src="rss_ticker.wgt" type="application/widget" region="ticker_overlay" dur="20s" /&gt;
+	&lt;/body&gt;
+&lt;/smil&gt;
+</code></pre>
+						<figcaption>
+							On the left side, a video is played. In the overlay, an RSS-ticker widget show news.
+						</figcaption>
+					</figure>
+				</section>
+
+				<p>
+					Study some examples for <a href="https://github.com/garlic-signage/garlic-player/tree/master/tests/data/smil/par" class="external_link">multi zone</a>.
+				</p>

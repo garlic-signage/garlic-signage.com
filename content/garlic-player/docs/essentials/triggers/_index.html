@@ -1,0 +1,227 @@
+---
+title: "Trigger your Content | The SMIL Essentials"
+smallTitle: "Trigger"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how to control interactions, touches, clicks and time synchronizationss."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+
+		<style>
+			#mn_triggers:before{content:'➤';}
+		</style>
+				<p>
+					Every SMIL <a href="../media-objects/">media </a>and <a href="../containers/">playlist container</a> can include two trigger attributes. They are represented by the <code class="tag">begin</code> and <code class="tag">end</code> attributes.
+				</p>
+				<ul>
+					<li>
+						<strong>begin</strong>: every element contains a begin trigger. The default value is 0, except of the <code class="tag">excl</code> tag. In this only case, the value is indefinite. This prevents that children of <code class="tag">excl</code> will start automatically. Furthermore, due to the absolute nature there are some restrictions when using begin in children <code class="tag">seq</code> tag. There is only one positive time clock value possible.
+					</li>
+					<li>
+						<strong>end</strong>: There is no default value. This attribute provides an explicit end of the element's active duration. This attribute supersedes even dur. So, when an end signal is fired, the current active duration ends. Period.
+					</li>
+				</ul>
+				<p>
+					You can define more than one trigger and separate them with a semicolon (;).
+				</p>
+				<section>
+					<h2 id="supported_triggers">Supported Triggers</h2>
+					<p>
+						Currently, garlic-player supports six kind, of triggers in <code class="tag">begin</code> and <code class="tag">end</code> attributes.
+					</p>
+					<ol>
+						<li>Clock-Values</li>
+						<li>Wallclock</li>
+						<li>Syncbase</li>
+						<li>Accesskey</li>
+						<li>Touch/Click-Events</li>
+						<li>Network Trigger</li>
+					</ol>
+					<p>
+						Furthermore, it supports the same value types like <a href="../media-objects/#duration">dur-attribute</a> (media, indefinite, and clock value).
+					</p>
+				</section>
+				<section>
+					<h2 id="wallclock">The Wallclock</h2>
+					<p>
+						Wallclock supports the ISO-8601 datetime specification with repeat periods.
+					</p>
+					<article>
+						<h3 id="datetime">Simple Datetime</h3>
+						<figure>
+							<pre><code class="language-xml line-numbers">2022-04-01T20:00:00</code></pre>
+							<figcaption>Trigger once on 9:00 AM of April 1, 2022</figcaption>
+						</figure>
+					</article>
+					<article>
+						<h3 id="weekday">Weekday</h3>
+						<p>
+							The company <a href="https://www.IAdea.com" class="external_link">IAdea</a> adds with weekday an interesting non-standard feature, which garlic-player also supports.
+						</p>
+						<figure>
+							<pre><code class="language-xml line-numbers">2022-04-01+w1T00:00:00</code></pre>
+							<figcaption>Trigger once the first Monday after of April 1, 2022</figcaption>
+						</figure>
+						<figure>
+							<pre><code class="language-xml line-numbers">2022-04-01-w1T00:00:00</code></pre>
+							<figcaption>Trigger once the first Monday before of April 1, 2022</figcaption>
+						</figure>
+						<p>
+							This can be very helpful, if you want to trigger repeatedly different opening times in the week in shop or common in <a href="https://smil-control.com/industries/digital-signage-retail/">retail</a>.
+						</p>
+					</article>
+					<article>
+						<h3 id="repeated">Repeated Datetimes</h3>
+						<p>
+							It is possible to include ISO 8601 compatible periods for repeats. The format is: [datetime]P[YY][MM][WW][DD][T[hH][mM][s[.f]S]]
+						</p>
+						<figure>
+							<pre><code class="language-xml line-numbers">R/2022-04-01T13:00:00/P1D</code></pre>
+							<figcaption>Trigger once April 1, 2022, at 13:00 and repeat/re-trigger every day continuously</figcaption>
+						</figure>
+						<p>
+							You can also limit the repeats
+						</p>
+						<figure>
+							<pre><code class="language-xml line-numbers">R12/2022-04-01T12:00:00/PT1H</code></pre>
+							<figcaption>Trigger once April 1, 2022, at 13:00 and repeat/re-trigger every hour 12 times</figcaption>
+						</figure>
+					</article>
+					<p>
+						You can study a sophisticated real-world example for <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/complex/1_customer.smil" class="external_link">wallclock triggers</a>.
+					</p>
+				</section>
+				<section>
+					<h2 id="syncbase">Syncbase</h2>
+					<p>
+						There are two opportunities, the SMIL syncbase (begin|end) or the similar beginEvent/endEvent. We focus first on syncbase. You can trigger a start or stop of a media with a start or stop of another media. The media which acts as trigger must define a unique ID.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;par xml:id="simple par"&gt;
+	&lt;video region="screen1" xml:id="video0001" src="0001.mp4" fit="meet" /&gt;
+	&lt;img region="screen2" src="video.jpg" begin="video0001.begin" end="video0001.end" fit="meet" /&gt;
+	&lt;img region="screen3" src="end.jpg" begin="video0001.end" dur="indefinite" fit="meet" /&gt;
+&lt;/par&gt;
+</code></pre>
+						<figcaption>Video0001 triggers the start of the video.jpg and after end the start of end.jpg</figcaption>
+					</figure>
+					<p>
+						When the video starts in <a href="../screen-layout/">zone 1</a> it triggers the video.jpg to be shown in zone 2. After ending, it triggers the stop of video.jpg and the beginning of end.jpg.
+					</p>
+					<p>
+						Compare to the sim event-syntax:
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;par xml:id="simple par"&gt;
+	&lt;video region="screen1" xml:id="video0001" src="0001.mp4" fit="meet" /&gt;
+	&lt;img region="screen2" src="video.jpg" begin="video0001.beginEvent" end="video0001.endEvent" fit="meet" /&gt;
+	&lt;img region="screen3" src="end.jpg" begin="video0001.endEvent" dur="indefinite" fit="meet" /&gt;
+&lt;/par&gt;
+</code></pre>
+						<figcaption>Same with beginEvent and endEvent</figcaption>
+					</figure>
+					<h4 id="why_2">Why are there two Opportunities?</h4>
+					<p>
+						SyncBase is a relict of SMIL 1.0. In this way SMIL 3.0 stay compatible with older SMIL files.
+					</p>
+				</section>
+				<section>
+					<h2 id="accesskey">Accesskey</h2>
+					<p>
+						With accesskey you can define a user interaction through a keyboard or sensors (if supported).
+					</p>
+					<figure>
+						<pre><code class="language-xml line-numbers">accesskey(A)</code></pre>
+						<figcaption>Trigger when a user hits A on a keyboard</figcaption>
+					</figure>
+					<p>
+						Real-world example for <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/trigger/4_accesskey.smil" class="external_link">accesskey-triggers</a>
+					</p>
+				</section>
+				<section>
+					<h2 id="touch">Touch or Mouse Click</h2>
+					<p>
+						The event activateEvent defines an activity via touch screen or mouse click. You have to specify an explicit media ID for that, too.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;excl&gt;
+	&lt;priorityClass&gt;
+		&lt;video begin="touchme.activateEvent" src="played_after_touch.mkv"/&gt;
+	&lt;/priorityClass&gt;
+	&lt;priorityClass higher="pause"&gt;
+		&lt;seq begin="0" repeatCount="indefinite"&gt;
+			&lt;img id="touchme" dur="indefinite" src="touch_me.jpg" /&gt;
+		&lt;/seq&gt;
+	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+						<figcaption>Jumps to video, when touched on an image</figcaption>
+					</figure>
+					<p>
+						This activateEvent will work on images and videos media. It makes no sense to use it while displayed websites or widgets as there are interactive by default and the click will be gone through to website.
+					</p>
+					<p>
+						In case of a widget, you should better use the <a href="#network_triggers">network triggers</a>, which we discuss next.
+					</p>
+					<p>
+						Real-world example for <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/trigger/3_activate_event.smil" class="external_link">activateEvent</a>
+					</p>
+				</section>
+				<section>
+					<h2 id="network_triggers">Network Triggers</h2>
+					<p>
+						This is not standard and added by IAdea, but it is so useful, that we implemented it also to the garlic-player from release 0.6.0.
+					</p>
+					<p>
+						Some SMIL player include a local http-server for serving a restful API. That means that you can control the player via network. That gave us four great opportunities:
+					</p>
+					<ol>
+						<li>
+							External applications can control player in their network.
+						</li>
+						<li>
+							As widgets are local running websites they can use this API and pass elegantly the above-mentioned clicks or touches to the player to start specific commands, change playlist etc.
+						</li>
+						<li>
+							You can create a web UI on a second screen, which control the presentation screen.
+						</li>
+						<li>
+							It is possible to use a QR-Code or EAN-Code scanner to control the presentation.
+						</li>
+					</ol>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;excl repeatCount="indefinite"&gt;
+	&lt;priorityClass &gt;
+		&lt;img begin="notify(play0001)" src="0001.jpg" dur="10s"/&gt;
+		&lt;img begin="notify(play0002)" src="0002.jpg" fit="fill" dur="10s" /&gt;
+ 	&lt;/priorityClass&gt;
+ 	&lt;priorityClass higher="pause"&gt;
+		&lt;img src="image.jpg" dur="indefinite" /&gt;
+ 	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+						<figcaption>Sending the string "play0001" via API triggers 0001.jpg and "play0002" starts displaying 0002.jpg immediately for 10s</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 id="additional_clock">Additional Clock Times</h2>
+					<p>
+						In every trigger, you can also set an additional clock time value. Let's take the last network trigger as base for the example.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;excl repeatCount="indefinite"&gt;
+	&lt;priorityClass &gt;
+		&lt;img begin="notify(play0001)+2s" src="0001.jpg" dur="10s"/&gt;
+		&lt;img begin="notify(play0002)+5s" src="0002.jpg" fit="fill" dur="10s" /&gt;
+ 	&lt;/priorityClass&gt;
+ 	&lt;priorityClass higher="pause"&gt;
+		&lt;img src="image.jpg" dur="indefinite" /&gt;
+ 	&lt;/priorityClass&gt;
+&lt;/excl&gt;
+</code></pre>
+						<figcaption>0001.jpg starts 2s after and 0002.jpg 5s after the corresponding trigger fire </figcaption>
+					</figure>
+					<p>
+						SMIL supports positive and negative values. Garlic-player currently supports only positive values.
+					</p>
+				</section>

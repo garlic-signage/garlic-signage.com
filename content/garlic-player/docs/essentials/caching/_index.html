@@ -1,0 +1,70 @@
+---
+title: "The Caching Mechanisms | The SMIL Essentials"
+smallTitle: "Caching Mechanisms"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how to control the caching of your fetched content. Save bandwidth and money."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+		<style>
+			#mn_caching:before{content:'➤';}
+		</style>
+				<p>
+					Media files are loaded “on-the-fly” when they are needed for the first time. When downloaded, they are kept in the cache storage. When the storage runs out, the last used files are deleted first. How to ensure that the file will play only if it is cached?
+				</p>
+				<section>
+					<h2 id="prefetch">Prefetch</h2>
+					<p>
+						The SMIL prefetch introduces a preload mechanism. Prefetch loads a media into a cache without playing it.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;prefetch src="https://domain.tld/video.mkv" /&gt;
+</code></pre>
+						<figcaption>
+							video.mkv will download into cache
+						</figcaption>
+					</figure>
+					<p>
+						But we have also some more control over the caching.
+					</p>
+				</section>
+				<section>
+					<h2 id="cache_control">Control the Cache Behavior</h2>
+					<p>
+						A parameter with the name cacheControl and a value control how the cache works. This is not standard SMIL, but useful. Players who do not support this feature should ignore it.
+					</p>
+					Values are:
+					<ul>
+						<li>
+							<strong>noCache</strong>: This means the player will download the media every time.
+						</li>
+						<li>
+							<strong>onlyIfCached</strong>: The media will not be displayed until it is completely downloaded in the cache storage. Some player will skip if media is not in cache, even when a dur-attribute has a value.
+						</li>
+						<li>
+							<strong>auto</strong>: This is defaulted and the same as onlyIfCached
+						</li>
+					</ul>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;img src="https://domain.tld/0001.jpg" dur="2s"&gt;
+   &lt;param name="cacheControl" value="auto"/&gt;
+&lt;/img&gt;
+&lt;img src="https://domain.tld/0002.jpg" dur="2s"&gt;
+   &lt;param name="cacheControl" value="onlyIfCached"/&gt;
+&lt;/img&gt;
+&lt;img src="https://domain.tld/0003.jpg" dur="2s"&gt;
+   &lt;param name="cacheControl" value="noCache"/&gt;
+&lt;/img&gt;
+</code></pre>
+						<figcaption>0001 and 0002 will skip. 0003 waits until download</figcaption>
+					</figure>
+				</section>
+				Cacheable media are:
+				<ul>
+					<li>images</li>
+					<li>videos</li>
+					<li>widgets</li>
+				</ul>
+				<p>
+					Websites, streams, and colors (brush) will not be cached.
+				</p>

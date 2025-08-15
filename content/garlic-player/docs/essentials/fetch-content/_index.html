@@ -1,0 +1,75 @@
+---
+title: "Fetching Content and Indexes | The SMIL Essentials"
+smallTitle: "Fetch"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how your media player updates contents."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+
+		<style>
+			#mn_fetch_content:before{content:'➤';}
+		</style>
+				<p>
+					A repeating pull mechanism is implemented easily.
+				</p>
+				<figure>
+<pre><code class="language-xml line-numbers">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;smil&gt;
+	&lt;head&gt;
+	    &lt;meta http-equiv="Refresh" content="900"/&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+	&lt;/body&gt;
+&lt;/smil&gt;
+</code></pre>
+					<figcaption>
+						Playlist will refresh every 15 minutes (900 s)
+					</figcaption>
+				</figure>
+				<p>
+					This is for the playlist only. There is another mechanism to check continuously for new media content. This is discussed in the <a href="../containers/" class="next">cache mechanism</a> section of this tutorial.
+				</p>
+				<section>
+					<h2 id="refresh_request">How Refresh Request is sent</h2>
+					<p>
+						Digital signage media player in a network regularly points to an http-address which has the index. To do this as efficiently as possible, there are two types of requests:
+					</p>
+					<ul>
+						<li>HEAD-Requests</li>
+						<li>GET-Requests</li>
+					</ul>
+					On each refresh cycle, the player sends HEAD request first.
+					<article>
+						<h3 id="head-requests">The HEAD-Request</h3>
+						<p>
+							The HEAD request only asks for the HTTP header with an empty body to save bandwidth and server resources. The server should send an HTTP "Etag," “Last-Modified:” and a “Content-Length:” in his header. Due to this information, the player can decide to send a GET-Request to get a new SMIL index or not.
+						</p>
+						<p>
+							Garlic player will send the following HEAD-Request if he asks for a file he did not fetch before.
+						</p>
+<pre><code class="language-http line-numbers">HEAD /index.smil HTTP/1.1
+	Host: content-url.com
+</code></pre>						<p>
+							If the file is already fetched, garlic-player will add If-None-Match and If-Modified-Since as fallback.
+						</p>
+<pre><code class="language-http line-numbers">HEAD /index.smil HTTP/1.1
+   Host: example.com
+   If-None-Match: "a1b2c3d4e5f6"
+   If-Modified-Since: Wed, 15 Nov 2023 12:30:45 GMT
+</code></pre>
+					</article>
+					<article>
+						<h3 id="server-response">Reaction on Server Response</h3>
+						<p>
+							When the server sends back a 304 Not modified response after HEAD request, garlic player will not send a GET request. This will happen only on a 200 OK.
+						</p>
+						<p>
+							In this way we ensure the client/server communication is as efficient as possible.
+						</p>
+						<p>
+							Have in mind that the priority is to check etag (If-None-Match), as If-Modified-Since is not accurate enough.
+						</p>
+					</article>
+
+				</section>

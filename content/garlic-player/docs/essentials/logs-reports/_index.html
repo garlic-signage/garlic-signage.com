@@ -1,0 +1,627 @@
+---
+title: "Reporting and Logging | The SMIL Essentials"
+smallTitle: "Reporting"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how to monitor the heartbeat of your devices ✓ Set diagnostic ✓ proof and invoice your customers with individual play reports ✓"
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+
+		<style>
+			#mn_logs_reports:before{content:'➤';}
+		</style>
+				<p>
+					A SMIL-player supports the HTTP PUT method to upload logs and reports to an HTTP server. The web server must support WebDAV and the PUT method.
+				</p>
+				<p>
+					There are five reporting functions supported which you can combine.
+				</p>
+				<ul>
+					<li>Inventory reporting</li>
+					<li>Play logs</li>
+					<li>Player events</li>
+					<li>System report</li>
+					<li>Task execution reports</li>
+				</ul>
+				<p>
+					You can also monitor the <strong>heartbeats</strong> of your player by storing every <a href="../fetch-content/">fetch request</a> of the smil-index via HEAD.
+				</p>
+				<section>
+					<h2 id="Inventory">Inventory Report</h2>
+					<article>
+						<h3 id="Inventory_Handler">Inventory Handler</h3>
+						<p>
+							Add metadata to the head section of the <a href="../index-file/">SMIL index</a> which define where the media player should PUT the inventory file. A typical definition looks like this.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;head&gt;
+  &lt;metadata&gt;
+    &lt;x-server&gt;
+      &lt;subscriptionList&gt;
+        &lt;subscription&gt;
+          &lt;type&gt;InventoryReport&lt;/type&gt;
+          &lt;action&gt;https://domain.tld/filename&lt;/action&gt;
+          &lt;method&gt;put&lt;/method&gt;
+          &lt;refreshInterval&gt;3600&lt;/refreshInterval&gt;
+          &lt;retryInterval&gt;3600&lt;/retryInterval&gt;
+        &lt;/subscription&gt;
+      &lt;/subscriptionList&gt;
+    &lt;/x-server&gt;
+  &lt;/metadata&gt;
+&lt;/head&gt;
+</code></pre>
+							<figcaption>
+								Inventory handler for SMIL Header
+							</figcaption>
+						</figure>
+						<p>
+							In action, there is the path of the file which contains the report. The tags refreshInterval and retryInterval are optional. With these tags, you control the updates frequencies.
+						</p>
+					</article>
+					<article>
+						<h3 id="inventory_format">Inventory File Format</h3>
+						<p>
+							The file uploaded to the server via PUT looks like this:
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;report&gt;
+  &lt;date&gt;{createDate}&lt;/date&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+  &lt;player id="{playerId}"&gt;
+    &lt;contentDirectory&gt;
+      &lt;objectInfo&gt;
+        &lt;object id="{uuid}" persistent="true|false"&gt;
+          &lt;resourceURI&gt;&lt;!--resourceURI--&gt;&lt;/resourceURI&gt;
+          &lt;state&gt;&lt;!--TRANSFER|STREAMING|CHECKSUM|CHECKSUM_ERROR|COMPLETE--&gt;&lt;/state&gt;
+          &lt;contentType&gt;&lt;!--mimeType--&gt;&lt;/contentType&gt;
+          &lt;contentLength&gt;&lt;!--empty if unknown size or data is in TRANSFER state--&gt;&lt;/contentLength&gt;
+          &lt;lastModified&gt;&lt;!--empty if n/a, otherwise xsd:dateTime based on local TZ--&gt;&lt;/lastModified&gt;
+          &lt;expires&gt;&lt;!--empty, 0, or xsd:dateTime based on locale TZ--&gt;&lt;/Expires&gt;
+          &lt;transferLength&gt;&lt;!--size downloaded in cache so far--&gt;&lt;/transferLength&gt;
+        &lt;/object&gt;
+		  &lt;!-- More &lt;objects&gt; --&gt;
+      &lt;/objectInfo&gt;
+    &lt;/contentDirectory&gt;
+  &lt;/player&gt;
+&lt;/report&gt;
+</code></pre>
+							<figcaption>
+								Inventory report sample
+							</figcaption>
+						</figure>
+					</article>
+				</section>
+				<section>
+					<h2 id="playreports">Play Report</h2>
+					<article>
+						<h3 id="Playreport_handler">Play Report Handler</h3>
+						<p>
+							The metadata to the head section of the <a href="../index-file/">SMIL index</a> are the same. They only needs PlaylogCollection set as type.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;head&gt;
+  &lt;metadata&gt;
+    &lt;x-server&gt;
+      &lt;subscriptionList&gt;
+        &lt;subscription&gt;
+          &lt;type&gt;PlaylogCollection&lt;/type&gt;
+          &lt;action&gt;https://domain.tld/filename&lt;/action&gt;
+          &lt;method&gt;put&lt;/method&gt;
+          &lt;refreshInterval&gt;3600&lt;/refreshInterval&gt;
+          &lt;retryInterval&gt;3600&lt;/retryInterval&gt;
+        &lt;/subscription&gt;
+      &lt;/subscriptionList&gt;
+    &lt;/x-server&gt;
+  &lt;/metadata&gt;
+&lt;/head&gt;
+</code></pre>
+							<figcaption>
+								Play Report handler for SMIL Header
+							</figcaption>
+						</figure>
+					</article>
+					<article>
+						<h3 id="playreport_id">Set Log-Id</h3>
+						<p>
+							The playbacks of media files are not logged by default. If you want to log played media files, you had to specify in SMIL index explicitly. The following example shows how to assign a log ID to an image file, so a log is generated when it is played.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;img src="https://domain.tld/image.jpg"&gt;
+  &lt;param name="logContentId" value="image-id" /&gt;
+&lt;/img&gt;
+</code></pre>
+							<figcaption>
+								Set a Log ID to a Media File
+							</figcaption>
+						</figure>
+					</article>
+					<article>
+						<h3 id="playlog_format">Play Report File Format</h3>
+						<p>
+							The play log files uploaded to the server are similar to the POPAI Log Standard 1.0. Several redundant fields are removed to optimize network performance. A log file uploaded to the server looks like this.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;report&gt;
+  &lt;date&gt;{createDate}&lt;/date&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+  &lt;player id="{playerId}" multi-channel="true"&gt;
+    &lt;contentPlayLog displayDeviceId="display:0"&gt;
+      &lt;contentPlayed&gt;
+        &lt;contentId&gt;{log-id}&lt;/contentId&gt;
+        &lt;startTime&gt;{start-time}&lt;/startTime&gt;
+        &lt;endTime&gt;{end-time}&lt;/endTime&gt;
+      &lt;/contentPlayed&gt;
+		&lt;!-- ... more records of contentPlayLog --&gt;
+    &lt;/contentPlayLog&gt;
+  &lt;/player&gt;
+&lt;/report&gt;
+</code></pre>
+							<figcaption>
+								Play report sample
+							</figcaption>
+						</figure>
+					</article>
+				</section>
+				<section>
+					<h2 id="event_logs">Event logs</h2>
+					<p>
+						The event logs reports various events which can happen on the player. These events can be:
+					</p>
+					<ul>
+						<li>
+							<strong>FETCH_FAILED</strong>: when a file cannot be downloaded. This is due to network failure or not existing URL.
+						</li>
+						<li>
+							<strong>MEDIA_NOT_AVAILABLE</strong>: When a media file does not exist in player's storage. One reason can be the file is not just downloaded. This also can happen due to insufficient space, which causes the player's storage “garbage collector” erasing files least-recently-used (LRU).
+						</li>
+						<li>
+							<strong>MEDIA_OPEN_ERROR</strong>: when the header information of the media file describes a format not supported by the player.
+
+						</li>
+						<li>
+							<strong>MEDIA_PLAYBACK_ERROR</strong>: Most likely due to a corrupt media file or stream. Occasionally, this can also indicate a RAM or CPU error.
+						</li>
+					</ul>
+					<p>
+						The event reports are helpful when you need to analyze problems.
+					</p>
+					<article>
+						<h3 id="Eventreport_handler">Event Report Handler</h3>
+						<p>
+							same as above with EventlogCollection set as type.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;head&gt;
+  &lt;metadata&gt;
+    &lt;x-server&gt;
+      &lt;subscriptionList&gt;
+        &lt;subscription&gt;
+          &lt;type&gt;EventlogCollection&lt;/type&gt;
+          &lt;action&gt;https://domain.tld/filename&lt;/action&gt;
+          &lt;method&gt;put&lt;/method&gt;
+          &lt;refreshInterval&gt;3600&lt;/refreshInterval&gt;
+          &lt;retryInterval&gt;3600&lt;/retryInterval&gt;
+        &lt;/subscription&gt;
+      &lt;/subscriptionList&gt;
+    &lt;/x-server&gt;
+  &lt;/metadata&gt;
+&lt;/head&gt;
+</code></pre>
+							<figcaption>
+								Event Report handler for SMIL Header
+							</figcaption>
+						</figure>
+					</article>
+					<article>
+						<h3 id="eventlog_format">Event Report File Format</h3>
+						<p>
+							The event report uploaded to the server looks like this.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;report&gt;
+  &lt;date&gt;{createDate}&lt;/date&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+  &lt;player id="{playerId}" multi-channel="true"&gt;
+    &lt;playerEventLog&gt;
+       &lt;event&gt;
+         &lt;eventType&gt;informational|warning|error|critical&lt;/eventType&gt;
+         &lt;eventTime&gt;{eventTime}&lt;/eventTime&gt;
+         &lt;eventSource&gt;{moduleName}&lt;/eventSource&gt;
+         &lt;eventName&gt;{eventEnumName}&lt;/eventName&gt;
+         &lt;metadata&gt;
+           &lt;meta name="{meta1-name}" content="{meta1-content}"/&gt;
+           &lt;meta .../&gt;
+         &lt;/metadata&gt;
+       &lt;/event&gt;
+     &lt;/playerEventLog&gt;
+  &lt;/player&gt;
+&lt;/report&gt;
+</code></pre>
+							<figcaption>
+								Play report sample
+							</figcaption>
+						</figure>
+					</article>
+					<article>
+						<h3 id="Events_Reference">Events Reference Listed by Event Source</h3>
+						Player events listed by different event sources as below:
+						<article class="events">
+							<h4 id="ContentManager">ContentManager</h4>
+							<ul>
+								<li>
+									<strong>event</strong>: LRU_OBJECT_REMOVED
+								</li>
+								<li>
+									<strong>eventType</strong>: informational if lastAccessTime is before 30 days
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the object that removed
+								</li>
+								<li>
+									<strong>meta "lastAccessTime"</strong>: object last access time
+								</li>
+							</ul>
+
+							<ul>
+								<li>
+									<strong>event</strong>:OBJECT_REMOVED
+								</li>
+								<li>
+									<strong>eventType</strong>: informational
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the object that removed
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<strong>event</strong>: OBJECT_UPDATED
+								</li>
+								<li>
+									<strong>eventType</strong>: informational
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the object that updated
+								</li>
+								<li>
+									<strong>meta "contentLength"</strong>: content length in bytes
+								</li>
+								<li>
+									<strong>meta "lastModifiedTime"</strong>: object last modified time
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<strong>event</strong>: FETCH_FAILED
+								</li>
+								<li>
+									<strong>eventType</strong>: error if no other versions available in cache; warning if an earlier version exists
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the file that failed to transfer
+								</li>
+								<li>
+									<strong>meta "transferLength"</strong>: Number of bytes transferred so far
+								</li>
+								<li>
+									<strong>meta "lastCachedLength"</strong>: If a previous version exists, its length in bytes
+								</li>
+								<li>
+									<strong>meta "lastCachedModifiedTime"</strong>: If a previous version exists, its modified time
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<strong>event</strong>: FETCH_FAILED : E_CHECKSUM_NOT_MATCHED
+								</li>
+								<li>
+									<strong>eventType</strong>: error
+								</li>
+								<li>
+									<strong>meta "xmp:errorMessage"</strong>: E_CHECKSUM_NOT_MATCHED
+								</li>
+								<li>
+									<strong>meta "md5"</strong>: MD5 calculated from downloaded media
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<strong>event</strong>: BROKEN_OBJECT_REMOVED
+								</li>
+								<li>
+									<strong>eventType</strong>: warning
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the object that removed
+								</li>
+								<li>
+									<strong>meta "contentLength"</strong>: content length in bytes
+								</li>
+								<li>
+									<strong>meta "transferLength"</strong>: actual file size; -1 means file not found
+								</li>
+							</ul>
+						</article>
+						<article class="events">
+							<h4 id="MediaPlayer">MediaPlayer</h4>
+							<ul>
+								<li>
+									<strong>event</strong>: MEDIA_NOT_AVAILABLE
+								</li>
+								<li>
+									<strong>eventType</strong>: error
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the object that not available
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<strong>event</strong>: MEDIA_OPEN_ERROR
+								</li>
+								<li>
+									<strong>eventType</strong>: error
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the object that fails to open
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<strong>event</strong>: MEDIA_PLAYBACK_ERROR
+								</li>
+								<li>
+									<strong>eventType</strong>: error
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the object that fails to play
+								</li>
+							</ul>
+						</article>
+						<article class="events">
+							<h4 id="MediaControl">MediaControl</h4>
+							<ul>
+								<li>
+									<strong>event</strong>: SMIL_LOADED
+								</li>
+								<li>
+									<strong>eventType</strong>: informational
+								</li>
+								<li>
+									<strong>meta "instanceId"</strong>: fixed value:"display:0"
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the object that loaded
+								<li>
+									<strong>meta "contentLength"</strong>: content length in bytes
+								</li>
+								<li>
+									<strong>meta "lastModifiedTime"</strong>: object last modified time
+								</li>
+							</ul>
+							<ul>
+								<li>
+									<strong>event</strong>: SMIL_NOT_AVAILABLE
+								</li>
+								<li>
+									<strong>eventType</strong>: informational
+								</li>
+								<li>
+									<strong>meta "instanceId"</strong>: fixed value:"display:0"
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the smil-index that not available
+								<li>
+							</ul>
+							<ul>
+								<li>
+									<strong>event</strong>: SMIL_OPEN_ERROR
+								</li>
+								<li>
+									<strong>eventType</strong>: error document error (too large, syntax error, other errors), other internal errors
+								</li>
+								<li>
+									<strong>meta "instanceId"</strong>: fixed value:"display:0"
+								</li>
+								<li>
+									<strong>meta "resourceURI"</strong>: URI for the smil-index that not loadable
+								<li>
+								<li>
+									<strong>meta "contentLength"</strong>: content length in bytes
+								</li>
+								<li>
+									<strong>meta "lastModifiedTime"</strong>: object last modified time
+								</li>
+							</ul>
+						</article>
+					</article>
+				</section>
+				<section>
+					<h2 id="Systemreport">System Report</h2>
+					<article>
+						<h3 id="System_report_Handler">System report Handler</h3>
+						<p>
+							Add metadata to the head section of the <a href="../index-file/">SMIL index</a> which define where the media player should PUT the inventory file. A typical definition looks like this.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;head&gt;
+  &lt;metadata&gt;
+    &lt;x-server&gt;
+      &lt;subscriptionList&gt;
+        &lt;subscription&gt;
+          &lt;type&gt;SystemReport&lt;/type&gt;
+          &lt;action&gt;https://domain.tld/filename&lt;/action&gt;
+          &lt;method&gt;put&lt;/method&gt;
+          &lt;refreshInterval&gt;3600&lt;/refreshInterval&gt;
+          &lt;retryInterval&gt;3600&lt;/retryInterval&gt;
+        &lt;/subscription&gt;
+      &lt;/subscriptionList&gt;
+    &lt;/x-server&gt;
+  &lt;/metadata&gt;
+&lt;/head&gt;
+</code></pre>
+							<figcaption>
+								System report handler for SMIL Header
+							</figcaption>
+						</figure>
+						<p>
+							In action, there is the path of the file which contains the report. The tags refreshInterval and retryInterval are optional. With these tags, you control the updates frequencies.
+						</p>
+					</article>
+					<article>
+						<h3 id="systemreport_format">System Report File Format</h3>
+						<p>
+							The system report uploaded to the server looks like this. Formatted for better overview.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;report xmlns="http://schemas.adfotain.org/adapi-1.0"&gt;
+	&lt;date&gt;{createdate}&lt;/date&gt;
+	&lt;version&gt;1.0&lt;/version&gt;
+	&lt;player id="{playerId}"&gt;
+		&lt;systemInfo&gt;
+			&lt;systemStartTime&gt;{startTime}&lt;/systemStartTime&gt;
+			&lt;systemTimeZone&gt;{timeZone}&lt;/systemTimeZone&gt;
+			&lt;totalCapacity&gt;7377477632&lt;/totalCapacity&gt;
+			&lt;totalFreeSpace&gt;6895546368&lt;/totalFreeSpace&gt;
+			&lt;cpuUsage&gt;31%&lt;/cpuUsage&gt;
+			&lt;memoryTotal&gt;1048576&lt;/memoryTotal&gt;
+			&lt;memoryUsed&gt;969224&lt;/memoryUsed&gt;
+			&lt;hdmiOutput&gt;1920x1080p-60&lt;/hdmiOutput&gt;
+			&lt;network&gt;
+				&lt;interface id="eth0"&gt;
+					&lt;type&gt;ethernet&lt;/type&gt;
+					&lt;mac&gt;{macAddress}&lt;/mac&gt;
+					&lt;ip&gt;{ipAddress}&lt;/ip&gt;
+					&lt;netmask&gt;{netMask}&lt;/netmask&gt;
+				&lt;/interface&gt;
+			&lt;/network&gt;
+			&lt;configuration&gt;
+				&lt;modelInfo&gt;
+					&lt;prop name="PCB" value="MBR-1100"/&gt;
+					&lt;prop name="PCBRevision" value="SR3"/&gt;
+					&lt;prop name="licenseModel" value="Android"/&gt;
+					&lt;prop name="manufacturer" value=""/&gt;
+					&lt;prop name="manufacturerURL" value=""/&gt;
+					&lt;prop name="modelDescription" value=""/&gt;
+					&lt;prop name="modelName" value="XMP-6200"/&gt;
+					&lt;prop name="modelURL" value=""/&gt;
+					&lt;prop name="option" value=""/&gt;
+				&lt;/modelInfo&gt;
+				&lt;factoryDefault&gt;
+					&lt;variant&gt;&lt;/variant&gt;
+				&lt;/factoryDefault&gt;
+				&lt;userPref&gt;
+					&lt;prop name="info.playerName" value="{playerName}"/&gt;
+					&lt;prop name="info.playGroup" value=""/&gt;
+					&lt;prop name="info.playGroupMaster" value=""/&gt;
+					&lt;prop name="system.locale" value="en_US"/&gt;
+					&lt;prop name="net.proxy.type" value="HTTP"/&gt;
+					&lt;prop name="net.proxy.host" value=""/&gt;
+					&lt;prop name="net.proxy.port" value="0"/&gt;
+					&lt;prop name="hardware.videoOut.0.format" value="auto"/&gt;
+					&lt;prop name="hardware.videoOut.0.margin" value="auto"/&gt;
+					&lt;prop name="hardware.videoOut.0.rotation" value="auto"/&gt;
+					&lt;prop name="app.start" value="{&quot;action&quot;:&quot;android.intent.action.VIEW&quot;,&quot;packageName&quot;:&quot;com.iadea.player&quot;,&quot;uri&quot;:&quot;http://localhost:8080/v2/user-data/usbdata/index.smil&quot;,&quot;className&quot;:&quot;com.iadea.player.SmilActivity&quot;}"/&gt;
+					&lt;prop name="app.fallback" value="{}"/&gt;
+					&lt;prop name="app.settings.com.iadea.console.disableAutoStart" value="false"/&gt;
+					&lt;prop name="app.settings.com.iadea.console.hideIpAddress" value="false"/&gt;
+					&lt;prop name="schedule.reboot.days" value="Sun|Mon|Tue|Wed|Thu|Fri|Sat"/&gt;
+					&lt;prop name="schedule.reboot.time" value="04:00"/&gt;
+					&lt;prop name="hardware.audioOut.0.masterSoundLevel" value="0.015848931924611124"/&gt;
+					&lt;prop name="hardware.hdmi.audio.samplingrate" value="48000"/&gt;
+					&lt;prop name="net.wifi.enabled" value="false"/&gt;
+					&lt;prop name="net.wifi.dhcp.enabled" value="true"/&gt;
+					&lt;prop name="net.ethernet.enabled" value="true"/&gt;
+					&lt;prop name="net.ethernet.dhcp.enabled" value="true"/&gt;
+					&lt;prop name="net.ethernet.ip" value=""/&gt;
+					&lt;prop name="net.ethernet.netmask" value=""/&gt;
+					&lt;prop name="net.ethernet.gateway" value=""/&gt;
+					&lt;prop name="net.ethernet.dnsServers" value=""/&gt;
+					&lt;prop name="net.mobile.apn" value=""/&gt;
+					&lt;prop name="net.mobile.user" value=""/&gt;
+					&lt;prop name="net.mobile.preferredNetwork" value="AUTO"/&gt;
+					&lt;prop name="time.timeZone" value="US/Eastern"/&gt;
+					&lt;prop name="time.autoTime.enabled" value="true"/&gt;
+					&lt;prop name="time.autoTime.server" value="default"/&gt;
+					&lt;prop name="debug.adb.enabled" value="true"/&gt;
+					&lt;prop name="debug.adb.tcp.enabled" value="false"/&gt;
+					&lt;prop name="usb.updateSmil.enabled" value="true"/&gt;
+					&lt;prop name="content.serverUrl" value="{contentsourceUrl}"/&gt;
+				&lt;/userPref&gt;
+			&lt;/configuration&gt;
+		&lt;/systemInfo&gt;
+		&lt;hardwareInfo&gt;
+			&lt;hardware id="display:0"&gt;
+				&lt;prop name="modelName" value="{string}"/&gt;
+				&lt;prop name="productId" value="{string}"/&gt;
+				&lt;prop name="serialNumber" value="{string}"/&gt;
+				&lt;prop name="vendorId" value="{string}"/&gt;
+			&lt;/hardware&gt;
+		&lt;/hardwareInfo&gt;
+	&lt;/player&gt;
+&lt;/report&gt;
+</code></pre>
+							<figcaption>
+								System report sample from <a href="https://www.iadea.com/products/mbr-1100/" class="external_link">IAdea MBR-1100</a>
+							</figcaption>
+						</figure>
+					</article>
+				</section>
+				<section>
+					<h2 id="task_execution">Task Execution Report</h2>
+					<p>
+						Task execution reports informs about an execution of a <a href="../maintenance-tasks/">maintenance task</a> like reboot, software refresh, or firmware update. Not every player software supports this, as this is an operating system dependent function. Currently, only android version of garlic-player with garlic-launcher sends this reports.
+					</p>
+					<article>
+						<h3 id="Task_execution_Handler">Task Execution Report Handler</h3>
+						<p>
+							A typical file definition looks like this.
+						</p>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;head&gt;
+  &lt;metadata&gt;
+    &lt;x-server&gt;
+      &lt;subscriptionList&gt;
+        &lt;subscription&gt;
+          &lt;type&gt;TaskExecutionReport&lt;/type&gt;
+          &lt;action&gt;https://domain.tld/filename&lt;/action&gt;
+          &lt;method&gt;put&lt;/method&gt;
+          &lt;refreshInterval&gt;3600&lt;/refreshInterval&gt;
+          &lt;retryInterval&gt;3600&lt;/retryInterval&gt;
+        &lt;/subscription&gt;
+      &lt;/subscriptionList&gt;
+    &lt;/x-server&gt;
+  &lt;/metadata&gt;
+&lt;/head&gt;
+</code></pre>
+							<figcaption>
+								Task execution report handler for SMIL Header
+							</figcaption>
+						</figure>
+					</article>
+					<article>
+						<h3 id="Task_execution_report_format">Task Execution Report File Format</h3>
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;report&gt;
+  &lt;date&gt;{createDate}&lt;/date&gt;
+  &lt;version&gt;1.0&lt;/version&gt;
+  &lt;player id="{playerId}" multi-channel="true"&gt;
+    &lt;taskState&gt;
+      &lt;task id="foo"&gt;
+        &lt;lastUpdateTime&gt;{iso-local-datetime}&lt;/lastUpdateTime&gt;
+        &lt;state&gt;pending|aborted|completed&lt;/state&gt;
+      &lt;/task&gt;
+	&lt;/taskState&gt;
+  &lt;/player&gt;
+&lt;/report&gt;
+</code></pre>
+							<figcaption>
+								Task execution report sample
+							</figcaption>
+						</figure>
+						<p>
+							The ID is the same which is given on the maintenance task, so you can assign to the right execution to the report.
+						</p>
+					</article>
+				</section>

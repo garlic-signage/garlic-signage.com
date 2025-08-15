@@ -1,0 +1,168 @@
+---
+title: "Media Player Maintenance Tasks | The SMIL Essentials"
+smallTitle: "Maintenance Tasks "
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how-to maintenance your media player efficiently remote and save costs."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+		<style>
+			#mn_maintenance_tasks:before{content:'➤';}
+		</style>
+				<p>
+					The following tasks are currently available:
+				</p>
+				<ul>
+					<li>Reboots</li>
+					<li>Firmware update</li>
+					<li>Configurations</li>
+				</ul>
+				<section>
+					<h2 id="Differences">Difference to IAdea players.</h2>
+					<p>
+						Software updates and reboots depending on operating system functions. As garlic-player is platform-independent, we decide to split the execution of the task from the player. The player sends this commands to an external application.
+					</p>
+					<p>
+						On Android, you can use the <a href="/garlic-launcher/">garlic-launcher</a>. Garlic-player also supports the Digital Signage Display solutions from <a href="https://www.philips.com/c-w/country-selectorpage/Signage-Solutions.html" class="external_link">Philips</a>.
+					</p>
+					<p>
+						<a href="https://www.IAdea.com" class="external_link">IAdea</a> has their own compatible solution.
+					</p>
+				</section>
+				<section>
+					<h2>The Task ID is important</h2>
+					<p>
+						The smil-player use it to register if a particular task has already been applied. The task will not apply if the ID is the same as in the last command. In other words: If you want to re-apply a task, change the ID.
+					</p>
+					<p>
+						The ID also enables to assign the entries of the <a href="../logs-reports/#task_execution">task execution reports</a> to the right maintenance task.
+					</p>
+				</section>
+				<section>
+					<h2 id="Handler">Maintenance Tasks Handler</h2>
+					<p>
+						To initiate a task, the player must issue a <a href="../index-file/">SMIL index</a>, with a TaskSchedule subscription in the head section.
+					</p>
+					<p>
+						 Maintenance Tasks add the same metadata to the head section of the SMIL index like in <a href="../logs-reports/">log-reports</a> with TaskSchedule in type-tag. The tasks itself are described in the taskSchedule.xml file.
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;head&gt;
+  &lt;metadata&gt;
+    &lt;x-server&gt;
+      &lt;subscriptionList&gt;
+        &lt;subscription&gt;
+          &lt;type&gt;TaskSchedule&lt;/type&gt;
+          &lt;action&gt;https://domain.tld/taskSchedule.xml&lt;/action&gt;
+          &lt;method&gt;get&lt;/method&gt;
+        &lt;/subscription&gt;
+      &lt;/subscriptionList&gt;
+    &lt;/x-server&gt;
+  &lt;/metadata&gt;
+&lt;/head&gt;
+</code></pre>
+						<figcaption>
+							Maintenance task handler for SMIL Header
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 id="reboot">Player Reboot</h2>
+					<p>
+						The taskSchedule.xml file for a reboot looks like the following:
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;taskSchedule&gt;
+  &lt;timedTaskList at="0" abortOnError="false"&gt;
+    &lt;shutdownPlayer id="set_here_an_unique_id"&gt;
+      &lt;type&gt;reboot&lt;/type&gt;
+    &lt;/shutdownPlayer&gt;
+  &lt;/timedTaskList&gt;
+&lt;/taskSchedule&gt;
+</code></pre>
+						<figcaption>
+							The shutdownPlayer task schedule with reboot.
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<h2 id="firmware_update">Firmware Update</h2>
+					<p>
+						The taskSchedule.xml file for a firmware update looks like the following:
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;taskSchedule&gt;
+  &lt;timedTaskList at="0" abortOnError="false"&gt;
+    &lt;firmwareUpdate id="123">
+      &lt;sourceURI&gt;https://domain.tld/firmware.pkg|software.apk&lt;/sourceURI&gt;
+      &lt;version applyIf="always|upgrade"&gt;1.0.3&lt;/version&gt;
+      &lt;contentType&gt;x-firmware-update/x-pkg&lt;/contentType&gt;
+      &lt;contentLength&gt;THE_FILE_LENGTH&lt;/contentLength&gt;
+      &lt;contentChecksum&gt;THE_FILE_MD5_CHECKSUM&lt;/contentChecksum&gt;
+      &lt;checksumMethod&gt;MD5&lt;/checksumMethod&gt;
+	&lt;/firmwareUpdate&gt;
+  &lt;/timedTaskList&gt;
+&lt;/taskSchedule&gt;
+</code></pre>
+						<figcaption>
+							The firmware update in the taskSchedule.xml
+						</figcaption>
+					</figure>
+					<article>
+						<h3 id="update_differences">Different update styles</h3>
+						<p>
+							Player from IAdea needs a firmware.pkg. Their updates update the whole operating system.
+						</p>
+						<p>
+							If you specify an APK-file, the garlic player use it as software update. In this way, you can update the player or other software on your device.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="configuration">Device Configuration</h2>
+					<p>
+
+					</p>
+					<p>
+						The taskSchedule.xml file for the device configurationlike the following:
+					</p>
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;taskSchedule&gt;
+  &lt;timedTaskList at="0" abortOnError="false"&gt;
+    &lt;firmwareUpdate id="123">
+      &lt;sourceURI&gt;https://domain.tld/fig.xml&lt;/sourceURI&gt;
+      &lt;contentType&gt;x-configuration/xml&lt;/contentType&gt;
+      &lt;contentLength&gt;THE_CONFIG_FILE_LENGTH&lt;/contentLength&gt;
+      &lt;contentChecksum&gt;THE_CONFIG_FILE_MD5_CHECKSUM&lt;/contentChecksum&gt;
+      &lt;checksumMethod&gt;MD5&lt;/checksumMethod&gt;
+	&lt;/firmwareUpdate&gt;
+  &lt;/timedTaskList&gt;
+&lt;/taskSchedule&gt;
+</code></pre>
+						<figcaption>
+							The device configuration in the taskSchedule.xml
+						</figcaption>
+					</figure>
+					<p>
+						For the device configuration, we require a config.xml. This has the advantage that the config.xml can also be used on a USB-Stick with <a href="/garlic-launcher/">garlic-launcher</a>.
+					</p>
+					<article>
+						<h3 id="config-xml">The config.xml</h3>
+						<p>
+							The garlic player supports currently this configuration.
+						</p>
+<pre><code class="language-xml line-numbers">&lt;configuration&gt;
+  &lt;userPref&gt;
+    &lt;prop name="net.wifi.enabled" value="true"/&gt;
+    &lt;prop name="net.wifi.ssid" value="YOUR_SSID"/&gt;
+    &lt;prop name="net.wifi.authentication" value="OPEN|WEP|WPAPSK|WPA2PSK"/&gt;
+    &lt;prop name="net.wifi.password" value="YOUR_WIFI_PASSWORD"/&gt;
+
+    &lt;prop name="hardware.audioOut.0.masterSoundLevel" value="0 until 100%"/&gt;
+
+    &lt;prop name="content.bootFromServer" value="true"/&gt;
+    &lt;prop name="content.serverUrl" value="server-uri"/&gt;
+
+  &lt;/userPref&gt;
+&lt;/configuration&gt;
+</code></pre>

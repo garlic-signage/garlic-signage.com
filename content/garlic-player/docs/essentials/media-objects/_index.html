@@ -1,0 +1,196 @@
+---
+title: "Content with Media Objects | The SMIL Essentials"
+smallTitle: "Media Objects"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn how to us different media objects like images, videos, websites and more."
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+
+		<style>
+			#mn_media_objects:before{content:'➤';}
+		</style>
+				<p>
+					SMIL supports six media objects
+				</p>
+				<ol>
+					<li>Images</li>
+					<li>Colors</li>
+					<li>Videos</li>
+					<li>Audio</li>
+					<li>Websites/Text</li>
+					<li>HTML-Widgets</li>
+				</ol>
+				<section>
+					<h2 id="images">Images</h2>
+						The syntax for inserting an image in your presentation is:
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;img src="path/to/image.jpg" dur="5s" /&gt;
+</code></pre>
+							<figcaption>
+								Image media object
+							</figcaption>
+						</figure>
+					<p>
+						The dur attribute specifies the duration of the image during playback. If you do not specify an explicit duration, the image will not show, as this media type has no intrinsic duration like videos or audio files.
+					</p>
+					<p>
+						Supported image formats are: SVG, JPG, GIF, and PNG
+					</p>
+				</section>
+				<section>
+					<h2 id="brush">Colors</h2>
+					The SMIL instruction to display a color in screen is:
+					<figure>
+<pre><code class="language-xml line-numbers">&lt;brush color="green" dur="10s"/&gt;
+&lt;brush color="#f0f" dur="10s"/&gt;
+</code></pre>
+						<figcaption>
+							Color media object with 10s duration
+						</figcaption>
+					</figure>
+					<p>
+						Brush colors follow the same duration rules like images, as they do not have an intrinsic duration. The attribute color can include hex-codes or the same color names like HTML.
+					</p>
+				</section>
+				<section>
+					<h2 id="videos">Videos</h2>
+					The video instruction is:
+					<figure>
+						<pre><code class="language-xml line-numbers">&lt;video src="path/to/video.mkv" soundLevel="20%" /&gt;</code></pre>
+						<figcaption>
+							Video media object with intrinsic duration
+						</figcaption>
+					</figure>
+					<p>
+						The attribute soundLevel control the volume of this video element.
+					</p>
+					<p>
+						As you see, we have no dur attribute, as a video has an intrinsic duration. Of course, It is possible to add a duration.
+					</p>
+					<figure>
+						<pre><code class="language-xml line-numbers">&lt;video src="path/to/video.mkv" dur="5s" /&gt;</code></pre>
+						<figcaption>
+							Video media object with duration
+						</figcaption>
+					</figure>
+					<p>
+						An applied duration overrides the intrinsic duration. In this case, the videos ends after 5s, no matter how long or short it is.
+					</p>
+
+					<p>
+						Supported formats depending on the implementation. Many players use FFmpeg, VLC-lib or operating system dependent media-libs as sound and video backend. So, there are any formats possible the multimedia-lib supports.
+					</p>
+				</section>
+				<section>
+					<h2 id="audio">Audio</h2>
+					The SMIL instruction for an audio-file is:
+					<figure>
+						<pre><code class="language-xml line-numbers">&lt;audio src="path/to/audio.mkv" soundLevel="40%" dur="2min"/&gt;</code></pre>
+						<figcaption>
+							Audio media object with 2 min
+						</figcaption>
+					</figure>
+					<p>
+						The same rules apply to audio files as to video files. In this case, audio element will have a duration of 2 minutes.
+					</p>
+				</section>
+				<section>
+					<h2 id="websites">Websites</h2>
+					The instruction to show websites are:
+					<figure>
+						<pre><code class="language-xml line-numbers">&lt;text src="https://domain.tld/index.html" dur="indefinite" /&gt;</code></pre>
+						<figcaption>
+							Website media object displayed for an indefinite duration
+						</figcaption>
+					</figure>
+					<p>
+						The media files referenced from the HTML document is external and not cached in the media player. If a network is not available, the referenced media files will not display. To make the complete HTML document cached in the player and available to play when the network is not available, use HTML5 Widgets as described below.
+					</p>
+					<p>
+						With the same syntax, you can also include local and remote text.
+					</p>
+					<article>
+						<h3 id="html_support">HTML-Support in old IAdea player</h3>
+						<p>
+							For SMIL players that support HTML content or Widgets, such as the IAdea XMP-3250/3350/3450 Media Appliances, you may use the text and ref elements to designate the content to play.	To enable HTML rendering, you must activate the corresponding system component from the SMIL's body declaration, such as the following:
+						</p>
+						<figure>
+							<pre><code class="language-xml line-numbers">&lt;body systemComponent="http://www.w3.org/1999/xhtml" /&gt;</code></pre>
+						</figure>
+						<p>
+							The garlic-player do not need this body-declaration.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="widgets">HTML-Widgets</h2>
+					Including HTML widget:
+					<figure>
+						<pre><code class="language-xml line-numbers">&lt;ref src="http://server/content.wgt" type="application/widget" dur="indefinite"/&gt;</code></pre>
+						<figcaption>
+							HTML Widgets
+						</figcaption>
+					</figure>
+					<p>
+						An HTML Widget is a zipped HTML file system tree containing at the top level the file named “index.html” which can refer to other files using relative URLs within the zipped tree. A widget is loaded into a player as a self-contained media file, and is cached in the player's storage for offline playback. It can be accessed using the following code:
+					</p>
+					<p>
+						Widgets are very elegant solution to include interactive kiosk systems, sensors, and every kind of addition app like social media, client call systems for <a href="https://smil-control.com/solutions/queue-management/" class="external_link">queue management</a> etc. Learn more about <a href="https://smil-control.com/magazine/digital-signage-widgets/" class="external_link">digital signage widgets</a>.
+					</p>
+				</section>
+				<section>
+					<h2 id="attributes">Media Attributes</h2>
+					<p>
+						SMIL supports numerous attributes. In this starter tutorial, soundLevel, dur, and fit are relevant for media objects. In a later lesson, you will learn about <a href=../triggers/>begin and end trigger</a>.
+					</p>
+					<article>
+						<h3 id="fit">Fit</h3>
+						<p>
+							The attribute fit controls the scale of images and videos (if player supports it) with these values:
+						</p>
+						<ul>
+							<li>
+								<strong>hidden</strong>: Often the default value. The media is displayed in their intrinsic dimension.
+							</li>
+							<li>
+								<strong>fill</strong>: Scales the media height and width, ignoring any aspect ratio. The content touches all edges of the <a href="../screen-layout/">screen zone</a>.
+							</li>
+							<li>
+								<strong>meet</strong>: Scale the media height and width proportional. The content scales until it fits in at least one dimension of the screen zone. There is no clipping. An image will display complete.
+							</li>
+							<li>
+								<strong>meetBest</strong>: The same as meet, but it will not scale greater than the media dimensions. For example: an image with 800×600px resolution in a 1920×1080px zone will not get larger than 800×600px.
+							</li>
+							<li>
+								<strong>slice</strong>: Scale the media until if fits the screen zone, while some media areas can be clipped.
+							</li>
+						</ul>
+					</article>
+					<article>
+						<h3 id="sound_volume">Sound Volume</h3>
+						<p>
+							The attribute soundLevel control applies to audio and video media only. Valid values for soundLevel are from 0% to 100%.
+						</p>
+					</article>
+					<article>
+						<h3 id="duration">Duration</h3>
+						<p>
+							The dur attribute can be applied to every media and <a href="../containers/">container</a>. It is superseded over their intrinsic duration. The following values are possible.
+						</p>
+						<ul>
+							<li>
+								<strong>media</strong>: The intrinsic duration.
+							</li>
+							<li>
+								<strong>indefinite</strong>: Indefinite in this context means endless.
+							</li>
+							<li>
+								<strong>Clock value</strong>: ms, s, min, h, etc. Look at SMIL's standards description of <a href="https://www.w3.org/TR/SMIL3/smil-timing.html#Timing-ClockValueSyntax" class="external_link">clock value syntax</a>.
+							</li>
+						</ul>
+					</article>
+					<p>
+						You can study a simple SMIL file for testing <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/body/simple.smil" class="external_link">here</a>.
+					</p>
+				</section>

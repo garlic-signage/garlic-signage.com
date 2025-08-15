@@ -1,0 +1,90 @@
+---
+title: "The Index File | The SMIL Essentials"
+smallTitle: "Index Files"
+date: 2025-08-15T22:37:23+02:00
+description: "Learn details about the SMIL index. How to create perfect and correct presentations?"
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+		<style>
+			#mn_index_file:before{content:'➤';}
+		</style>
+				<p>
+					Learn about the structure of a SMIL index.
+				</p>
+				<section>
+					<h2 id="Structure">The Structure</h2>
+					<p>
+						SMIL as an implementation of XML has similarities in structure to an XHTML file. There is a head and body area, as well as meta statements.
+					</p>
+					<article>
+						<h3 id="Differences_HTML_to_SMIL">Differences of HTML to SMIL</h3>
+						<p>
+							Through its many formatting and placement options, HTML represents a document. SMIL files, on the other hand, are more like a list or table of contents. We therefore also call the SMIL file the SMIL index or SMIL playlist. So, despite the structural similarities, we are dealing with two fundamentally different concepts.						</p>
+
+						<figure>
+<pre><code class="language-xml line-numbers">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;smil&gt;
+	&lt;head&gt;
+		&lt;!--  Controls, information or instructions --&gt;
+		&lt;meta name=&quot;title&quot; content=&quot;A SMIL Index file&quot; /&gt;
+		&lt;layout>
+			&lt;!-- Layout instructions--&gt;
+			&lt;root-layout id=&quot;display:0&quot; width=&quot;1920&quot; height=&quot;1080&quot; /&gt;
+		&lt;/layout&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;!-- Container and media objects --&gt;
+	&lt;/body&gt;
+&lt;/smil&gt;
+</code></pre>
+						<figcaption>
+								The typical structure of a SMIL index
+							</figcaption>
+						</figure>
+					</article>
+				</section>
+				<section>
+					<h2 id="head-area">Head Area</h2>
+					<article>
+						<h3 id="meta-tags">Meta Tags</h3>
+						<p>
+							In the meta-tags there is information like title, author, time, and instructions for the refresh. Depending on the software, this information is read and interpreted. Meta tags might also help to implement application-specific control commands.
+						</p>
+					</article>
+					<article>
+						<h3 id="layout-area">Layout Area</h3>
+						<p>
+							SMIL needs explicit information about the screen resolution. This is important because it can divide screens into sections. These sections or zones are allowed to overlap. In the chapter <a href="../screen-layout/">screen layout</a>, we go into this in more detail.
+						</p>
+						<p>
+							The root-layout-tag is mandatory, and you should specify it in every SMIL index. The width and height attributes refer to pixels.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="body-area">Body Area</h2>
+					<p>
+						In the body, the media objects are organized in so-called containers.
+					</p>
+					<article>
+						<h3 id="Media_objects">Media objects</h3>
+						<p>
+							<a href="../media-objects/">Media objects</a> include: images, video, SVG, web pages, text, widgets, etc. Depending on what the software you are using supports. The media have attributes that control their behavior.
+						</p>
+					</article>
+					<article>
+						<h3 id="Container">Container</h3>
+						<p>
+							<a href="../containers/">Container</a> affects the playback behavior of the media objects. There are three containers in SMIL 3.0.
+						</p>
+						<ol>
+							<li>Sequential play</li>
+							<li>Parallel play</li>
+							<li>Exclusive</li>
+						</ol>
+						<p>
+							Similar to media objects, containers also have attributes that control their behavior.
+						</p>
+					</article>
+				</section>
