@@ -1,16 +1,5 @@
 {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
-{{- if eq .Section "garlic-player" -}}
-	{{- partial "subnav-garlic-player.html" . -}}
-{{- end -}}
 
-{{- if eq .Section "garlic-hub" -}}
-	{{- partial "subnav-garlic-hub.html" . -}}
-{{- end -}}
-
-{{- if eq .Section "garlic-launcher" -}}
-	{{- partial "subnav-garlic-launcher.html" . -}}
-{{- end -}}
-
-{{- if eq .Section "garlic-proxy" -}}
-{{- partial "subnav-garlic-proxy.html" . -}}
+{{- if and .Section (hasPrefix .Section "garlic-") -}}
+	{{- partial (printf "subnav-%s.html" .Section) . -}}
 {{- end -}}

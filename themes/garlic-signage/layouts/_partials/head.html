@@ -3,7 +3,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1.0">
 <title>{{ .Title }}</title>
 <meta name="description" content="{{ .Description | default .Summary }}">
-
 {{ $ogImage := "" }}
 {{ $images := findRE `<img[^>]+src="([^"]+)"` .Content }}
 {{ if $images }}
@@ -12,9 +11,7 @@
 {{ else }}
   {{ $ogImage = printf "/images/logos/%s.png" .Section }}
 {{ end }}
-
 <meta property="og:image" content="{{ $ogImage | absURL }}">
-
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ .Title }}">
 <meta property="og:description" content="{{ .Description }}">
