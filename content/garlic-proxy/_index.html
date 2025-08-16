@@ -1,0 +1,42 @@
+---
+title: "Proxy for Digital Signage Networks | Garlic-Proxy"
+smallTitle: "Proxy for Digital Signage Networks"
+date: 2025-08-16T22:37:23+02:00
+description: "The proxy solution for digital signage networks with in low bandwidth environments"
+---
+				<p>
+					The garlic-proxy is a proxy solution for SMIL based local digital signage networks. It is lightweight without database and can run on a Raspberry Pi or other small devices.
+				</p>
+				<p>
+					A proxy solution is useful, if you want to operate a group of media player in a digital signage network with low bandwidth. This can be a big store or shopping mall.
+				</p>
+				<section itemscope itemtype="https://schema.org/FAQPage">
+					<div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h2 id="What_is_a_proxy" itemprop="name">What is a Proxy?</h2>
+						<p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<span itemprop="text">
+								A proxy server is a network cache to save traffic. This is often used by Internet Service providers. As a side effect, the proxy servers IP addresses from the receiving web server. This anonymity increases the security for the user.
+							</span>
+						</p>
+					</div>
+					<div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h2 itemprop="name" id="use-case">What is a Digital Signage Proxy use case?</h2>
+						<p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<span itemprop="text">
+								In a large installation in a location with hundreds of networks enabled digital signage screen. When every screen uses his individual internet connection to fetch updates, you will get a bottleneck. With a reverse proxy, you can share one internet connection and increase security, as the player do not need direct access to the internet to receive content.
+							</span>
+						</p>
+					</div>
+					<figure>
+						<img loading="lazy" src="/images/garlic-proxy/proxy-640x360.png" alt="Concept Proxy" style="width:100%; max-width:640px;"/>
+						<figcaption>The garlic-proxy workflow</figcaption>
+					</figure>
+					<div class="faq_content" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+						<h2 id="How_does_a_digital_signage_proxy_work" itemprop="name">How does a Digital Signage Proxy work?</h2>
+						<p itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+							<span itemprop="text">
+								 The principle is relatively simple. The media players do not connect to the digital signage CMS on the Internet as usual, but instead to the proxy server on the intranet. The Garlic proxy connects to the CMS on a time-controlled basis and retrieves the necessary content. Once downloaded, the intranet players update themselves based on what the proxy prepares for them.
+							</span>
+						</p>
+					</div>
+				</section>

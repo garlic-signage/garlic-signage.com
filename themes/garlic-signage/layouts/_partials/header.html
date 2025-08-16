@@ -6,3 +6,11 @@
 {{- if eq .Section "garlic-hub" -}}
 	{{- partial "subnav-garlic-hub.html" . -}}
 {{- end -}}
+
+{{- if eq .Section "garlic-launcher" -}}
+	{{- partial "subnav-garlic-launcher.html" . -}}
+{{- end -}}
+
+{{- if eq .Section "garlic-proxy" -}}
+{{- partial "subnav-garlic-proxy.html" . -}}
+{{- end -}}

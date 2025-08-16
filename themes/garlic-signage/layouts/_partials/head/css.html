@@ -32,6 +32,32 @@
 	{{- end }}
 {{- end }}
 
+{{- if eq .Section "garlic-launcher" }}
+	{{- with resources.Get "css/launcher.css" }}
+		{{- if hugo.IsDevelopment }}
+			<link rel="stylesheet" href="{{ .RelPermalink }}">
+		{{- else }}
+			{{- with . | minify | fingerprint }}
+				 <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+			{{- end }}
+		{{- end }}
+	{{- end }}
+{{- end }}
+
+{{- if eq .Section "garlic-proxy" }}
+	{{- with resources.Get "css/proxy.css" }}
+		{{- if hugo.IsDevelopment }}
+				<link rel="stylesheet" href="{{ .RelPermalink }}">
+		{{- else }}
+			{{- with . | minify | fingerprint }}
+				 <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+			{{- end }}
+		{{- end }}
+	{{- end }}
+{{- end }}
+
+
+
 {{- if eq .Section "resources" }}
 	{{- with resources.Get "css/resources.css" }}
 		{{- if hugo.IsDevelopment }}
