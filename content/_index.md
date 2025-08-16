@@ -1,6 +1,5 @@
 ---
 title: "GarlicSignage – Open Source Digital Signage"
-date: 2025-08-08T02:58:31+02:00
 description: "Open Source Digital Signage Software (SMIL compatible)"
 ---
 

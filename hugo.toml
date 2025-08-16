@@ -6,5 +6,11 @@ buildDrafts = true
 buildFuture = true
 buildExpired = true
 
+enableGitInfo = true
+
+[frontmatter]
+  date = [':fileModTime', ':default']
+  lastmod = [':fileModTime']
+
 [security]
   enableInlineShortcodes = true
