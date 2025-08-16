@@ -21,6 +21,9 @@
 			</main>
 			{{- if and (in .Params.customJS "toc") (fileExists "assets/js/toc.js") }}
 			<aside>
+				{{- if eq .Section "garlic-player" -}}
+				  <div class="download"><a href="/garlic-player/downloads/"><strong>Free Download:</strong> <br> Digital Signage Player Software</a></div>
+				{{- end -}}
 			  <div id="toc"><strong>Table of Contents</strong></div>
 			</aside>
 			{{- end }}

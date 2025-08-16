@@ -1,2 +1,4 @@
 #mn_resources{background-color:#fff;}
 #mn_resources a {color:#000;}
+h1, h2, h3, h4, a, .breadcrumb li a span, .name {color: #000;}
+.overview li:before{background: #000;}
