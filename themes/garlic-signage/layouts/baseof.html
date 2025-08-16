@@ -14,6 +14,9 @@
 			{{- if strings.HasPrefix .File.Path "garlic-player/downloads/" }}
 				{{ partial "player-downloads-navigation.html" . }}
 			{{- end }}
+			{{- if strings.HasPrefix .File.Path "garlic-launcher/docs/" }}
+				{{ partial "launcher-docs-navigation.html" . }}
+			{{- end }}
 			<main>
 				{{- partial "breadcrumb.html" . -}}
 				<h1>{{ .Title }}</h1>

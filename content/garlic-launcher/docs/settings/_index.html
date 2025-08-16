@@ -1,0 +1,96 @@
+---
+title: "Settings & Configuration | Garlic-Launcher Documentation"
+smallTitle: "Settings"
+date: 2025-08-16T22:37:23+02:00
+description: "Learn about the settings of Garlic Launcher for Digital Signage ✓ Kiosk Mode ✓ Content-Url ✓ Reboot times ✓"
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+		<style>
+			#mn_settings:before{content:'➤ ';}
+		</style>
+
+				<figure>
+					<img loading="lazy" src="/images/garlic-launcher/screenshots/launcher_settings.jpg" alt="Garlic-Launcher Settings" style="width:100%" />
+					<figcaption>Garlic-Launcher Settings Activity</figcaption>
+				</figure>
+				<section>
+					<h2 id="custom_back_button">Custom Back Button</h2>
+					<p>
+						This option appears only on rooted Android devices. It sets a Back-Button in the left down corner of the screen.
+					</p>
+					<article>
+						<h3 id="why">Why do we need this?</h3>
+						<p>
+							Some manufacturers build rooted Android images (AOSP) on customer request, which have additional options in their settings. Among other things, often there is an opportunity to disable the navigation bar totally in these, Unfortunately every manufacturer provides his API for that.
+						</p>
+						<p>
+							So, instead of supporting dozens of different manufacturers' APIs for hide/show, it is better to create a custom Back-Button which can be activated in the case it should be needed. For example, when starting a second app, a browser, do some maintenance etc…
+						</p>
+						<p>
+							It is recommended to use regularly supported features like the so-called “immersive mode”, but there are customers which do not want a visible navigation bar in their kiosk systems under any circumstances. Due to these reasons, there is a back button overlay possible.
+					</article>
+				</section>
+				<section>
+					<h2 id="service_password">Service Password</h2>
+					<p>
+						This activates the “strict mode” with a password.
+					</p>
+					<article>
+						<h3 id="strict_mode">What is the Strict Kiosk Mode?</h3>
+						<p>
+							The “Normal Kiosk Mode” means that garlic-launcher is pinned. So, it is not possible to exit into Android-UI. However, you can still install/uninstall apps or configure your device manually or remotely from a CMS. That is the common use case for the most requirements.
+						</p>
+						<p>
+							In some high-security environments, this is a no-go. To cover this, you can activate a more strict “Kiosk Mode”. This deactivates the config buttons in garlic-launcher and prevent the installing/uninstalling of apps, the modifying of accounts and some more things. So even on an application crash it is not possible to manipulate apps or user. If a maintenance technician needs physical access to the device, there is a password secured “Service Mode”-Button. This temporary deactivates the restrictions.
+						</p>
+						<p>
+							The password for activating the “Service-Mode” must be set personally and is not recoverable. For security reasons, the launcher stores the password hashed with an individual salt that is new created each time. So if you choose the password wisely, it cannot be attacked via brute-force or with <a href="https://en.wikipedia.org/wiki/Rainbow_table" class="external_link">rainbow tables</a>.
+						</p>
+						<p>
+							Do not forget the password; otherwise you had to execute a factory reset.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="content_url">Use Device Standby</h2>
+					<p>
+						The "Use Device Standby" setting allows your device to enter a limited standby mode. When enabled, this option permits the Android operating system to  reduce the device's power consumption by minimizing background activity and lowering the display's power usage.
+					</p>
+					<p>
+						Disabling the "Use Device Standby" option keeps the device fully operational at all times. Your device's screen will continue to display the default background of the player, which is typically black.
+					</p>
+					<p>
+						This option is particularly beneficial for users experiencing issues with their devices failing to wake up from standby mode reliably. By disabling "Use Device Standby," you can avoid these issues, ensuring uninterrupted access to your device.
+					</p>
+				</section>
+				<section>
+					<h2 id="content_url">Content-Url</h2>
+					<p>
+						Here, you can set the path where the player should look for a SMIL-file. This can be a web-path to a CMS like https://indexes.smil-control.com or direct to a SMIL-Index like https://domain.tld/index.smil or to a local directory like /home/user/index.smil.
+					</p>
+				</section>
+				<section>
+					<h2 id="no_delay">No Player start delay after booting</h2>
+					<p>
+						Normally, the digital signage player starts delayed (look below). This is for maintenance reasons. Activating this option makes the player starts immediately. But only the first time after a boot sequence.
+					</p>
+					<p>
+						When you close the player with Ctrl-Q or touching/clicking 10 times on screen, you will enter the launcher. Now the normal delay counts down.
+					</p>
+				</section>
+				<section>
+					<h2 id="start-delay">Start Delay for Player in s:</h2>
+					<p>
+						This value sets the delay until the player starts. Standard is 15s, but you can decrease it to 5s.
+					</p>
+					<p>
+						5s is a minimum; otherwise you had a good chance to lock yourself out.
+					</p>
+				</section>
+				<section>
+					<h2 id="daily_reboot">Daily Reboot</h2>
+					<p>
+						Set a daily reboot. Default is 3:00 a.m.
+					</p>
+				</section>

@@ -1,0 +1,73 @@
+---
+title: "Features | Garlic-Launcher"
+smallTitle: "Proxy for Digital Signage Networks"
+date: 2025-08-16T22:37:23+02:00
+description: "Learn about the features of Garlic Launcher for Android ✓ Non-root ✓ silent maintenance ✓ password security ✓"
+customJS: ["minibox"]
+---
+				<ul>
+					<li>Device Owner app</li>
+					<li>Supports reboots, screen off/on, and software updates silent without root</li>
+					<li>Watchdog timer controls if a media player is running</li>
+					<li>Tiny and resource-efficient – smaller than 60 KB</li>
+					<li>Software updates and configuration via <a href="/garlic-launcher/docs/usb-functions/">USB-Stick/SD-Card</a></li>
+					<li>Download player automatically downloads when the network is active</li>
+					<li>Custom <a href="/garlic-launcher/docs/settings/#custom_back_button">back button</a> as an overlay</li>
+					<li>Password secured <a href="/garlic-launcher/docs/settings/#strict_mode">strict kiosk mode</a></li>
+				</ul>
+				<figure>
+					<img loading="lazy" src="/images/garlic-launcher/screenshots/launcher_ui.jpg" alt="garlic-launcher UI" style="width:100%" />
+					<figcaption>Garlic-Launcher simple UI</figcaption>
+				</figure>
+				<section>
+					<h2 id="requirements">Requirements</h2>
+					<p>
+						You need a fully functional Android 7.1 or higher. Android TV and Fire OS from Amazon are crippled and have no provisioning mode. They cannot set a device owner app. Garlic-launcher will not work on this operating systems.
+					</p>
+				</section>
+				<section itemscope itemtype="https://schema.org/FAQPage">
+					<h2 id="Features_descriptions">Features Descriptions</h2>
+					<p>
+						Let's have a look at some feature details, which are not linked to the <a href="/garlic-launcher/docs/">documentation</a>.
+					</p>
+					<article>
+						<div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+							<h3 id="device_owner" itemprop="name">What is the Android Device Owner?</h3>
+							<div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+								<p itemprop="text">
+									The Device Owner is a unique software on an Android system. This software controls specific remote maintenance functions silently without interaction, without rooting the Android. Google introduced this mode for corporations who want to equip secure company controlled devices to their staff.
+								</p>
+							</div>
+						</div>
+						<p>
+							This is perfect for digital signage media player. You do not need unsecure rooted devices anymore. Garlic-launcher is a very tiny native app, which offers an interface with digital signage maintenance functions to Android.
+						</p>
+					</article>
+					<article>
+						<div itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+							<h3 id="Why_not_root" itemprop="name">Why you should not root your Android Device?</h3>
+							<div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+								<p itemprop="text">
+									To root an Android system is terrible from the point of security as the whole system is rooted. Every app can use this rights and deletes other apps or destroy settings. You require additional software for securing this holes, but this increases the complexity and the risk of bugs.
+								</p>
+							</div>
+						</div>
+					</article>
+					<article>
+						<h3 id="Watchdog">Watchdog Timer</h3>
+						<div class="flexbox">
+							<div>
+								<p>
+									Do not be fooled! Software is never perfect. It can have bugs and occasionally, there are crashes. The watchdog timer helps in this situation. It checks periodically if the <a href="/garlic-player/">garlic-player</a> is running and restarts it immediately in case of a crash.
+								</p>
+								<p>
+									The next photo shows what happens when a video player software crashes and there is no watchdog. It is from a shopping windows in Corfu-Town, Greece. You do not want this happens on your public screens.
+								</p>
+							</div>
+							<figure>
+								<a href="/images/fails/ds_corfu.jpg" class="minibox"><img loading="lazy" src="/images/fails/ds_corfu_small.jpg" alt="Digital Signage fail in Corfu" style="width:100px" /></a>
+								<figcaption>Click me</figcaption>
+							</figure>
+						</div>
+					</article>
+				</section>

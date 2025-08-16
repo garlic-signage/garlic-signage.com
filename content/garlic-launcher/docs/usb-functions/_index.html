@@ -1,0 +1,67 @@
+---
+title: "USB docs Garlic Launcher | Garlic-Launcher Documentation"
+smallTitle: "USB Functions"
+date: 2025-08-16T22:37:23+02:00
+description: "Learn about the USB capabilities of Garlic Launcher ✓ Updates ✓ Content upload ✓ Configuration ✓"
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+		<style>
+			#mn_usb:before{content:'➤ ';}
+		</style>
+
+
+				<p>
+					Occasionally, you want to avoid controlling or maintenance your Digital Signage Player remote. There is also the opportunity to do this locally with a USB-Stick or external hard disk. The USB storage must be formatted with FAT32 file format.
+				</p>
+				<p>
+					The following functionalities are possible via USB:
+				</p>
+				<ul>
+					<li>device configuration</li>
+					<li>assign local content and a SMIL-index file</li>
+					<li>install a player updates</li>
+				</ul>
+				<section>
+					<h2 id="Device_Configuration">Device Configuration</h2>
+					<p>
+						You can configure the WiFi-Settings, the global volume and the Content-Url with a config.xml. Place a file named config.xml in the root-directory of a USB stick and insert it into your Android device.
+					</p>
+					<article>
+						<h3 id="manually">Create config.xml manually</h3>
+						<p>
+							The config.xml should look like this:
+						</p>
+<pre><code class="language-xml line-numbers">&lt;configuration&gt;
+	&lt;userPref&gt;
+		&lt;prop name="net.wifi.enabled" value="true"/&gt;
+		&lt;prop name="net.wifi.ssid" value="YOUR_SSID"/&gt;
+		&lt;prop name="net.wifi.authentication" value="OPEN|WEP|WPAPSK|WPA2PSK"/&gt;
+		&lt;prop name="net.wifi.password" value="YOUR_PASSWORDD"/&gt;
+		&lt;prop name="content.serverUrl" value="YOUR_PATH_OR_URI_TO_SMIL_INDEX"/&gt;
+	&lt;/userPref&gt;
+&lt;/configuration&gt;
+</code></pre>
+					</article>
+					<article>
+						<h3 id="online">Create online at SmilControl</h3>
+						<p>
+							The <a href="https://smil-control.com/software/cms/" class="external_link">digital signage CMS</a> provides a comfortable tool which creates the config.xml for you on <a href="https://admin.smil-control.com/index.php?site=smil_player_usb" class="external_link">https://admin.smil-control.com/index.php?site=smil_player_usb</a>. You can register free.
+						</p>
+						<p>
+							When you insert the USB drive, files were copied into the player. They will be not played from the inserted storage directly.
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="install_player">Install Player Updates</h2>
+					<p>
+						Download the latest <a href="/garlic-player/">garlic-player</a> version.
+					</p>
+					<p>
+						Copy the file to root directory of your USB storage and name it garlic-player.apk.
+					</p>
+					<p>
+						After installation, the player will reboot. Remove the USB storage while booting. Otherwise, the installation repeats.
+					</p>
+				</section>

@@ -1,0 +1,80 @@
+---
+title: "Installation & Start | Garlic-Launcher Documentation"
+smallTitle: "Settings"
+date: 2025-08-16T22:37:23+02:00
+description: "Install documentation Garlic Launcher for Digital Signage ✓ Device owner ✓ Open Source ✓"
+customCSS: "prism"
+customJS: ["prism", "toc"]
+---
+		<style>
+			#mn_installation:before{content:'➤ ';}
+		</style>
+
+				<section>
+					<h2 id="preparations">Preparations</h2>
+					<p>
+						You need a fully functional Android. Android TV or this crippled Fire OS from Amazon have no provisioning mode. They cannot set a device owner app. Garlic-launcher will not work on this operating systems.
+					</p>
+					<p>
+						You also require an unprovisioned Android device. This means an installation which has not configured a play store account.
+					</p>
+					<p>
+						For example: You could do a factory reset first, but:
+					</p>
+					<p>
+						<strong>Don't do this on a productive device, tablets, or smartphone! A factory reset will delete all your data!</strong>
+					</p>
+					<p>
+						If you want to proceed, activate the “Developer options”.
+					</p>
+					<article>
+						<h3 id="download">Download</h3>
+						<p>
+							You can download the latest signed build from our CI <a href="/garlic-launcher/download/">here</a>
+						</p>
+					</article>
+				</section>
+				<section>
+					<h2 id="installation">Installation</h2>
+					<p>
+						On your host pc, enter: adb install /YOUR_PATH_TO_APK/latest_android_launcher.apk
+					</p>
+					<article>
+						<h3 id="device_owner">Set as Device Owner</h3>
+						<p>
+							The device owner mode normally enables companies to provision their devices, e.g., for their employers. This way the organization can control their device. Only one software can be set in this mode.
+						</p>
+						<p>
+							Setting garlic-launcher as device owner makes all the little magic things possible we require for a serious Digital Signage Media Player: like remote maintenance, configuration, updates, reboots, setting… etc. All this is possible even if the device is not rooted.
+						</p>
+						<h4 id="if_root">When device is Rooted</h4>
+						<p>
+							Garlic-launcher can detect a rooted device. In this case, the app can set the device owner by itself.
+						</p>
+						<h4 id="if_adb">Manually via Android Debug Bridge</h4>
+						<p>
+							If the device is not rooted, you can set the device owner with the following adb command:
+						</p>
+						<pre><code class="language-xml line-numbers">adb shell dpm set-device-owner com.sagiadinos.garlic.launcher/.receiver.AdminReceiver</code></pre>
+
+						<h4 id="CMS">With SmilControl CMS and QR-Code</h4>
+						<p>
+							Some <a href="https://smil-control/software/cms/" class="external_link">Digital Signage CMS</a> assist you to provision non-rooted devices easily via a QR-code. You will find a video tutorial which describes this process based on SmilControl-CMS on <a href="https://www.youtube.com/watch?v=gf832iRd5pY" class="external_link">YouTube</a>.
+						</p>
+					</article>
+					<article>
+						<h3 id="garlic-player">Garlic-Player</h3>
+						<p>
+							Garlic-Launcher will start to download the latest Garlic-Player automatically after it is set as device owner and has access to a network.
+						</p>
+						<p>
+							The Link to the player is <a href="https://github.com/garlic-signage/garlic-launcher/blob/master/src/main/java/com/sagiadinos/garlic/launcher/helper/PlayerDownloader.java#L43" class="external_link">hard-coded</a> in the launcher
+						</p>
+						<p>
+							This kind of download happens only once. Namely, when the launcher is installed and no player were detected. Automatic updates are not recommended in a productive Digital Signage environment.
+						</p>
+						<p>
+							Updating the player is possible via USB or CMS.
+						</p>
+					</article>
+				</section>
