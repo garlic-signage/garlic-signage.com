@@ -79,12 +79,12 @@ h1, h2, h3, h4
     font-family: 'Inconsolata Bold', 'Open Sans Bold', sans-serif;
     font-style:  normal;
 	margin:      0.5rem 0 0 0;
-	padding:     0;
+	padding:     0.75rem 0;
 }
 
-h1{font-size:1.6rem;margin:0.75rem 0 0.55rem 0;}
-h2 {font-size:1.2rem;}
-h3 {font-size:1.1rem;}
+h1{font-size:1.6rem;}
+h2 {font-size:1.4rem;}
+h3 {font-size:1.2rem;}
 h4 {font-size:1.0rem;}
 
 h1:target, h2:target, h3:target
@@ -290,11 +290,10 @@ main{width:800px; padding:0 1em;}
 		color:         white;
         font-size:     0.8rem;
         font-weight:   bold;
-		width:         1rem;
 		text-align:    center;
-		display:       inline-block;
+		display:       inline;
 		float:         left;
-		padding:       0 0.6rem 0 0.6rem;
+		padding:       0 1rem;
 		margin:        0.2rem 0.6rem 0 0;
 	}
 	.overview li:hover

@@ -5,3 +5,6 @@ theme = 'garlic-signage'
 buildDrafts = true
 buildFuture = true
 buildExpired = true
+
+[security]
+  enableInlineShortcodes = true
