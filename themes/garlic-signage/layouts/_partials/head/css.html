@@ -8,55 +8,17 @@
   {{- end }}
 {{- end }}
 
-{{- if eq .Section "garlic-player" }}
-  {{- with resources.Get "css/player.css" }}
-    {{- if hugo.IsDevelopment }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
-    {{- else }}
-      {{- with . | minify | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- if eq .Section "garlic-hub" }}
-	{{- with resources.Get "css/hub.css" }}
+{{- if and .Section (hasPrefix .Section "garlic-") -}}
+	{{- with resources.Get (printf "css/%s.css" .Section) }}
 		{{- if hugo.IsDevelopment }}
-      		<link rel="stylesheet" href="{{ .RelPermalink }}">
+			  <link rel="stylesheet" href="{{ .RelPermalink }}">
 		{{- else }}
 			{{- with . | minify | fingerprint }}
-       			 <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+					<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
 			{{- end }}
 		{{- end }}
 	{{- end }}
 {{- end }}
-
-{{- if eq .Section "garlic-launcher" }}
-	{{- with resources.Get "css/launcher.css" }}
-		{{- if hugo.IsDevelopment }}
-			<link rel="stylesheet" href="{{ .RelPermalink }}">
-		{{- else }}
-			{{- with . | minify | fingerprint }}
-				 <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-			{{- end }}
-		{{- end }}
-	{{- end }}
-{{- end }}
-
-{{- if eq .Section "garlic-proxy" }}
-	{{- with resources.Get "css/proxy.css" }}
-		{{- if hugo.IsDevelopment }}
-				<link rel="stylesheet" href="{{ .RelPermalink }}">
-		{{- else }}
-			{{- with . | minify | fingerprint }}
-				 <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-			{{- end }}
-		{{- end }}
-	{{- end }}
-{{- end }}
-
-
 
 {{- if eq .Section "resources" }}
 	{{- with resources.Get "css/resources.css" }}
