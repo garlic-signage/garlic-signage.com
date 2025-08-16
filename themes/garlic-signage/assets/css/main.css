@@ -372,12 +372,13 @@ footer
 	text-align:center;
 	width:100%;
 	color: #aaa;
-	font-size: 0.8em;
+	font-size: 0.9rem;
 	background-color: #eee;
 }
 	footer a
 	{
 		color: #aaa;
+        font-size: 0.9rem;
 		text-decoration: underline;
 	}
 
