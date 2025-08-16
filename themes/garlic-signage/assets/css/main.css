@@ -121,6 +121,8 @@ header
 	z-index:10000;
 }
 	nav.global_navigation{background-color: #3c3c3c;display: flex;}
+    nav.global_navigation .active{background-color: #fff; color: #000;}
+    nav.global_navigation .active:hover {color: #000;}
 	nav #sponsor{height:32px; margin: 0.6em 0.5em 0.3em auto; }
 	nav #sponsor a
 	{
