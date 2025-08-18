@@ -2,16 +2,6 @@
 
 @font-face
 {
-  font-family: 'Open Sans Light';
-  font-style: normal;
-  font-weight: 300;
-  src: local(''),
-       url('/fonts/open-sans-v18-latin-300.woff2') format('woff2'),
-       url('/fonts/open-sans-v18-latin-300.woff') format('woff');
-}
-
-@font-face
-{
   font-family: 'Open Sans Regular';
   font-style: normal;
   font-weight: 300;
@@ -52,17 +42,15 @@
 
 html{scroll-behavior: smooth;padding:0;margin:0}
 
-*
+body
 {
-	color:#555;
-	line-height: 1.6em;
+    color: #222;
+	line-height: 1.7rem;
 	font-family: 'Open Sans Regular', sans-serif;
-	font-size: 1rem;
-	font-weight: 400;
+	font-size: 1.0rem;
 }
 p{margin:0 0 0.5em 0;}
 strong{color:#333;font-family: 'Open Sans Bold', sans-serif;font-weight:700;}
-body{}
 img {border-radius:0.2em;border:1px solid #004664;}
 a
 {
@@ -75,17 +63,18 @@ a.external_link:after{content: " ↗";}
 
 h1, h2, h3, h4
 {
-    color:       #165669;
-    font-family: 'Inconsolata Bold', 'Open Sans Bold', sans-serif;
+    color:       #222;
+    font-family: 'Open Sans Bold', sans-serif;
     font-style:  normal;
-	margin:      0.5rem 0 0 0;
-	padding:     0.75rem 0;
+    text-align:  center;
 }
 
-h1{font-size:1.6rem;}
-h2 {font-size:1.4rem;}
-h3 {font-size:1.2rem;}
-h4 {font-size:1.0rem;}
+h1{font-size:2.0rem;margin: 0.5rem 0 1rem;}
+h2 { font-size: 1.6rem; margin-top: 1.75rem; }
+h3 { font-size: 1.3rem; margin-top: 1.5rem; }
+h4 { font-size: 1.0rem; margin-top: 1.25rem; }
+h5 { font-size: 0.9rem; margin-top: 1rem; }
+h6 { font-size: 0.8rem; margin-top: 0.75rem; }
 
 h1:target, h2:target, h3:target
 {
@@ -113,39 +102,6 @@ figure{margin:1em auto; text-align:center;	flex: auto;}
 figure a{border:0;}
 figcaption{text-align:center;overflow:hidden}
 code.tag{background-color: #f5ffe3;padding: 0 0.2em;}
-.slogan
-{
-    font-family: 'Inconsolata Bold', sans-serif;
-    position: relative;
-    margin: 0;
-    height:3rem;
-    padding: 1rem;
-    overflow: hidden;
-}
-    .slogan span {
-        position: absolute;
-        font-size: 2rem;
-        color: #7e0000;
-        font-weight: 700;
-        width: 100%;
-        opacity: 0;
-        text-align: center;
-        animation: fade 25s infinite;
-    }
-
-    .slogan span:nth-child(1) { animation-delay: 0s; }
-    .slogan span:nth-child(2) { animation-delay: 5s; }
-    .slogan span:nth-child(3) { animation-delay: 10s; }
-    .slogan span:nth-child(4) { animation-delay: 15s; }
-    .slogan span:nth-child(5) { animation-delay: 20s; }
-
-    @keyframes fade {
-        0%   { opacity: 0; transform: translateY(100%); }
-        4%   { opacity: 1; transform: translateY(0); }
-        20%  { opacity: 1; transform: translateY(0); }
-        24%  { opacity: 0; transform: translateY(-100%); }
-        100% { opacity: 0; }
-    }
 
 header
 {
@@ -154,7 +110,7 @@ header
 	top: 0;
 	z-index:10000;
 }
-	nav.global_navigation{background-color: #3c3c3c;display: flex;}
+	nav.global_navigation{background-color: #222;display: flex;}
     nav.global_navigation .active{background-color: #fff; color: #000;}
     nav.global_navigation .active:hover {color: #000;}
 	nav #sponsor{height:32px; margin: 0.6em 0.5em 0.3em auto; }
@@ -172,15 +128,21 @@ header
 	}
 	nav #sponsor a:hover{background-color: #efefef;border-color:#222;}
 
-	.main-menu-box a{color:#fff; display:block;padding:0.75em 1em;}
-	.main-menu-box a:hover {color:#fff;}
+	.main-menu-box a{color:#ddd; display:block;padding:0.5rem 1em;}
+	.main-menu-box a:hover {color:#fff; background-color: #666;}
+    .main-menu-box li:nth-child(2) a:hover {color:#fff; background-color: royalblue;}
+    .main-menu-box li:nth-child(3) a:hover {color:#fff; background-color: #087c7e;}
+    .main-menu-box li:nth-child(4) a:hover {color:#fff; background-color: #58c08c;}
+    .main-menu-box li:nth-child(5) a:hover {color:#fff; background-color: #9a90de;}
+    .main-menu-box li:first-child a {font-family: 'Open Sans Bold', sans-serif; color:#fff;}
 	.main-menu-box li {}
 	.main-menu-box
 	{
 		display:flex;
-		gap:1em;
+		gap:0.25em;
+        font-size: 0.9rem;
 		margin:0;
-		padding: 0 0 0 1em;
+		padding: 0;
 		list-style: none;
 		align-items: center;
 	}
@@ -225,10 +187,9 @@ header
 	{
 		list-style:none;
 		padding:0.5rem 0;
-		margin:0 0 0.5em 0 ;
+		margin:0;
 		display:flex;
         font-size: 0.8rem;
-		border-bottom: 2px solid #333;
         overflow: hidden;
         width: 100%;
         white-space: nowrap;
@@ -259,6 +220,14 @@ header
 	.the_apps .logo img {border:0; height:8em;}
 	.the_apps li:hover{background-color:#fff}
 
+.content-box
+{
+    background: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+}
+
 #content_section
 {
 	display:flex;
@@ -288,7 +257,7 @@ header
 		margin: 0 1em;
 	}
 
-main{width:800px; padding:0 1em;}
+main{width:800px; padding:0 1rem;}
 	.overview
 	{
 		list-style: none;
