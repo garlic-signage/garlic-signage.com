@@ -3,7 +3,7 @@ languageCode = 'en-US'
 
 [menus]
   [[menus.main]]
-    name = 'Home'
+    name = 'GarlicSignage'
     pageRef = '/'
     weight = 10
 
