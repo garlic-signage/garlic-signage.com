@@ -1,0 +1,64 @@
+
+h1{font-size:2.0rem;margin: 2rem 0 1rem;}
+
+.slogan
+{
+    position: relative;
+    margin: 0;
+    height:1.5rem;
+    padding: 2rem;
+    overflow: hidden;
+}
+    .slogan span {
+        position: absolute;
+        font-size: 2.5rem;
+        font-family: 'Open Sans Bold', sans-serif;
+        font-weight: 700;
+        width: 100%;
+        opacity: 0;
+        text-align: center;
+        animation: fade 25s infinite;
+    }
+
+    .slogan span:nth-child(1) { animation-delay: 0s; }
+    .slogan span:nth-child(2) { animation-delay: 5s; }
+    .slogan span:nth-child(3) { animation-delay: 10s; }
+    .slogan span:nth-child(4) { animation-delay: 15s; }
+    .slogan span:nth-child(5) { animation-delay: 20s; }
+
+    @keyframes fade {
+        0%   { opacity: 0; transform: translateY(100%); }
+        4%   { opacity: 1; transform: translateY(0); }
+        20%  { opacity: 1; transform: translateY(0); }
+        24%  { opacity: 0; transform: translateY(-100%); }
+        100% { opacity: 0; }
+    }
+
+.the-apps
+{
+    list-style: none;
+    display: flex;
+    gap:1em;
+    padding:0;
+    margin:0;
+    flex-wrap: wrap;
+    width:100%;
+}
+    .the-apps li
+    {
+        width: 40%;
+        padding: 0.5em 0.5em 1em 0.5em;
+        background: #fff;
+        border-radius: 0.75rem;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .the-apps .subtitle{text-align:center;}
+    .the-apps .logo{text-align:center;}
+    .the-apps .logo img {border:0; height:8em;}
+    .the-apps li:hover
+    {
+        box-shadow: 0 7px 12px rgba(0,0,0,0.25);
+        transform: translateY(-0.1rem);
+    }

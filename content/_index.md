@@ -1,8 +1,8 @@
 ---
 title: "GarlicSignage – Open Source Digital Signage"
 description: "Liberating digital signage from overpriced cloud services."
+customCSS: "home"
 ---
-
 
 GarlicSignage is an open-source software suite for digital signage, built on the industry-standard SMIL language. Our mission is to provide clear tools and documentation to help you create effective and adaptable signage solutions.
 
@@ -16,6 +16,7 @@ Whether you're a developer looking for a reliable framework or a user ready to b
 - **For Users:** create playlists and run them on any compatible device.
 - **For Developers:** extend, adapt, and contribute via GitHub.
     Open source. No lock-in. SMIL inside.
+
 
 ## The Apps
 

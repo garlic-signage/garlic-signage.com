@@ -107,6 +107,7 @@ header
 {
 	background-color: #fff;
 	position:sticky;
+    border-bottom: 1px solid #ddd;
 	top: 0;
 	z-index:10000;
 }
@@ -199,27 +200,6 @@ header
 	.breadcrumb li a{border-bottom:0;}
 	.breadcrumb li a span {color: #165669;}
 
-.the_apps
-{
-	list-style: none;
-	display: flex;
-	gap:1em;
-	padding:0;
-	margin:0;
-	flex-wrap: wrap;
-	width:100%;
-}
-	.the_apps li
-	{
-		width: 40%;
-		border:1px solid black;
-		padding: 1em 1em 2em 1em;
-	}
-	.the_apps .subtitle{text-align:center;}
-	.the_apps .logo{text-align:center;}
-	.the_apps .logo img {border:0; height:8em;}
-	.the_apps li:hover{background-color:#fff}
-
 .content-box
 {
     background: #f8f8f8;
@@ -282,8 +262,10 @@ main{width:800px; padding:0 1rem;}
 
 	.overview li h2
 	{
+        text-align: left;
+        font-size: 1.4rem;
 		margin-top:0;
-		padding-top:0;
+		padding-top:0.25rem;
 	}
 
 	.overview li:before
@@ -373,17 +355,17 @@ aside
 
 footer
 {
-	padding:0.5em 0;
 	text-align:center;
 	width:100%;
+    padding: 1.5rem 0;
 	color: #aaa;
 	font-size: 0.9rem;
-	background-color: #eee;
+	background-color: #222;
 }
 	footer a
 	{
 		color: #aaa;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
 		text-decoration: underline;
 	}
 

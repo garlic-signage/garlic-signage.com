@@ -19,7 +19,7 @@
 			{{- end }}
 			<main>
 				{{- partial "breadcrumb.html" . -}}
-				<h1>{{ .Title }}</h1>
+				<h1>{{ .Params.pageHeader | default .Title }}</h1>
 				{{ block "main" . }}{{ end }}
 			</main>
 			{{- if and (in .Params.customJS "toc") (fileExists "assets/js/toc.js") }}
