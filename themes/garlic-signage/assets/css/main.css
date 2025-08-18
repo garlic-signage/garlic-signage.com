@@ -203,10 +203,12 @@ header
 
 .content-box
 {
-    background: #f8f8f8;
+    background: #fff;
     border: 1px solid #ddd;
-    padding: 1rem 1.5rem;
-    border-radius: 0.5rem;
+    padding: 2rem 3rem;
+    margin-top:2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
 
 #content_section
