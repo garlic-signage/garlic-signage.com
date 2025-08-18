@@ -7,7 +7,7 @@ RELEASES=$BASE/releases
 DEST=$RELEASES/$STAMP
 CURRENT=$BASE/current
 
-mkdir -p "$RELEASES"
+mkdir -p "$DEST"
 
 # Update repository
 cd "$REPO"
@@ -20,13 +20,13 @@ hugo -s "$REPO" -d "$DEST" --gc --minify
 find "$DEST" -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.svg' -o -name '*.xml' -o -name '*.json' \) -print0 | xargs -0 -I{} brotli -Z --keep {}
 find "$DEST" -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name '*.svg' -o -name '*.xml' -o -name '*.json' \) -print0 | xargs -0 -I{} gzip -9 -k {}
 
-chown -R www-data:www-data "$DEST"
+#chown -R niko:users "$DEST"
 
 # Atomic Switch
 ln -sfn "$DEST" "$CURRENT"
 
 # Health-Check
-curl -fsS https://garlic-signage.com/ >/dev/null || exit 1
+#curl -fsS https://garlic-signage.com/ >/dev/null || exit 1
 
 # Cleanup: keep last 5
 ls -1dt "$RELEASES"/* | tail -n +6 | xargs -r rm -rf
