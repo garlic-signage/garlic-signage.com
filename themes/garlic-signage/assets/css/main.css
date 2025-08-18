@@ -113,6 +113,40 @@ figure{margin:1em auto; text-align:center;	flex: auto;}
 figure a{border:0;}
 figcaption{text-align:center;overflow:hidden}
 code.tag{background-color: #f5ffe3;padding: 0 0.2em;}
+.slogan
+{
+    font-family: 'Inconsolata Bold', sans-serif;
+    position: relative;
+    margin: 0;
+    height:3rem;
+    padding: 1rem;
+    overflow: hidden;
+}
+    .slogan span {
+        position: absolute;
+        font-size: 2rem;
+        color: #7e0000;
+        font-weight: 700;
+        width: 100%;
+        opacity: 0;
+        text-align: center;
+        animation: fade 25s infinite;
+    }
+
+    .slogan span:nth-child(1) { animation-delay: 0s; }
+    .slogan span:nth-child(2) { animation-delay: 5s; }
+    .slogan span:nth-child(3) { animation-delay: 10s; }
+    .slogan span:nth-child(4) { animation-delay: 15s; }
+    .slogan span:nth-child(5) { animation-delay: 20s; }
+
+    @keyframes fade {
+        0%   { opacity: 0; transform: translateY(100%); }
+        4%   { opacity: 1; transform: translateY(0); }
+        20%  { opacity: 1; transform: translateY(0); }
+        24%  { opacity: 0; transform: translateY(-100%); }
+        100% { opacity: 0; }
+    }
+
 header
 {
 	background-color: #fff;

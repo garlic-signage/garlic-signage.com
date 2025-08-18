@@ -1,5 +1,9 @@
 {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
 
+{{- if .IsHome -}}
+	{{ partial "slogan.html" . }}
+{{- end -}}
+
 {{- if and .Section (hasPrefix .Section "garlic-") -}}
 	{{- partial (printf "subnav-%s.html" .Section) . -}}
 {{- end -}}
