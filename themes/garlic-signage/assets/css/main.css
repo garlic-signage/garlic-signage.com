@@ -67,9 +67,10 @@ h1, h2, h3, h4
     font-family: 'Open Sans Bold', sans-serif;
     font-style:  normal;
     text-align:  center;
+    margin-bottom: 0.75rem;
 }
 
-h1{font-size:2.0rem;margin: 0.5rem 0 1rem;}
+h1{font-size:2.0rem;margin: 0.5rem 0 1.5rem 0;}
 h2 { font-size: 1.6rem; margin-top: 1.75rem; }
 h3 { font-size: 1.3rem; margin-top: 1.5rem; }
 h4 { font-size: 1.0rem; margin-top: 1.25rem; }
@@ -237,7 +238,10 @@ header
 		margin: 0 1em;
 	}
 
-main{width:800px; padding:0 1rem;}
+main {
+    width: 800px;
+    padding:0.25rem 3rem 2rem 3rem;
+}
 	.overview
 	{
 		list-style: none;
@@ -418,9 +422,6 @@ footer
 		margin: 0;
 		padding: 80px 0;
 		list-style: none;
-		background-color: #3c3c3c;
-		box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
-		transition-duration: .25s;
 	}
 	.menu_item
 	{
@@ -443,7 +444,6 @@ footer
 		padding-top:130px; /* = to height of navbar */
 		margin-top:-130px;
 	}
-	main {width:unset;}
 	main {width:unset;}
 	.flexbox{flex-direction: column;}
 	.overview li{padding: 0.5em;}
