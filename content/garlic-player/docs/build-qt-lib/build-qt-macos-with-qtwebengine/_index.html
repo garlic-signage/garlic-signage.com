@@ -1,7 +1,9 @@
 ---
-title: "Build Qt with QWebengine as Universal Binary with macOS"
+title: "Build Qt with Qt WebEngine as a Universal Binary on macOS | Garlic-Player"
+pageHeader: "Build Qt as Universal Binary on macOS"
 smallTitle: "macOS (Universal)"
-description: "Tutorial on how to build an universal binary Qt Lib with QWebengine with Xcode and macOS."
+description: "Step-by-step guide to building a Universal Binary of the Qt library with Qt WebEngine using Xcode on macOS."
+
 customCSS: "prism"
 customJS: ["prism", "toc"]
 ---
@@ -19,7 +21,7 @@ customJS: ["prism", "toc"]
 					<p>
 						But for some mysterious reasons this is not possible with macOS. The second step will throw errors mostly after 90%. Let's do it in one step.
 					</p>
-					<article>
+					<section>
 						<h3 id="requirements_qt">Requirements for Qt-Lib</h3>
 						<ul>
 							<li>
@@ -43,8 +45,8 @@ mv qt-everywhere-opensource-src-5.15.11 Qt/5.15.11/Src
 </code></pre>
 							</li>
 						</ul>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="requirements_qwebengine ">Requirements and Preparatory her Annoyance: QWebengine</h3>
 						<p>
 							The frustration of dealing with this software that repeatedly fails to compile can be likened to the relentless demands of an attention-seeking child. Each failed attempt at compiling is a cry for attention, a signal that something is amiss and requires immediate care and intervention. Welcome to the annoying world of Qt's Webengine.
@@ -58,8 +60,8 @@ mv qt-everywhere-opensource-src-5.15.11 Qt/5.15.11/Src
 								<pre><code class="language-xml line-numbers">sudo port select --set python python27</code></pre>
 							</li>
 						</ul>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="build-steps-qt-lib ">Build Steps for Qt-Lib</h3>
 						<ol>
 							<li>
@@ -138,7 +140,7 @@ cd build_qt
 								This will also take some minutes.
 							</li>
 						</ol>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="share">Share Your Thoughts</h2>

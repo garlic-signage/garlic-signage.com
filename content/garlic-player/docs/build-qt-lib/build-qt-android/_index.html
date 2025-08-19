@@ -1,12 +1,13 @@
 ---
-title: "Build Qt for Android (Multi ABI) with Debian"
+title: "Build  Qt for Android (Multi-ABI) on Debian Linux | Garlic-Player"
+pageHeader: "Build Qt for Android on Debian"
 smallTitle: "Android with Debian"
-description: "Tutorial on how to build an Multi ABI Qt Lib for Android with a Debian LinuxS."
+description: "Step-by-step guide to building a Multi-ABI Qt library for Android using Debian Linux."
 customCSS: "prism"
 customJS: ["prism", "toc"]
 ---
 				<p>
-					This article provides a thorough tutorial on compiling a multi ABI Qt for Android under the Linux operating system. It covers topics such as setting up the development environment, configuring the Android SDK and NDK, preparing the Qt source code, and the step-by-step process of cross-compiling Qt for Android.
+					This section provides a thorough tutorial on compiling a multi ABI Qt for Android under the Linux operating system. It covers topics such as setting up the development environment, configuring the Android SDK and NDK, preparing the Qt source code, and the step-by-step process of cross-compiling Qt for Android.
 				</p>
 				<p>
 					The guide also includes sections on testing and troubleshooting, along with advice for integrating compiled Qt libraries with Android Studio. This tutorial is aimed at developers seeking practical guidance on using Qt for Android development in a Linux environment.
@@ -28,7 +29,7 @@ customJS: ["prism", "toc"]
 					<p>
 						In the following sections, we will thoroughly outline the prerequisites, detail the specific tools required, and guide you through the entire setup process essential for successfully compiling Qt. You can do the most work with your user account and with to root only when there are things to install for the operating system.
 					</p>
-					<article>
+					<section>
 						<h3 id="requirements_qt">Requirements for Qt-Lib</h3>
 						<ol>
 							<li>
@@ -91,8 +92,8 @@ webSettings.setLoadWithOverviewMode(true);</code></pre>
 								<p>Another solution is to let Qts Maintenance Tool install it. <strong>But check the x86 directory for 1.1.1 version!</strong></p>
 							</li>
 						</ol>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="android_sdk_manually">Install Android SDK Essentials Manually</h3>
 						<p>
 							The manual installation gives you more freedom in selecting exactly only what you require. This can be important, when you have to compile on a server via ssh.
@@ -138,8 +139,8 @@ mv Android/Sdk/cmdline-tools/cmdline-tools/ Android/Sdk/cmdline-tools/latest</co
 								If you have experiences with newer versions, write me.
 							</li>
 						</ol>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="build-steps-qt-lib ">Build Steps for Qt-Lib</h3>
 						<ol>
 							<li>
@@ -192,7 +193,7 @@ export JAVA_HOME=$JDK_PATH
 							</li>
 						</ol>
 						On an AMD Ryzen 9 5950X with make -j32 build process will take about 20 min.
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="share">Share Your Thoughts</h2>

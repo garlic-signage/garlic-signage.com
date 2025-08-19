@@ -1,7 +1,8 @@
 ---
-title: "Build Qt with Qt Webengine with VS2019 Community"
+title: "Build Qt with Qt WebEngine using Visual Studio 2019 on Windows | Garlic-Player"
+pageHeader: "Build Qt with VS2019 on Windows"
 smallTitle: "VS2019 Windows"
-description: "Tutorial on how to build Qt Lib with QWebengine with Visual Studio 2019 and Windows."
+description: "Step-by-step guide to building the Qt library with Qt WebEngine on Windows using Visual Studio 2019 Community Edition."
 customCSS: "prism"
 customJS: ["prism", "toc"]
 ---
@@ -16,7 +17,7 @@ customJS: ["prism", "toc"]
 					<p>
 						The following sections will outline the prerequisites, tools, and setup necessary to compile Qt on your machine. So, let's get started first by mastering the Qt lib build process!
 					</p>
-					<article>
+					<section>
 						<h3 id="requirements_qt">Requirements for Qt-Lib</h3>
 						<ul>
 							<li>
@@ -38,8 +39,8 @@ customJS: ["prism", "toc"]
 								Install <a href="https://visualstudio.microsoft.com/de/vs/older-downloads/" rel="noopener" class="external_link">Visual Studio 2019 Community and Windows 10.0.19041.0 SDK</a>. It is important to install also C++ ATL for the correspondingh build-tools version. Otherwise compile can fail.
 							</li>
 						</ul>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="build-steps-qt-lib ">Build Steps for Qt-Lib</h3>
 						<ol>
 							<li>
@@ -102,14 +103,14 @@ nmake
 								This will take some minutes.
 							</li>
 						</ol>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="">The Pain Queen: Qt Webengine</h2>
 					<p>
 						Welcome to the exclusive club of compiling Qt Webengine, where the only thing more unpredictable than the British weather is whether your build will breeze through or crash and burn at 80%. To find out the correct parameters how to compile this on a fresh installed Geekom AS6 NUC with 32 GB RAM, 1 TB NVMe, and a Ryzen 7735HS with Windows 11 Pro costs me some time.
 					</p>
-					<article>
+					<section>
 						<h3 id="requirements_webengine">Requirements and Preparatory Work for Qt Webengine</h3>
 						<ul>
 							<li>
@@ -169,8 +170,8 @@ nmake
 								Time, coffee, tea, popcorn, and some frustration residence
 							</li>
 						</ul>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="build-steps-qwebengine">Build Steps for Qt Webengine</h3>
 						<ol>
 							<li>
@@ -245,7 +246,7 @@ C:\Qt\5.15.11\bin\qmake %QT_SRC%\qtwebengine\qtwebengine.pro -- -no-webengine-ju
 								<pre><code class="language-xml line-numbers">nmake install</code></pre>
 							</li>
 						</ol>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="share">Share Your Thoughts</h2>

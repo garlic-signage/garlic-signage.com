@@ -267,7 +267,7 @@ main {
 		display:block;
 	}
 
-	.overview li h2
+	.overview li h2, .overview li h3
 	{
         text-align: left;
         font-size: 1.4rem;

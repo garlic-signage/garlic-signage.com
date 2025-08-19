@@ -1,11 +1,13 @@
 ---
-title: "Build Qt-Lib With Qt Webengine"
-description: "How To build Qt Lib including Qt Webengine."
+title: "How to Build Qt Library with Qt WebEngine | Garlic-Player"
+pageHeader: "Build Qt with Qt WebEngine"
+smallTitle: "Qt Build"
+description: "Step-by-step tutorial on building the Qt library with Qt WebEngine for Garlic-Player and digital signage applications."
 ---
 				<p>
-					In this guide, we will embark on a journey through the process of building Qt with the WebEngine module. Whether you're a seasoned developer or new to the world of Qt, this tutorials are designed to provide you with (hhopefully) clear, step-by-step approaches to integrating WebEngine into your Qt projects.
+					In this guide, we will embark on a journey through the process of building Qt with the WebEngine module. Whether you're a seasoned developer or new to the world of Qt, this tutorial is designed to provide you with (hopefully) clear, step-by-step approaches to integrating WebEngine into your Qt projects.
 				</p>
-				<section>
+				<article>
 					<h2>Why Build Qt-lib From Scratch?</h2>
 					<p>
 						The Qt Company changed their business model and doesn't release binary LTS builds anymore. The LTS versions were published only in source code a year later.<br>
@@ -14,14 +16,12 @@ description: "How To build Qt Lib including Qt Webengine."
 					<p>
 						Furthermore, even the binary releases lack certain capabilities in Qt Webengine, such as proprietary codes for playing MP4 within the web browser component of the application. According to the laws of your country, it may be legal for you to activate these features.
 					</p>
-				</section>
-				<section>
-					<h2>Are There Not Enough Online Tutorials about Compiling Qt?</h2>
+					<h2>Quality guides for compiling Qt are scarce on the web.</h2>
 					<p>
-						Probably not! Of course, there are numerous so-called guides on the net, but many authors “conveniently” skipped over critical parts like Qt Webengine. Because this piece of the Qt puzzle has been a pain in the ass for years. It takes forever, it is greedy for resources and if you face non-reproducible cryptic breaks, then be assured, it usually happens there. This happens quiet often shortly before finish after hours of compiling. Unfortunately, developer of digital signage apps do not have the luxury to avoid this annoyance with a simple -skip qtwebengine.
+						Of course, there are many so-called guides on the net, but many authors “conveniently” skipped over critical parts like Qt Webengine. Because this piece of the Qt puzzle has been a pain in the ass for years. It takes forever, it is greedy for resources and if you face non-reproducible cryptic breaks, then be assured, it usually happens there. This often happens quiet shortly before finish after hours of compiling. Unfortunately, a developer of digital signage apps do not have the luxury to avoid this annoyance with a simple -skip qtwebengine.
 					</p>
 					<p>
-						 In the last years I found not even one "Build-Qt-Tutorial" that worked out-of-the-box. You will always encounter compile errors and end up in google information from different sources. Or waste your time reading useless forum communication with people, who misunderstand help with punishment and ego pushing. Chromium sources are brats in general. Upgrading the operating system or even using a Qt-LTS update can break build config setting which worked fine before.
+						 In the last years, I found not even one "Build-Qt-Tutorial" that worked out-of-the-box. You will always encounter compile errors and end up in Google information from different sources. Or waste your time reading useless forum communication with people, who misunderstand help with punishment and ego pushing. Chromium sources are brats in general. Upgrading the operating system or even using a Qt-LTS update can break build config setting which worked fine before.
 					</p>
 						For example:
 						<ul>
@@ -32,7 +32,10 @@ description: "How To build Qt Lib including Qt Webengine."
 								From Qt5.15.11 Android compiles under Buster and Bullseye, but fails in Bookworm although using same parameters.
 							</li>
 							<li>
-								Qt Webengine for Linux fails with <a href="https://github.com/conan-io/conan-center-index/issues/17273" rel="noopener" class="external_link">Debian Buster from Qt5.15.8</a> on. You need the gold linker, old binutils and some other complex changes. I decided to move to Bullseye, as latest version Bookworm give other problems.
+								Qt Webengine for Linux fails with <a
+									href="https://github.com/conan-io/conan-center-index/issues/17273"
+									rel="noopener"
+									class="external_link">Debian Buster from Qt5.15.8</a> on. You need the gold linker, old binutils and some other complex changes. I decided to move to Bullseye, as latest version Bookworm give other problems.
 							</li>
 							<li>
 								etc.
@@ -42,58 +45,60 @@ description: "How To build Qt Lib including Qt Webengine."
 
 					</p>
 					<p>
-						Be prepared; errors will probably happens here, too. I am open for suggestions and if you were able to solve an issue - please write me and I publish your solution with a backlink in a troubleshoot section or in the article. But do the world a favour: Drop some explaining sentences. Better 20 words too much than one word less. I am honestly sick guessing to understand what some heroes in StackOverflow or in the Qt forums could probably want to explain.
+						Be prepared; errors will probably happen here, too. I am open for suggestions, and if you were able to solve an issue - please write me and I publish your solution with a backlink in a troubleshooting section or in the section. But do the world a favour: Drop some explaining sentences. Better 20 words are too much than one word less. I am honestly sick guessing to understand what some heroes in StackOverflow or in the Qt forums could probably want to explain.
 					</p>
-				</section>
-				<ol>
-					<li>
-						<a href="build-qt-windows-with-qtwebengine/">
-							<article>
-								<h3>Build Qt5.15.11 with Qt Webengine for Win11 Pro </h3>
-								<p>
-									How to build the Qt Lib including Qt Webengine on Windows 11 Pro using Visual Studio 2019 Community.
-								</p>
-							</article>
-						</a>
-					</li>
-<!--					<li>
-						<a href="build-qt-linux-with-qtwebengine/">
-							<article>
-								<h3>Build Qt5.15.11 with Qt Webengine for Linux (Debian)</h3>
-								<p>
-									Building the Qt Lib including Qt Webengine for Debian Linux seems to be easier, but we also need to cover some things.
-								</p>
-							</article>
-						</a>
-					</li>
--->					<li>
-						<a href="build-qt-macos-with-qtwebengine/">
-							<article>
-								<h3>Build Qt5.15.11 Universal Build with Qt Webengine for macOS Ventura</h3>
-								<p>
-									As of the new Apples Silicon chips we had to find out, how to build the everything as universal binaries.
-								</p>
-							</article>
-						</a>
-					</li>
-					<li>
-						<a href="build-qt-android/">
-							<article>
-								<h3>Build Qt5.15.10/11 for Android with Debian</h3>
-								<p>
-									Fortunately in Android Webengine is not supported, but there are enough other pitfalls.
-								</p>
-							</article>
-						</a>
-					</li>
-<!--					<li>
-						<a href="build-qt-raspberry-pi-with-qtwebengine/">
-							<article>
-								<h3>Build Qt5.15.12 with Qt Webengine for Raspberry Pi 64</h3>
-								<p>
-									Let's build the Qt Lib including Qt Webengine for Raspberry Pi with Debian Linux 12 (Bookworm).
-								</p>
-							</article>
-						</a>
-					</li>
--->				</ol>
+					<section>
+						<ol class="overview">
+							<li>
+								<a href="build-qt-windows-with-qtwebengine/">
+									<section>
+										<h3>Build Qt5.15.11 with Qt Webengine for Win11 Pro </h3>
+										<p>
+											How to build the Qt Lib including Qt Webengine on Windows 11 Pro using Visual Studio 2019 Community.
+										</p>
+									</section>
+								</a>
+							</li>
+							<!--					<li>
+													<a href="build-qt-linux-with-qtwebengine/">
+														<section>
+															<h3>Build Qt5.15.11 with Qt Webengine for Linux (Debian)</h3>
+															<p>
+																Building the Qt Lib including Qt Webengine for Debian Linux seems to be easier, but we also need to cover some things.
+															</p>
+														</section>
+													</a>
+												</li>
+							-->					<li>
+								<a href="build-qt-macos-with-qtwebengine/">
+									<section>
+										<h3>Build Qt5.15.11 Universal with Qt Webengine for macOS</h3>
+										<p>
+											As of the new Apples Silicon chips we had to find out, how to build the everything as universal binaries.
+										</p>
+									</section>
+								</a>
+							</li>
+							<li>
+								<a href="build-qt-android/">
+									<section>
+										<h3>Build Qt5.15.10/11 for Android with Debian</h3>
+										<p>
+											Fortunately in Android Webengine is not supported, but there are enough other pitfalls.
+										</p>
+									</section>
+								</a>
+							</li>
+							<!--					<li>
+													<a href="build-qt-raspberry-pi-with-qtwebengine/">
+														<section>
+															<h3>Build Qt5.15.12 with Qt Webengine for Raspberry Pi 64</h3>
+															<p>
+																Let's build the Qt Lib including Qt Webengine for Raspberry Pi with Debian Linux 12 (Bookworm).
+															</p>
+														</section>
+													</a>
+												</li>
+							-->				</ol>
+					</section>
+				</article>
