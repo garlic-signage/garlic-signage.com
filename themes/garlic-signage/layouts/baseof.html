@@ -7,6 +7,10 @@
 		<header>
 			{{ partial "header.html" . }}
 		</header>
+		{{- if .IsHome -}}
+			{{ partial "slogan.html" . }}
+		{{- end -}}
+
 		<div id="content_section">
 			{{- if strings.HasPrefix .File.Path "garlic-player/docs/essentials/" }}
 				{{ partial "player-essentials-navigation.html" . }}
