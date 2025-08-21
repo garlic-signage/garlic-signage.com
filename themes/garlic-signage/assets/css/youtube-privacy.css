@@ -1,8 +1,9 @@
 .youtube-privacy {
     position: relative;
-    max-width: 720px;
+    max-width: 480px;
     background-color: #000;
 }
+.youtube-privacy figcaption {color: #fff; }
 
 .youtube-privacy a {
     display: block;
@@ -29,14 +30,4 @@
 .youtube-privacy:hover .play-button,
 .youtube-privacy .play-button:focus {
     filter: none;
-}
-
-.lyt-visually-hidden {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
 }
