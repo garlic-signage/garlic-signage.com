@@ -1,0 +1,17 @@
+{{ $id := .Get 0 }}
+{{ $title := .Get "title" | default "Click to open YouTube" }}
+{{ $caption := .Get "caption" | default "Click on the image to open YouTube" }}
+{{ $alt := .Get "alt" | default "YouTube video thumbnail" }}
+
+<figure class="youtube-privacy">
+  <a href="https://youtu.be/{{ $id }}" title="{{ $title }}">
+    <img
+			loading="lazy"
+			src="https://img.youtube.com/vi/{{ $id }}/hqdefault.jpg"
+			alt="{{ $alt }}"
+			style="width:100%"
+	>
+    <div class="play-button"></div>
+  </a>
+  <figcaption>{{ $caption }}</figcaption>
+</figure>
