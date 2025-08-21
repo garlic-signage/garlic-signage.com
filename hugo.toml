@@ -8,9 +8,17 @@ buildExpired = true
 
 enableGitInfo = true
 
+[module]
+  [[module.imports]]
+
 [frontmatter]
   date = [':fileModTime', ':default']
   lastmod = [':fileModTime']
 
 [security]
   enableInlineShortcodes = true
+
+[privacy]
+  [privacy.youTube]
+    disable = false
+    privacyEnhanced = false
