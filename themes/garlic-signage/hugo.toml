@@ -76,17 +76,11 @@ languageCode = 'en-US'
             identifier = 'launcher-download'
             weight = 42
         [[menus.main]]
-            name = 'Showcase'
-            pageRef = '/garlic-launcher/showcase/'
-            parent = 'launcher'
-            identifier = 'launcher-showcase'
-            weight = 43
-        [[menus.main]]
             name = 'Documentation'
             pageRef = '/garlic-launcher/docs/'
             parent = 'launcher'
             identifier = 'launcher-docs'
-            weight = 44
+            weight = 43
     [[menus.main]]
         name = 'Proxy'
         pageRef = '/garlic-proxy'

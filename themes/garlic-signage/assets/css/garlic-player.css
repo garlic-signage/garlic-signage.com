@@ -1,7 +1,6 @@
 .events ul { background-color: #eee; padding:1em 0 1em 3em;}
-h1, h2, h3, h4, a, .breadcrumb li a span, .name {color: royalblue;}
+h1, h2, h3, h4, a, .breadcrumb li a span, .name, .sub_navigation .active{color: royalblue;}
 .overview li:before{background: royalblue;}
-
 table{}
 
 /* Styling for the main grid container of the Core Capabilities section */
