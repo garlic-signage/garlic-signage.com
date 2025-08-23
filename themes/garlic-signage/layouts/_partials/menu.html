@@ -9,48 +9,42 @@ Renders a menu for the given menu ID.
 
 {{- $page := .page }}
 {{- $menuID := .menuID }}
-
 {{- with index site.Menus $menuID }}
-	<nav class="global_navigation">
-		<input id="menu_toggle" type="checkbox" />
-		<label class="menu_button" for="menu_toggle"><span></span></label>
-		<ul class="main-menu-box">
-			{{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
-		</ul>
-		<div id="sponsor">
-			<a href="https://github.com/sponsors/sagiadinos/" title="Sponsor sagiadinos" class="external_link" target="_blank">Sponsor me</a>
-		</div>
-	</nav>
+    <nav class="global_navigation">
+       <input id="menu_toggle" type="checkbox" />
+       <label class="menu_button" for="menu_toggle"><span></span></label>
+       <ul class="main-menu-box">
+          {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
+       </ul>
+       <div id="sponsor">
+          <a href="https://github.com/sponsors/sagiadinos/" title="Sponsor sagiadinos" class="external_link" target="_blank"><i class="bi bi-github"></i> Sponsor me</a>
+       </div>
+    </nav>
 {{- end }}
 
 {{- define "_partials/inline/menu/walk.html" }}
-  {{- $page := .page }}
-  {{- range .menuEntries }}
-    {{- $attrs := dict "href" .URL }}
-    {{- if $page.IsMenuCurrent .Menu . }}
-      {{- $attrs = merge $attrs (dict "class" "active" "aria-current" "page") }}
-    {{- else if $page.HasMenuCurrent .Menu .}}
-      {{- $attrs = merge $attrs (dict "class" "ancestor" "aria-current" "true") }}
-    {{- end }}
-    {{- $name := .Name }}
-    {{- with .Identifier }}
-      {{- with T . }}
-        {{- $name = . }}
-      {{- end }}
-    {{- end }}
+	{{- $page := .page }}
+	{{- range .menuEntries }}
+		{{- $attrs := dict "href" .URL }}
+		{{- if $page.IsMenuCurrent .Menu . }}
+			{{- $attrs = merge $attrs (dict "class" "active" "aria-current" "page") }}
+		{{- else if $page.HasMenuCurrent .Menu .}}
+			{{- $attrs = merge $attrs (dict "class" "ancestor" "aria-current" "true") }}
+		{{- end }}
+		{{- $name := .Name }}
+		{{- with .Identifier }}
+			{{- with T . }}
+				{{- $name = . }}
+			{{- end }}
+		{{- end }}
     <li>
       <a
-        {{- range $k, $v := $attrs }}
-          {{- with $v }}
-            {{- printf " %s=%q" $k $v | safeHTMLAttr }}
+			  {{- range $k, $v := $attrs }}
+			  {{- with $v }}
+			  {{- printf " %s=%q" $k $v | safeHTMLAttr }}
           {{- end }}
         {{- end -}}
       >{{ $name }}</a>
-      {{- with .Children }}
-        <ul>
-          {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
-        </ul>
-      {{- end }}
     </li>
-  {{- end }}
+	{{- end }}
 {{- end }}

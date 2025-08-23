@@ -1,5 +1,18 @@
 {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
 
-{{- if and .Section (hasPrefix .Section "garlic-") -}}
-	{{- partial (printf "subnav-%s.html" .Section) . -}}
-{{- end -}}
+{{- $page := . }}
+{{- $parentMenu := "" }}
+
+<!-- Find the parent menu item of the current page. -->
+{{- range site.Menus.main }}
+
+	{{- if or ($page.IsMenuCurrent .Menu .) ($page.HasMenuCurrent .Menu .) }}
+		{{- $parentMenu = . }}
+		{{- break }}
+	{{- end }}
+{{- end }}
+
+<!-- Render the sub-navigation only if a parent with children is found. -->
+{{- if and $parentMenu $parentMenu.Children }}
+	{{- partial "subnav.html" (dict "page" $page "parent" $parentMenu "menuEntries" $parentMenu.Children) }}
+{{- end }}

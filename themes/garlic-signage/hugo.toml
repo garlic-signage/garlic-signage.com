@@ -6,53 +6,92 @@ languageCode = 'en-US'
         name = 'GarlicSignage'
         pageRef = '/'
         weight = 10
-
-    [[menus.main]]
-        name = 'Player'
-        pageRef = '/garlic-player'
-        weight = 20
-
-    [[menus.main]]
-        name = 'Features'
-        pageRef = '/garlic-player/features/'
-        parent = 'player'
-        weight = 21
-
-    [[menus.main]]
-        name = 'Downloads'
-        pageRef = '/garlic-player/downloads/'
-        parent = 'player'
-        weight = 22
-
-    [[menus.main]]
-        name = 'Showcase'
-        pageRef = '/garlic-player/showcase/'
-        parent = 'player'
-        weight = 23
-
-    [[menus.main]]
-        name = 'Documentation'
-        pageRef = '/garlic-player/docs/'
-        parent = 'player'
-        weight = 24
-
-
+        [[menus.main]]
+            name = 'Player'
+            pageRef = '/garlic-player'
+            weight = 20
+            identifier = 'player'
+        [[menus.main]]
+            name = 'Features'
+            pageRef = '/garlic-player/features/'
+            parent = 'player'
+            weight = 21
+        [[menus.main]]
+            name = 'Downloads'
+            pageRef = '/garlic-player/downloads/'
+            parent = 'player'
+            weight = 22
+        [[menus.main]]
+            name = 'Showcase'
+            pageRef = '/garlic-player/showcase/'
+            parent = 'player'
+            weight = 23
+        [[menus.main]]
+            name = 'Documentation'
+            pageRef = '/garlic-player/docs/'
+            parent = 'player'
+            weight = 24
     [[menus.main]]
         name = 'Management'
         pageRef = '/garlic-hub'
+        identifier = 'hub'
         weight = 30
-
+        [[menus.main]]
+            name = 'Features'
+            pageRef = '/garlic-hub/features/'
+            parent = 'hub'
+            weight = 31
+        [[menus.main]]
+            name = 'Installation'
+            pageRef = '/garlic-hub/installation/'
+            parent = 'hub'
+            weight = 32
+        [[menus.main]]
+            name = 'Showcase'
+            pageRef = '/garlic-hub/showcase/'
+            parent = 'hub'
+            weight = 33
     [[menus.main]]
         name = 'Launcher'
         pageRef = '/garlic-launcher'
+        identifier = 'launcher'
         weight = 40
-
+        [[menus.main]]
+            name = 'Features'
+            pageRef = '/garlic-launcher/features/'
+            parent = 'launcher'
+            weight = 41
+        [[menus.main]]
+            name = 'Download'
+            pageRef = '/garlic-launcher/download/'
+            parent = 'launcher'
+            weight = 42
+        [[menus.main]]
+            name = 'Showcase'
+            pageRef = '/garlic-launcher/showcase/'
+            parent = 'launcher'
+            weight = 43
+        [[menus.main]]
+            name = 'Documentation'
+            pageRef = '/garlic-launcher/docs/'
+            parent = 'launcher'
+            weight = 44
     [[menus.main]]
         name = 'Proxy'
         pageRef = '/garlic-proxy'
+        identifier = 'proxy'
         weight = 50
-
+        [[menus.main]]
+            name = 'Features'
+            pageRef = '/garlic-proxy/features/'
+            parent = 'proxy'
+            weight = 51
+        [[menus.main]]
+            name = 'Download'
+            pageRef = '/garlic-proxy/download/'
+            parent = 'proxy'
+            weight = 52
     [[menus.main]]
-    name = 'Resources'
-    pageRef = '/resources'
-    weight = 60
+        name = 'Resources'
+        pageRef = '/resources'
+        weight = 60
