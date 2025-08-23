@@ -2,11 +2,9 @@
     <ul>
        {{- $page := .page }}
        {{- $parentMenu := .parent }}
-
         <li class="logo">
             <a href="{{ $parentMenu.URL }}"><img src="/images/logos/garlic-{{ $parentMenu.Identifier }}.svg" alt="Logo for garlic-{{ $parentMenu.Identifier }}" /></a>
         </li>
-
         {{- /* Loop through the provided menu entries. */}}
         {{- range .menuEntries }}
             {{- $attrs := dict "href" .URL }}

@@ -15,20 +15,24 @@ languageCode = 'en-US'
             name = 'Features'
             pageRef = '/garlic-player/features/'
             parent = 'player'
+            identifier = 'player-features'
             weight = 21
         [[menus.main]]
             name = 'Downloads'
             pageRef = '/garlic-player/downloads/'
+            identifier = 'player-downloads'
             parent = 'player'
             weight = 22
         [[menus.main]]
             name = 'Showcase'
             pageRef = '/garlic-player/showcase/'
+            identifier = 'player-showcase'
             parent = 'player'
             weight = 23
         [[menus.main]]
             name = 'Documentation'
             pageRef = '/garlic-player/docs/'
+            identifier = 'player-docs'
             parent = 'player'
             weight = 24
     [[menus.main]]
@@ -37,18 +41,21 @@ languageCode = 'en-US'
         identifier = 'hub'
         weight = 30
         [[menus.main]]
-            name = 'Features'
+            name = 'Features '
             pageRef = '/garlic-hub/features/'
             parent = 'hub'
+            identifier = 'hub-features'
             weight = 31
         [[menus.main]]
             name = 'Installation'
             pageRef = '/garlic-hub/installation/'
             parent = 'hub'
+            identifier = 'hub-installation'
             weight = 32
         [[menus.main]]
             name = 'Showcase'
             pageRef = '/garlic-hub/showcase/'
+            identifier = 'hub-showcase'
             parent = 'hub'
             weight = 33
     [[menus.main]]
@@ -60,21 +67,25 @@ languageCode = 'en-US'
             name = 'Features'
             pageRef = '/garlic-launcher/features/'
             parent = 'launcher'
+            identifier = 'launcher-features'
             weight = 41
         [[menus.main]]
             name = 'Download'
             pageRef = '/garlic-launcher/download/'
             parent = 'launcher'
+            identifier = 'launcher-download'
             weight = 42
         [[menus.main]]
             name = 'Showcase'
             pageRef = '/garlic-launcher/showcase/'
             parent = 'launcher'
+            identifier = 'launcher-showcase'
             weight = 43
         [[menus.main]]
             name = 'Documentation'
             pageRef = '/garlic-launcher/docs/'
             parent = 'launcher'
+            identifier = 'launcher-docs'
             weight = 44
     [[menus.main]]
         name = 'Proxy'
@@ -85,11 +96,13 @@ languageCode = 'en-US'
             name = 'Features'
             pageRef = '/garlic-proxy/features/'
             parent = 'proxy'
+            identifier = 'proxy-features'
             weight = 51
         [[menus.main]]
             name = 'Download'
             pageRef = '/garlic-proxy/download/'
             parent = 'proxy'
+            identifier = 'proxy-download'
             weight = 52
     [[menus.main]]
         name = 'Resources'

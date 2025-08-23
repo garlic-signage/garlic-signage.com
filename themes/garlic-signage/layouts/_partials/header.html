@@ -5,7 +5,6 @@
 
 <!-- Find the parent menu item of the current page. -->
 {{- range site.Menus.main }}
-
 	{{- if or ($page.IsMenuCurrent .Menu .) ($page.HasMenuCurrent .Menu .) }}
 		{{- $parentMenu = . }}
 		{{- break }}
