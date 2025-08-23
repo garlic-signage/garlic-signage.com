@@ -2,32 +2,57 @@ baseURL = 'https://example.org/'
 languageCode = 'en-US'
 
 [menus]
-  [[menus.main]]
-    name = 'GarlicSignage'
-    pageRef = '/'
-    weight = 10
+    [[menus.main]]
+        name = 'GarlicSignage'
+        pageRef = '/'
+        weight = 10
 
-  [[menus.main]]
-    name = 'Player'
-    pageRef = '/garlic-player'
-    weight = 20
+    [[menus.main]]
+        name = 'Player'
+        pageRef = '/garlic-player'
+        weight = 20
 
-  [[menus.main]]
-    name = 'Management'
-    pageRef = '/garlic-hub'
-    weight = 30
+    [[menus.main]]
+        name = 'Features'
+        pageRef = '/garlic-player/features/'
+        parent = 'player'
+        weight = 21
 
-  [[menus.main]]
-    name = 'Launcher'
-    pageRef = '/garlic-launcher'
-    weight = 40
+    [[menus.main]]
+        name = 'Downloads'
+        pageRef = '/garlic-player/downloads/'
+        parent = 'player'
+        weight = 22
 
-  [[menus.main]]
-    name = 'Proxy'
-    pageRef = '/garlic-proxy'
-    weight = 50
+    [[menus.main]]
+        name = 'Showcase'
+        pageRef = '/garlic-player/showcase/'
+        parent = 'player'
+        weight = 23
 
-  [[menus.main]]
+    [[menus.main]]
+        name = 'Documentation'
+        pageRef = '/garlic-player/docs/'
+        parent = 'player'
+        weight = 24
+
+
+    [[menus.main]]
+        name = 'Management'
+        pageRef = '/garlic-hub'
+        weight = 30
+
+    [[menus.main]]
+        name = 'Launcher'
+        pageRef = '/garlic-launcher'
+        weight = 40
+
+    [[menus.main]]
+        name = 'Proxy'
+        pageRef = '/garlic-proxy'
+        weight = 50
+
+    [[menus.main]]
     name = 'Resources'
     pageRef = '/resources'
     weight = 60
