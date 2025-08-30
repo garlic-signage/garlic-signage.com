@@ -480,3 +480,36 @@ footer
 		padding-bottom:70px;
 	}
 }
+/* Styling for the main grid container of the Core Capabilities section */
+.core-capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Styling for each feature card */
+.feature-card {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the headline with the icon */
+.feature-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Styling for the icon itself */
+.feature-card h3 span {
+    font-size: 2em;
+}
+
+/* Styling for the Technical Specifications section */
+.tech-specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 40px;
+}
