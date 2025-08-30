@@ -34,17 +34,12 @@
 				{{- if eq .Section "garlic-hub" -}}
 				<div class="download"><a href="https://github.com/garlic-signage/garlic-hub/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
 				{{- end -}}
+				{{- if and (in .Params.customJS "toc") (fileExists "assets/js/toc.js") }}
+				  <div id="toc"><strong>Table of Contents</strong></div>
+				{{- end }}
 			</aside>
 
 
-			{{- if and (in .Params.customJS "toc") (fileExists "assets/js/toc.js") }}
-			<aside>
-				{{- if eq .Section "garlic-player" -}}
-				  <div class="download"><a href="/garlic-player/downloads/"><strong>Free Download:</strong> <br> Digital Signage Player Software</a></div>
-				{{- end -}}
-			  <div id="toc"><strong>Table of Contents</strong></div>
-			</aside>
-			{{- end }}
 		</div>
 	<footer>
 		{{ partial "footer.html" . }}
