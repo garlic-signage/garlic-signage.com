@@ -8,7 +8,7 @@ languageCode = 'en-US'
         weight = 10
         [[menus.main]]
             name = 'Player'
-            pageRef = '/garlic-player'
+            pageRef = '/garlic-player/'
             weight = 20
             identifier = 'player'
         [[menus.main]]
@@ -37,7 +37,7 @@ languageCode = 'en-US'
             weight = 24
     [[menus.main]]
         name = 'Management'
-        pageRef = '/garlic-hub'
+        pageRef = '/garlic-hub/'
         identifier = 'hub'
         weight = 30
         [[menus.main]]
@@ -60,7 +60,7 @@ languageCode = 'en-US'
             weight = 33
     [[menus.main]]
         name = 'Launcher'
-        pageRef = '/garlic-launcher'
+        pageRef = '/garlic-launcher/'
         identifier = 'launcher'
         weight = 40
         [[menus.main]]
@@ -83,7 +83,7 @@ languageCode = 'en-US'
             weight = 43
     [[menus.main]]
         name = 'Proxy'
-        pageRef = '/garlic-proxy'
+        pageRef = '/garlic-proxy/'
         identifier = 'proxy'
         weight = 50
         [[menus.main]]
