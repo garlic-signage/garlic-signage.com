@@ -3,92 +3,93 @@ title: "Download & Installation Guide | Garlic-Hub"
 smallTitle: "Download & Installation Guide"
 pageHeader: "Download & Installation Guide"
 description: "Garlic Hub download instructions ✓ Sourcecode ✓ Open Source ✓ Get it now ✓"
+customCSS: "prism"
+customJS: ["prism", "toc"]
 ---
-				<p>
-					<a href="/garlic-hub" itemprop="name">Garlic-Hub</a> is a free and open-source <span itemprop="applicationCategory" content="DigitalSignageApplication">Digital Signage CMS</span> for the SMIL compatible player like <a href="/garlic-player">garlic-player</a>.
-				</p>
-				<section>
-					<h2>Choose Your Installation Method</h2>
-					<p>You have two quick and easy ways to install Garlic-Hub:</p>
-					<ul>
-						<li><strong>Build your own Docker image:</strong> Ideal for those who prefer to build directly from the source.</li>
-						<li><strong>Use a pre-built image from Docker Hub:</strong> A convenient option for a faster setup.</li>
-					</ul>
-					<p>Select the method that best suits your needs. Both will get you up and running in no time!</p>
 
-					<div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
-						<meta itemprop="price" content="0.00"/>
-						<meta itemprop="priceCurrency" content="USD"/>
-					</div>
-				</section>
-				<section>
-					<h2>Using Docker for Installation</h2>
-					<p>This method allows you to build and run Garlic-Hub using Docker Compose.</p>
+<article>
+	<p>
+		<a href="/garlic-hub" itemprop="name">Garlic-Hub</a> is a free and open-source <span itemprop="applicationCategory" content="DigitalSignageApplication">Digital Signage CMS</span> for the SMIL compatible player like <a href="/garlic-player">garlic-player</a>.
+	</p>
+	<section>
+		<h2>Choose Your Installation Method</h2>
+		  <p>Install Garlic-Hub via Docker in minutes. Choose either the pre-built image or build from source.</p>
+		<ul>
+			<li><strong>Build your own Docker image:</strong> Ideal for those who prefer to build directly from the source.</li>
+			<li><strong>Use a pre-built image from Docker Hub:</strong> A convenient option for a faster setup.</li>
+		</ul>
+		<p>Select the method that best suits your needs. Both methods get you running in minutes.</p>
 
-					<h3>Prerequisites</h3>
-					<p>Before you begin, make sure you have:</p>
-					<ul>
-						<li><strong>Docker Compose</strong> installed on your system.</li>
-						<li>Basic familiarity with Docker commands.</li>
-						<li>An active internet connection to clone the repository.</li>
-					</ul>
+		 <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+			<meta itemprop="price" content="0.00"/>
+			<meta itemprop="priceCurrency" content="USD"/>
+			<link itemprop="availability" href="https://schema.org/InStock"/>
+		</div>
+	</section>
+	<section>
+		<h2>Using Docker for Installation</h2>
+		<p>This method allows you to build and run Garlic-Hub using Docker Compose.</p>
 
-					<h3>Building and Running with Docker Compose</h3>
-					<ol>
-						<li><p><strong>Clone the repository and navigate to the directory:</strong></p>
+		<h3>Prerequisites</h3>
+		<p>Before you begin, make sure you have:</p>
+		<ul>
+			<li><strong>Docker Compose</strong> installed on your system.</li>
+			<li>An active internet connection to clone the repository.</li>
+		</ul>
+
+		<h3>Building and Running with Docker Compose</h3>
+		<ol>
+			<li><p><strong>Clone the repository and navigate to the directory:</strong></p>
 <pre><code class="language-bash line-numbers">git clone https://github.com/garlic-signage/garlic-hub.git
 cd garlic-hub</code></pre>
-						</li>
-						<li><p><strong>Build and run the containers in detached mode:</strong></p>
-							<pre><code>docker compose up -d --build</code></pre>
-						</li>
-					</ol>
+			</li>
+			<li><p><strong>Build and run the containers in detached mode:</strong></p>
+				<pre><code>docker compose up -d --build</code></pre>
+			</li>
+		</ol>
 
-					<h3>Accessing the Application</h3>
-					<p>Once the container is successfully built and running, open your web browser and go to: <strong><a href="http://localhost:8090">http://localhost:8090</a></strong></p>
-				</section>
-				<section>
-					<h2>Installing from Docker Hub</h2>
-					<p>For a quicker setup, you can use the pre-built Garlic-Hub image from Docker Hub.</p>
+		<h3>Accessing the Application</h3>
+		<p>Once the container is successfully built and running, open your web browser and go to: <strong><a href="http://localhost:8090">http://localhost:8090</a></strong></p>
+	</section>
+	<section>
+		<h2>Installing from Docker Hub</h2>
+		<p>For a quicker setup, you can use the pre-built Garlic-Hub image from Docker Hub.</p>
 
-					<h3>Running the Container</h3>
-					<p>Execute the following command to run the container with the necessary volume mounts:</p>
-					<pre><code class="language-bash line-numbers">docker run -p 8090:80 --name garlic-hub-container \
+		<h3>Running the Container</h3>
+		<p>Execute the following command to run the container with the necessary volume mounts:</p>
+		<pre><code class="language-bash line-numbers">docker run -p 8090:80 --name garlic-hub-container \
 -v garlic-hub-public-var:/var/www/public/var \
 -v garlic-hub-var:/var/www/var sagiadinos/garlic-hub:latest</code></pre>
 
-					<h3>Accessing the Application</h3>
-					<p>After the container starts, open your web browser and navigate to: <strong><a href="http://localhost:8090">http://localhost:8090</a></strong></p>
-				</section>
-				<section>
-					<h2>Container Management</h2>
-					<p>You can easily manage your Garlic-Hub container using standard Docker commands:</p>
-					<ul>
-						<li><p><strong>Start the container:</strong></p>
-							<pre><code class="language-bash line-numbers">docker start garlic-hub-container</code></pre>
-						</li>
-						<li><p><strong>Stop the container:</strong></p>
-							<pre><code class="language-bash line-numbers">docker stop garlic-hub-container</code></pre>
-						</li>
-						<li><p><strong>Restart the container:</strong></p>
-							<pre><code class="language-bash line-numbers">docker restart garlic-hub-container</code></pre>
-						</li>
-					</ul>
+		<h3>Accessing the Application</h3>
+		<p>After the container starts, open your web browser and navigate to: <strong><a href="http://localhost:8090">http://localhost:8090</a></strong></p>
+	</section>
+	<section>
+		<h2>Container Management</h2>
+		<p>You can easily manage your Garlic-Hub container using standard Docker commands:</p>
+		<ul>
+			<li><p><strong>Start the container:</strong></p>
+				<pre><code class="language-bash line-numbers">docker start garlic-hub-container</code></pre>
+			</li>
+			<li><p><strong>Stop the container:</strong></p>
+				<pre><code class="language-bash line-numbers">docker stop garlic-hub-container</code></pre>
+			</li>
+			<li><p><strong>Restart the container:</strong></p>
+				<pre><code class="language-bash line-numbers">docker restart garlic-hub-container</code></pre>
+			</li>
+		</ul>
 
-				</section>
-				<section>
-					<h2>Admin User</h2>
-					<p>After installation, you can log in with the default administrator account to begin configuration:</p>
-					<ul>
-						<li><strong>Login:</strong> <code>admin</code></li>
-						<li><strong>Password:</strong> <code>thymian</code></li>
-					</ul>
-				</section>
-				<section>
-					<h2>Docker Volume Structure</h2>
-					<p>Garlic-Hub uses two Docker-managed named volumes for its <code>var</code> directories:</p>
-					<ul>
-						<li>One located in the system root.</li>
-						<li>Another within the <code>htdocs</code> (public) root.</li>
-					</ul>
-				</section>
+	</section>
+	<section>
+		<h2>Admin User</h2>
+		<p>After installation, you create a default administrator account to begin configuration:</p>
+	</section>
+	<section>
+		<h2>Docker Volume Structure</h2>
+		<p>Garlic-Hub uses two Docker-managed named volumes for its <code>var</code> directories:</p>
+		<ul>
+			<li>One located in the system root.</li>
+			<li>Another within the <code>htdocs</code> (public) root.</li>
+		</ul>
+	</section>
+</article>
