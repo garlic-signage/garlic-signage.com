@@ -31,12 +31,15 @@
 				<div class="download"><a href="/garlic-player/downloads/"><i class="bi bi-download"></i> Download Now</a></div>
 				<div class="download"><a href="https://github.com/garlic-signage/garlic-player/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
 				{{- end -}}
+				{{- if eq .Section "garlic-hub" -}}
+				<div class="download"><a href="https://github.com/garlic-signage/garlic-hub/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
+				{{- end -}}
 				{{- if eq .Section "garlic-launcher" -}}
 				<div class="download"><a href="/garlic-launcher/download/"><i class="bi bi-download"></i> Download Now</a></div>
 				<div class="download"><a href="https://github.com/garlic-signage/garlic-launcher/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
 				{{- end -}}
-				{{- if eq .Section "garlic-hub" -}}
-				<div class="download"><a href="https://github.com/garlic-signage/garlic-hub/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
+				{{- if eq .Section "garlic-proxy" -}}
+				<div class="download"><a href="https://github.com/garlic-signage/garlic-proxy/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
 				{{- end -}}
 				{{- if and (in .Params.customJS "toc") (fileExists "assets/js/toc.js") }}
 				  <div id="toc"><strong>Table of Contents</strong></div>
