@@ -1,9 +1,9 @@
 # Garlic-Signage.com WebSite
 
-This repository contains the source code for the Garlic-Signage project website.  
-The site provides documentation, features, and installation guides for Garlic-Proxy.
+This repository contains the source code for the GarlicSignage project website.  
+The site provides documentation, features, and installation guides for GarlicSigange software solutions.
 
-## 🚀 Live Demo
+## 🚀 Live
 [Visit the Website](https://garlic-signage.com)
 
-Created with Hugo in 2025
+Created with Hugo
