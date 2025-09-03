@@ -322,7 +322,13 @@ main {
 {
 	border:           1px solid #aaa;
 	border-radius:    0.2em;
-	background-color: #d5ecf1;
+    background: linear-gradient(
+            135deg,
+            rgba(0, 122, 204, 0.08) 0%,   /* Blau */
+            rgba(0, 200, 83, 0.08) 33%,   /* Grün */
+            rgba(255, 193, 7, 0.08) 66%,  /* Gelb */
+            rgba(233, 30, 99, 0.08) 100%  /* Pink/Rot */
+    );
 	min-width:        200px;
 	padding:          0 1em 1em 1em;
 	margin:           1em 0;
