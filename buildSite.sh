@@ -3,15 +3,17 @@
 STAMP=$(date +%Y%m%d%H%M%S)
 BASE=/srv/web/garlic-signage.com
 REPO=/srv/repo/garlic-signage.com
-DOWNLOADS=/home/niko/downloads
+VAR_DIRS=/home/niko
 RELEASES=$BASE/releases
 DEST=$RELEASES/$STAMP
 CURRENT=$BASE/current
 
 mkdir -p "$DEST"
+mkdir -p "$VAR_DIRS/downloads"
+mkdir -p "$VAR_DIRS/scripts"
 
 # Update repository
-cd "$REPO"
+cd "$REPO" || exit
 git pull --ff-only
 
 # Build
@@ -27,8 +29,10 @@ find "$DEST" -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name
 ln -sfn "$DEST" "$CURRENT"
 
 # link the downloads dir into
-ln -sfn "$DOWNLOADS" "$DEST/downloads"
+ln -sfn "$VAR_DIRS/downloads" "$DEST/downloads"
 
+# Copy scripts directory
+cp -r ./scripts "$VAR_DIRS/scripts/"
 
 # Health-Check
 #curl -fsS https://garlic-signage.com/ >/dev/null || exit 1
