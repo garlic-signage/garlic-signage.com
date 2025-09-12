@@ -2,7 +2,6 @@
 
 LINK_PATH="/home/niko/downloads/ci-builds"
 
-# delete this later
 if [ -f $LINK_PATH/latest_android_player.apk ]; then
   rm $LINK_PATH/latest_android_player.apk
 fi
