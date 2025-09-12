@@ -32,7 +32,7 @@ ln -sfn "$DEST" "$CURRENT"
 ln -sfn "$VAR_DIRS/downloads" "$DEST/downloads"
 
 # Copy scripts directory
-cp -r ./scripts "$VAR_DIRS/scripts/"
+cp -r ./scripts "$VAR_DIRS/scripts"
 
 # Health-Check
 #curl -fsS https://garlic-signage.com/ >/dev/null || exit 1
