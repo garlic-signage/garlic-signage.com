@@ -3,6 +3,7 @@
 STAMP=$(date +%Y%m%d%H%M%S)
 BASE=/srv/web/garlic-signage.com
 REPO=/srv/repo/garlic-signage.com
+DOWNLOADS=/home/niko/downloads
 RELEASES=$BASE/releases
 DEST=$RELEASES/$STAMP
 CURRENT=$BASE/current
@@ -24,6 +25,10 @@ find "$DEST" -type f \( -name '*.html' -o -name '*.css' -o -name '*.js' -o -name
 
 # Atomic Switch
 ln -sfn "$DEST" "$CURRENT"
+
+# link the downloads dir into
+ln -sfn "$DOWNLOADS" "$DEST/downloads"
+
 
 # Health-Check
 #curl -fsS https://garlic-signage.com/ >/dev/null || exit 1
