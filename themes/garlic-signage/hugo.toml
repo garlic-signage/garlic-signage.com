@@ -30,7 +30,7 @@ languageCode = 'en-US'
             parent = 'player'
             weight = 23
         [[menus.main]]
-            name = 'Documentation'
+            name = 'Docs'
             pageRef = '/garlic-player/docs/'
             identifier = 'player-docs'
             parent = 'player'
@@ -76,7 +76,7 @@ languageCode = 'en-US'
             identifier = 'launcher-download'
             weight = 42
         [[menus.main]]
-            name = 'Documentation'
+            name = 'Docs'
             pageRef = '/garlic-launcher/docs/'
             parent = 'launcher'
             identifier = 'launcher-docs'
