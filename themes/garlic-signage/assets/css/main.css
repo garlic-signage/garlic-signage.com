@@ -148,6 +148,7 @@ header
 		padding: 0;
 		list-style: none;
 		align-items: center;
+        background-color: #000;
 	}
 
 	#menu_toggle {opacity: 0;}
