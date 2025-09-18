@@ -1,15 +1,13 @@
 
-h1{font-size:2.0rem;line-height:2.0rem;margin: 2rem 0 1rem;}
+h1{font-size:1.4rem;line-height:2.0rem;margin: 2rem 0 1rem;}
 .slogan
 {
-    position: relative;
     margin: 0;
-    padding: 3rem  0;
     line-height: 1.25;
-    font-size: 2.5rem;
+    font-size: 1.6rem;
+    padding: 2rem 1rem;
     font-family: 'Open Sans Bold', sans-serif;
     font-weight: 800;
-    width: 100%;
     text-align: center;
     border-bottom: 1px solid #eee;
     background: linear-gradient(
@@ -33,11 +31,11 @@ h1{font-size:2.0rem;line-height:2.0rem;margin: 2rem 0 1rem;}
 }
     .the-apps li
     {
-        width: 45%;
+        width: 100%;
         padding: 0.5em 0.5em 1em 0.5em;
         background: #fff;
-        border-radius: 0.75rem;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
         transition: all 0.3s ease;
     }
 
@@ -54,26 +52,9 @@ h1{font-size:2.0rem;line-height:2.0rem;margin: 2rem 0 1rem;}
         color: #000;
     }
 
-/* Tablet */
-@media (max-width: 992px) {
-    .slogan {
-        font-size: 2rem;
-        padding: 2.5rem 0;
-    }
-
-    h1 {
-        font-size: 1.75rem;
-    }
-
-    .the-apps li {width: 100%;}
-}
-/* Mobile */
-@media (max-width: 600px) {
-    .slogan {
-        font-size: 1.6rem;
-        padding: 2rem 0;
-    }
-    h1 {
-        font-size: 1.4rem;
+@media (min-width: 768px) {
+    .the-apps li
+    {
+        width:41%;
     }
 }

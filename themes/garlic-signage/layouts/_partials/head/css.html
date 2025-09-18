@@ -1,11 +1,18 @@
-{{- with resources.Get "css/main.css" }}
-  {{- if hugo.IsDevelopment }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
-  {{- else }}
-    {{- with . | minify | fingerprint }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-    {{- end }}
-  {{- end }}
+{{- $cssOptions := dict "targetPath" "css/bundle.css" }}
+{{- $inits := resources.Get "css/inits.css" }}
+{{- $menu := resources.Get "css/main-menu.css" }}
+{{- $submenu := resources.Get "css/sub-menu.css" }}
+{{- $main := resources.Get "css/main.css" }}
+{{- $bundle := slice $inits $menu $submenu $main | resources.Concat "css/bundle.css" }}
+
+{{- if hugo.IsDevelopment }}
+    <link rel="stylesheet" href="{{ $inits.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $menu.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $submenu.RelPermalink }}">
+    <link rel="stylesheet" href="{{ $main.RelPermalink }}">
+{{- else }}
+{{- $bundle = $bundle | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" crossorigin="anonymous">
 {{- end }}
 
 {{- with resources.Get "css/bootstrap-icons.css" }}
