@@ -12,34 +12,41 @@
 		{{- end -}}
 
 		<div id="content-section">
-			{{- if strings.HasPrefix .File.Path "garlic-player/docs/essentials/" }}
-				{{ partial "player-essentials-navigation.html" . }}
-			{{- end }}
-			{{- if strings.HasPrefix .File.Path "garlic-player/downloads/" }}
-				{{ partial "player-downloads-navigation.html" . }}
-			{{- end }}
-			{{- if strings.HasPrefix .File.Path "garlic-launcher/docs/" }}
-				{{ partial "launcher-docs-navigation.html" . }}
-			{{- end }}
+			<nav>
+				{{- if strings.HasPrefix .File.Path "garlic-player/docs/essentials/" }}
+					{{ partial "player-essentials-navigation.html" . }}
+				{{- end }}
+				{{- if strings.HasPrefix .File.Path "garlic-player/downloads/" }}
+					{{ partial "player-downloads-navigation.html" . }}
+				{{- end }}
+				{{- if strings.HasPrefix .File.Path "garlic-launcher/docs/" }}
+					{{ partial "launcher-docs-navigation.html" . }}
+				{{- end }}
+			</nav>
 			<main>
-				{{- partial "breadcrumb.html" . -}}
+				{{ if not .IsHome }}
+				<nav aria-label="breadcrumbs">
+					{{- partial "breadcrumb.html" . -}}
+				</nav>
+				{{ end }}
+
 				<h1>{{ .Params.pageHeader | default .Title }}</h1>
 				{{ block "main" . }}{{ end }}
 			</main>
 			<aside>
 				{{- if eq .Section "garlic-player" -}}
-				<div class="download"><a href="/garlic-player/downloads/"><i class="bi bi-download"></i> Download Now</a></div>
-				<div class="download"><a href="https://github.com/garlic-signage/garlic-player/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
+				<div class="call-to-action"><a href="/garlic-player/downloads/"><i class="bi bi-download"></i> Download Now</a></div>
+				<div class="call-to-action"><a href="https://github.com/garlic-signage/garlic-player/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
 				{{- end -}}
 				{{- if eq .Section "garlic-hub" -}}
-				<div class="download"><a href="https://github.com/garlic-signage/garlic-hub/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
+				<div class="call-to-action"><a href="https://github.com/garlic-signage/garlic-hub/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
 				{{- end -}}
 				{{- if eq .Section "garlic-launcher" -}}
-				<div class="download"><a href="/garlic-launcher/download/"><i class="bi bi-download"></i> Download Now</a></div>
-				<div class="download"><a href="https://github.com/garlic-signage/garlic-launcher/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
+				<div class="call-to-action"><a href="/garlic-launcher/download/"><i class="bi bi-download"></i> Download Now</a></div>
+				<div class="call-to-action"><a href="https://github.com/garlic-signage/garlic-launcher/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
 				{{- end -}}
 				{{- if eq .Section "garlic-proxy" -}}
-				<div class="download"><a href="https://github.com/garlic-signage/garlic-proxy/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
+				<div class="call-to-action"><a href="https://github.com/garlic-signage/garlic-proxy/" target="_blank"><i class="bi bi-github"></i> View on GitHub</a></div>
 				{{- end -}}
 				{{- if and (in .Params.customJS "toc") (fileExists "assets/js/toc.js") }}
 				  <div id="toc"><strong>Table of Contents</strong></div>

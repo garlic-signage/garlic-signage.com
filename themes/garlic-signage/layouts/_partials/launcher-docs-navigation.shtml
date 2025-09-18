@@ -1,7 +1,5 @@
-<nav class="content_navigation">
 	<ol>
 		<li id="mn_installation"><a href="/garlic-launcher/docs/installation/">Installation</a></li>
 		<li id="mn_settings"><a href="/garlic-launcher/docs/settings">Settings</a></li>
 		<li id="mn_usb"><a href="/garlic-launcher/docs/usb-functions">USB-Functions</a></li>
 	</ol>
-</nav>

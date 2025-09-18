@@ -1,21 +1,16 @@
-{{ if not .IsHome }}
-	<nav class="" aria-label="breadcrumbs">
-		<ol class="breadcrumb">
-
-		  {{- range .Ancestors.Reverse }}
-		  <li class="">
-			<a href="{{ .RelPermalink }}">
-				{{ if .IsHome }}
-					{{ "Home" }}
-				{{ else }}
-					{{ or .Params.smallTitle .Title }}
-				{{ end }}
-			</a>
-		  </li>
-		  {{- end }}
-		  <li class="active">
-			<span aria-current="location">{{ or .Params.smallTitle .Title }}</span>
-		  </li>
-		</ol>
-	  </nav>
-{{ end }}
+	<ol class="breadcrumb">
+	  {{- range .Ancestors.Reverse }}
+	  <li class="">
+		<a href="{{ .RelPermalink }}">
+			{{ if .IsHome }}
+				{{ "Home" }}
+			{{ else }}
+				{{ or .Params.smallTitle .Title }}
+			{{ end }}
+		</a>
+	  </li>
+	  {{- end }}
+	  <li class="active">
+		<span aria-current="location">{{ or .Params.smallTitle .Title }}</span>
+	  </li>
+	</ol>
