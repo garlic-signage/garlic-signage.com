@@ -9,6 +9,7 @@ customJS: ["prism", "toc"]
 		<style>
 			#mn_containers:before{content:'➤ ';}
 		</style>
+<article>
 				<p>
 					SMIL supports 3 container types
 				</p>
@@ -85,7 +86,7 @@ customJS: ["prism", "toc"]
 					<p>
 						The peer-attribute describes the interrupted behavior of the priorityClass children.
 					</p>
-					<article>
+					<section>
 						<h3 id="peer_stop">Stop behavior</h3>
 						<p>
 							Stop means that a higher element stops the lower element.
@@ -105,8 +106,8 @@ customJS: ["prism", "toc"]
 						<p>
 							The attribute beginning will be discussed during the lesson <a href="../triggers/">trigger</a> in more detail. You need to imagine a timeline. It starts on 0s with image 1 which should play the 10s. But it will be interrupted by 001 after 1s because 1 has a higher priority in the priority class.
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="peer_default">Peer default</h3>
 						<figure>
 <pre><code class="language-xml line-numbers">&lt;excl&gt;
@@ -124,8 +125,8 @@ customJS: ["prism", "toc"]
 						<p>
 							A more complex real-world example to study the peer <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/peers/1_stop.smil" class="external_link">stop behavior</a>
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="peer_pause">Pause behavior</h3>
 						<p>
 							Pause causes a higher element to pause the lower element. The paused element enters a waiting queue. After the higher element is finished, the lower element plays again for the remaining time of his duration.
@@ -148,8 +149,8 @@ customJS: ["prism", "toc"]
 						<p>
 							Study <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/peers/2_pause.smil" class="external_link">pause behavior</a>
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="peer_defer">Defer behavior</h3>
 							Defer describes what happened when a lower element tries to interrupt a higher element. In this case, the lower element will take place in a waiting queue until the higher element finished.
 						<figure>
@@ -170,8 +171,8 @@ customJS: ["prism", "toc"]
 						<p>
 							Study the defer behavior with this <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/peers/3_defer.smil" class="external_link">example</a>
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="peer_never">Never behavior</h3>
 						<p>
 							A lower element stops when it attempts to start during an active duration of his higher sibling.
@@ -194,8 +195,8 @@ customJS: ["prism", "toc"]
 						<p>
 							Study the <a href="https://github.com/garlic-signage/garlic-player/blob/master/tests/data/smil/excl/peers/4_never.smil" class="external_link">never behavior</a>
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="higher">The Higher Attribute</h3>
 							The attribute higher describe, what happened when an item from, a higher priorityClass group interrupts an element from a lower priorityClass.
 							There are two options: pause (default) and stop.
@@ -220,8 +221,8 @@ customJS: ["prism", "toc"]
 						<p>
 							Study examples for <a href="https://github.com/garlic-signage/garlic-player/tree/master/tests/data/smil/excl/higher" class="external_link">Higher-attributes</a>
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="lower">The Lower Attribute</h3>
 						The attribute lower describes, what happened when an item of an element from a lower priorityClass tries to interrupt a higher priority.
 						There are two options: defer (default) and never.
@@ -246,14 +247,14 @@ customJS: ["prism", "toc"]
 						<p>
 							Study examples for <a href="https://github.com/garlic-signage/garlic-player/tree/master/tests/data/smil/excl/higher" class="external_link">Lower-attributes</a>
 						</p>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="attributes">Generic Container Attributes</h2>
 					<p>
 						In this starter tutorial, the repeatCount attribute is relevant for playlist containers and <a href="../media-objects/">media objects</a>.
 					</p>
-					<article>
+					<section>
 						<h3 id="repeatCount">Repeat Count</h3>
 						<p>
 							The attribute repeatCounts controls how often the media or container can be repeated. There are two values possible:
@@ -266,5 +267,6 @@ customJS: ["prism", "toc"]
 								<strong>numeric value</strong>: A decimal integer number greater than 0. Some SMIL-player also supports floating-point numeric values like 2.5.
 							</li>
 						</ul>
-					</article>
+					</section>
 				</section>
+</article>

@@ -11,8 +11,9 @@ customJS: ["prism", "toc"]
 			#mn_caching:before
 			{content: '\1F83A';}
 		</style>
+<article>
 				<p>
-					This REST-API reference focuses on garlic-player, but it is compatible with the Android-based media player from <a href="https://support.iadea.com/hc/en-us/articles/216221563-REST-API-tutorial" class="external_link">IAdea</a>. Some results may vary.
+					This REST-API reference focuses on garlic-player, but it is compatible with the Android-based media player from <a href="https://support.iadea.com/hc/en-us/sections/216221563-REST-API-tutorial" class="external_link">IAdea</a>. Some results may vary.
 				</p>
 				<section>
 					<h2 id="authentication">Authentication</h2>
@@ -76,7 +77,7 @@ customJS: ["prism", "toc"]
 					<p>
 						For working with media files, we have the typical <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete" class="external_link">CRUD (creation, read, update, and delete)</a> functions. In our cases, the “C” for <strong>c</strong>reate is equal to upload.
 					</p>
-					<article>
+					<section>
 						<h3 id="upload_media">Create: Upload a Media via files/new</h3>
 						<p>
 							JSON and multipart form are supported
@@ -145,8 +146,8 @@ customJS: ["prism", "toc"]
 								</tr>
 							</tbody>
 						</table>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="find">Read: Find Files</h3>
 						<p>
 							The 'find' API command lists the media files paginated as JSON.
@@ -192,8 +193,8 @@ customJS: ["prism", "toc"]
 								</tr>
 							</tbody>
 						</table>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="get_media">Get ID to read</h3>
 						<p>
 							This is a GET request. It requires the ID as directory and the token in this URI form: <em>http://your_device_ip:8080/v2/files/ID?access_token=YOUR_ACCESS_TOKEN</em>
@@ -241,8 +242,8 @@ customJS: ["prism", "toc"]
 								</tr>
 							</tbody>
 						</table>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="edit_media">Update: Edit a media file record</h3>
 						<p>
 							These are the same parameters as in <a href="#upload_media">upload media</a>.
@@ -275,8 +276,8 @@ customJS: ["prism", "toc"]
 						<p>
 							The output is the <a href="#FileResource">FileResource</a> structure.
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="delete_media">Delete Media File</h3>
 						<p>
 							To delete a media, you need the parameter in body as JSON or multipart form.
@@ -299,14 +300,14 @@ customJS: ["prism", "toc"]
 						<p>
 							The response is an HTTP 200 OK if succeeded.
 						</p>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="playback">Playback functions</h2>
 					<p>
 						The playback function handles the set and switch to a specific  <a href="/garlic-player/docs/essentials/index-file/">SMIL-Index</a> as Content-URL. Furthermore, you can <a href="/garlic-player/docs/essentials/triggers/">trigger</a> an instant display of a media via REST-API.
 					</p>
-					<article>
+					<section>
 						<h3 id="default_Content-URL">Set Default Content-URL</h3>
 						<p>
 							Setting a new SMIL-index as Content-URL. The current displayed index will not be interrupted. On a reboot or restart, the new set Content-URL will be used.
@@ -379,8 +380,8 @@ customJS: ["prism", "toc"]
 								</tr>
 							</tbody>
 						</table>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="exec">Execute a SMIL-Index once</h3>
 						<p>
 						<p>
@@ -389,8 +390,8 @@ customJS: ["prism", "toc"]
 						<p>
 							The input and output parameter for /v2/app/exec are the same as /v2/app/start.
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="switch_Content-URL">Switch to set Content-URL</h3>
 						<p>
 							This command causes the player switching to the <a href="#default_content">default Content-URL</a>.
@@ -413,8 +414,8 @@ customJS: ["prism", "toc"]
 						<p>
 							The output parameter for /v2/app/switch are the same as <a href="#playback_output">/v2/app/start</a>
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="trigger">Network Trigger via notify</h3>
 						<p>
 							This is a trigger event for jumping to a previous set <a href="/garlic-player/docs/essentials/triggers/#network_triggers">network trigger</a> via notify in begin or end attribute.
@@ -439,11 +440,11 @@ customJS: ["prism", "toc"]
 						<p>
 							The response is an HTTP 200 OK if succeeded.
 						</p>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="system_management">System Management</h2>
-					<article>
+					<section>
 						<h3 id="reboot">Reboot</h3>
 						<p>
 							This reboots the operating system immediately. For garlic-player, this works already only on Android. OS related functions require a small helper app. In this case, the <a href="/garlic-launcher/">garlic-launcher</a>. For Linux, <a href="https://github.com/garlic-signage/garlic-daemon" class="external_link">garlic-daemon</a> with similar functions is currently under development.
@@ -451,8 +452,8 @@ customJS: ["prism", "toc"]
 						<p>
 							For /v2/task/reboot, no special input parameter is required. The play reboots instantly, so expect no response.
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="screenshot">Screenshot</h3>
 						<p>
 							A secure digital signage player should avoid complex managing apps like team viewer. But in some cases it is necessary to see what is displayed on screen. This is possible with the screenshot API call.
@@ -460,14 +461,14 @@ customJS: ["prism", "toc"]
 						<p>
 							For /v2/task/screenshot, no special input parameter is required. The response is a JPEG image like described in the <a href="/garlic-player/docs/rest-api/introduction/#screenshot">REST-API introduction</a>.
 						</p>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="system_information">System Information</h2>
 					<p>
 						This REST-API calls are based on GET and give you some detailed information.
 					</p>
-					<article>
+					<section>
 						<h3 id="modelinfo">Get Information about the Model</h3>
 						<p>
 							The call is GET so: http://your_device_ip:8080/v2/system/modelInfo?access_token=YOUR_ACCESS_TOKEN
@@ -527,8 +528,8 @@ customJS: ["prism", "toc"]
 								</tr>
 							</tbody>
 						</table>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="firmwareinfo">Get Information about the Firmware</h3>
 						<p>
 							The call is GET so: http://your_device_ip:8080/v2/system/firmwareInfo?access_token=YOUR_ACCESS_TOKEN
@@ -552,5 +553,6 @@ customJS: ["prism", "toc"]
 								</tr>
 							</tbody>
 						</table>
-					</article>
+					</section>
 				</section>
+</article>

@@ -10,6 +10,7 @@ customJS: ["prism", "toc"]
 		<style>
 			#mn_logs_reports:before{content:'➤ ';}
 		</style>
+<article>
 				<p>
 					A SMIL-player supports the HTTP PUT method to upload logs and reports to an HTTP server. The web server must support WebDAV and the PUT method.
 				</p>
@@ -28,7 +29,7 @@ customJS: ["prism", "toc"]
 				</p>
 				<section>
 					<h2 id="Inventory">Inventory Report</h2>
-					<article>
+					<section>
 						<h3 id="Inventory_Handler">Inventory Handler</h3>
 						<p>
 							Add metadata to the head section of the <a href="../index-file/">SMIL index</a> which define where the media player should PUT the inventory file. A typical definition looks like this.
@@ -57,8 +58,8 @@ customJS: ["prism", "toc"]
 						<p>
 							In action, there is the path of the file which contains the report. The tags refreshInterval and retryInterval are optional. With these tags, you control the updates frequencies.
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="inventory_format">Inventory File Format</h3>
 						<p>
 							The file uploaded to the server via PUT looks like this:
@@ -89,11 +90,11 @@ customJS: ["prism", "toc"]
 								Inventory report sample
 							</figcaption>
 						</figure>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="playreports">Play Report</h2>
-					<article>
+					<section>
 						<h3 id="Playreport_handler">Play Report Handler</h3>
 						<p>
 							The metadata to the head section of the <a href="../index-file/">SMIL index</a> are the same. They only needs PlaylogCollection set as type.
@@ -119,8 +120,8 @@ customJS: ["prism", "toc"]
 								Play Report handler for SMIL Header
 							</figcaption>
 						</figure>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="playreport_id">Set Log-Id</h3>
 						<p>
 							The playbacks of media files are not logged by default. If you want to log played media files, you had to specify in SMIL index explicitly. The following example shows how to assign a log ID to an image file, so a log is generated when it is played.
@@ -134,8 +135,8 @@ customJS: ["prism", "toc"]
 								Set a Log ID to a Media File
 							</figcaption>
 						</figure>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="playlog_format">Play Report File Format</h3>
 						<p>
 							The play log files uploaded to the server are similar to the POPAI Log Standard 1.0. Several redundant fields are removed to optimize network performance. A log file uploaded to the server looks like this.
@@ -160,7 +161,7 @@ customJS: ["prism", "toc"]
 								Play report sample
 							</figcaption>
 						</figure>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="event_logs">Event logs</h2>
@@ -185,7 +186,7 @@ customJS: ["prism", "toc"]
 					<p>
 						The event reports are helpful when you need to analyze problems.
 					</p>
-					<article>
+					<section>
 						<h3 id="Eventreport_handler">Event Report Handler</h3>
 						<p>
 							same as above with EventlogCollection set as type.
@@ -211,8 +212,8 @@ customJS: ["prism", "toc"]
 								Event Report handler for SMIL Header
 							</figcaption>
 						</figure>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="eventlog_format">Event Report File Format</h3>
 						<p>
 							The event report uploaded to the server looks like this.
@@ -241,11 +242,11 @@ customJS: ["prism", "toc"]
 								Play report sample
 							</figcaption>
 						</figure>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="Events_Reference">Events Reference Listed by Event Source</h3>
 						Player events listed by different event sources as below:
-						<article class="events">
+						<section class="events">
 							<h4 id="ContentManager">ContentManager</h4>
 							<ul>
 								<li>
@@ -341,8 +342,8 @@ customJS: ["prism", "toc"]
 									<strong>meta "transferLength"</strong>: actual file size; -1 means file not found
 								</li>
 							</ul>
-						</article>
-						<article class="events">
+						</section>
+						<section class="events">
 							<h4 id="MediaPlayer">MediaPlayer</h4>
 							<ul>
 								<li>
@@ -377,8 +378,8 @@ customJS: ["prism", "toc"]
 									<strong>meta "resourceURI"</strong>: URI for the object that fails to play
 								</li>
 							</ul>
-						</article>
-						<article class="events">
+						</section>
+						<section class="events">
 							<h4 id="MediaControl">MediaControl</h4>
 							<ul>
 								<li>
@@ -433,12 +434,12 @@ customJS: ["prism", "toc"]
 									<strong>meta "lastModifiedTime"</strong>: object last modified time
 								</li>
 							</ul>
-						</article>
-					</article>
+						</section>
+					</section>
 				</section>
 				<section>
 					<h2 id="Systemreport">System Report</h2>
-					<article>
+					<section>
 						<h3 id="System_report_Handler">System report Handler</h3>
 						<p>
 							Add metadata to the head section of the <a href="../index-file/">SMIL index</a> which define where the media player should PUT the inventory file. A typical definition looks like this.
@@ -467,8 +468,8 @@ customJS: ["prism", "toc"]
 						<p>
 							In action, there is the path of the file which contains the report. The tags refreshInterval and retryInterval are optional. With these tags, you control the updates frequencies.
 						</p>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="systemreport_format">System Report File Format</h3>
 						<p>
 							The system report uploaded to the server looks like this. Formatted for better overview.
@@ -566,14 +567,14 @@ customJS: ["prism", "toc"]
 								System report sample from <a href="https://www.iadea.com/products/mbr-1100/" class="external_link">IAdea MBR-1100</a>
 							</figcaption>
 						</figure>
-					</article>
+					</section>
 				</section>
 				<section>
 					<h2 id="task_execution">Task Execution Report</h2>
 					<p>
 						Task execution reports informs about an execution of a <a href="../maintenance-tasks/">maintenance task</a> like reboot, software refresh, or firmware update. Not every player software supports this, as this is an operating system dependent function. Currently, only android version of garlic-player with garlic-launcher sends this reports.
 					</p>
-					<article>
+					<section>
 						<h3 id="Task_execution_Handler">Task Execution Report Handler</h3>
 						<p>
 							A typical file definition looks like this.
@@ -599,8 +600,8 @@ customJS: ["prism", "toc"]
 								Task execution report handler for SMIL Header
 							</figcaption>
 						</figure>
-					</article>
-					<article>
+					</section>
+					<section>
 						<h3 id="Task_execution_report_format">Task Execution Report File Format</h3>
 						<figure>
 <pre><code class="language-xml line-numbers">&lt;report&gt;
@@ -623,5 +624,6 @@ customJS: ["prism", "toc"]
 						<p>
 							The ID is the same which is given on the maintenance task, so you can assign to the right execution to the report.
 						</p>
-					</article>
+					</section>
 				</section>
+</article>
