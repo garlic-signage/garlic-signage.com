@@ -10,7 +10,7 @@ body
 }
 p{margin:0 0 0.5em 0;}
 strong{color:#333;font-family: 'Open Sans Bold', sans-serif;font-weight:700;}
-img {border-radius:0.2em;border:1px solid #004664;}
+img {border-radius: var(--border-radius);border:1px solid #004664;}
 a
 {
     color:#165669;
@@ -127,7 +127,7 @@ code.tag{background-color: #f5ffe3;padding: 0 0.2em;}
 	#content_section .content_navigation ol
 	{
 		border:1px solid #aaa;
-		border-radius:0.2em;
+        border-radius: var(--border-radius);
 		background-color:#eee;
 		min-width:180px;
 		padding:1em;
@@ -163,7 +163,7 @@ main
 	{
 		counter-increment: item;
 		border:1px solid #aaa;
-		border-radius:0.2em;
+        border-radius: var(--border-radius);
 		padding:1em;
 		margin-top:1em;
 	}
@@ -208,7 +208,7 @@ main
 	#toc
 	{
 		border:1px solid #aaa;
-		border-radius:0.2em;
+        border-radius: var(--border-radius);
 		background-color:#eee;
 		min-width:200px;
 		padding:1em;
@@ -226,7 +226,7 @@ main
 .faq_content
 {
 	border:           1px solid #aaa;
-	border-radius:    0.2em;
+    border-radius: var(--border-radius);
     background: linear-gradient(
             135deg,
             rgba(0, 122, 204, 0.08) 0%,   /* Blau */
@@ -251,7 +251,7 @@ aside
 		text-align:       center;
         color: #000;
 		border:           1px solid #aaa;
-		border-radius:    0.2em;
+        border-radius: var(--border-radius);
 		background-color: #d5f1da;
 		min-width:        200px;
 		padding:          0.5em 0;
@@ -267,7 +267,7 @@ aside
 		display:          block;
 		text-align:       center;
 		border:           1px solid #aaa;
-		border-radius:    0.2em;
+        border-radius: var(--border-radius);
 		background-color: #ffe0e0;
 		padding:          0.5em 0;
 		margin:           1em 0;
@@ -306,8 +306,8 @@ footer
 .feature-card
 {
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
 }
 
 /* Styling for the headline with the icon */
